@@ -28,6 +28,7 @@ public class Maze : MonoBehaviour
 
     public GameObject straight;
 
+    private readonly int wildcard = 5;
 
     // Start is called before the first frame update
     void Start()
@@ -68,12 +69,25 @@ public class Maze : MonoBehaviour
                     GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
                     wall.transform.localScale = new Vector3(scale, scale, scale);
                     wall.transform.position = pos;
-                } else if(Search2D(x,z, new int[] { 1, 0, 1, 1, 0, 1, 0, 0, 1 }))
+                } else if(ShouldPlaceVerticalStraight(x,z))
                 {
-                    // { 1, 0, 1, 1, 0, 1, 0, 0, 1 } tests for whether "vertical" maze piece is appropriate
                     Instantiate(straight, pos, Quaternion.identity);
                 }
+                else if (ShouldPlaceHorizontalPiece(x, z))
+                {
+                    Instantiate(straight, pos, Quaternion.Euler(0, 90, 0));
+                }
             }
+    }
+
+    bool ShouldPlaceVerticalStraight(int x, int z)
+    {
+        return Search2D(x, z, new int[] { 5, 0, 5, 1, 0, 1, 5, 0, 5 });
+    }
+
+    bool ShouldPlaceHorizontalPiece(int x, int z)
+    {
+        return Search2D(x, z, new int[] { 5, 1, 5, 0, 0, 0, 5, 1, 5 });
     }
 
     bool Search2D(int cellPos, int rowPos, int[] pattern)
@@ -85,11 +99,12 @@ public class Maze : MonoBehaviour
         // ie make a code that is 9 digits long, each digit representing a grid square,
         // then check the map positions against this code (if they are open/walkable or a wall)
         // starting at top left square in the grid (z=1, x=-1)
+        // 5 indicates a wildcard we don't care
         for (int z = 1; z > -2; z--)
         {
             for (int x = -1; x < 2; x++)
             {
-                if (pattern[pos] == map[cellPos+x, rowPos+z])
+                if (pattern[pos] == map[cellPos+x, rowPos+z] || pattern[pos] == wildcard)
                     matches++;
                 pos++;
             }
