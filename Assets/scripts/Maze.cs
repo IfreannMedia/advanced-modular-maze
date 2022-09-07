@@ -26,6 +26,8 @@ public class Maze : MonoBehaviour
     public byte[,] map;
     public int scale = 6;
 
+    public GameObject straight;
+
 
     // Start is called before the first frame update
     void Start()
