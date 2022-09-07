@@ -62,14 +62,39 @@ public class Maze : MonoBehaviour
         for (int z = 0; z < depth; z++)
             for (int x = 0; x < width; x++)
             {
+                Vector3 pos = new Vector3(x * scale, 0, z * scale);
                 if (map[x, z] == 1)
                 {
-                    Vector3 pos = new Vector3(x * scale, 0, z * scale);
                     GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
                     wall.transform.localScale = new Vector3(scale, scale, scale);
                     wall.transform.position = pos;
+                } else if(Search2D(x,z, new int[] { 1, 0, 1, 1, 0, 1, 0, 0, 1 }))
+                {
+                    // { 1, 0, 1, 1, 0, 1, 0, 0, 1 } tests for whether "vertical" maze piece is appropriate
+                    Instantiate(straight, pos, Quaternion.identity);
                 }
             }
+    }
+
+    bool Search2D(int cellPos, int rowPos, int[] pattern)
+    {
+        int matches = 0;
+        int pos = 0;
+        // loop over 3x3 grid along z and x axis, top down view of our maze position
+        // ie 3 z position, and for each z position, 3 x positions
+        // ie make a code that is 9 digits long, each digit representing a grid square,
+        // then check the map positions against this code (if they are open/walkable or a wall)
+        // starting at top left square in the grid (z=1, x=-1)
+        for (int z = 1; z > -2; z--)
+        {
+            for (int x = -1; x < 2; x++)
+            {
+                if (pattern[pos] == map[cellPos+x, rowPos+z])
+                    matches++;
+                pos++;
+            }
+        }
+        return (matches == 9);
     }
 
     public int CountSquareNeighbours(int x, int z)
