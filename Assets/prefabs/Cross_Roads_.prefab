@@ -599,6 +599,7 @@ GameObject:
   - component: {fileID: 8647730825856061184}
   - component: {fileID: 5741300947734724773}
   - component: {fileID: 7514754619546236015}
+  - component: {fileID: -7658865241530667916}
   m_Layer: 0
   m_Name: Cross_Roads_
   m_TagString: Untagged
@@ -681,6 +682,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &-7658865241530667916
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8307234702677824954}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 8931477562405029409, guid: cb6d57df3709c0e48a9422f158804653, type: 3}
 --- !u!1 &8328331035273799318
 GameObject:
   m_ObjectHideFlags: 0

@@ -851,6 +851,7 @@ GameObject:
   - component: {fileID: 6638266715992192471}
   - component: {fileID: 7759710943265454706}
   - component: {fileID: 5500285703346228920}
+  - component: {fileID: -8774190518377291222}
   m_Layer: 0
   m_Name: Corner_Curved_
   m_TagString: Untagged
@@ -939,6 +940,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &-8774190518377291222
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6292668618009423725}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -8094430574939343822, guid: bf05ac6e70a7f074e9621804f53f1463, type: 3}
 --- !u!1 &6920249759037782208
 GameObject:
   m_ObjectHideFlags: 0

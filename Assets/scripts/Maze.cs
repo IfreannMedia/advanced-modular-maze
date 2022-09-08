@@ -33,6 +33,8 @@ public class Maze : MonoBehaviour
     public GameObject junction;
     public GameObject deadend;
 
+    public FPController player;
+
     // patterns
     private int[] verticalStraight = new int[] { 5, 0, 5, 1, 0, 1, 5, 0, 5 };
     private int[] horizontalStraight = new int[] { 5, 1, 5, 0, 0, 0, 5, 1, 5 };
@@ -61,6 +63,21 @@ public class Maze : MonoBehaviour
         InitialiseMap();
         Generate();
         DrawMap();
+        PlaceFPC();
+    }
+
+    public virtual void PlaceFPC()
+    {
+        for (int z = 0; z < depth; z++)
+            for (int x = 0; x < width; x++)
+            {
+                if(map[x, z] == 0)
+                {
+                    player.transform.position = new Vector3(x * scale, 0, z * scale);
+                    player.transform.rotation = Quaternion.Euler(Vector3.forward);
+                    return;
+                }
+            }
     }
 
     void InitialiseMap()
@@ -92,9 +109,9 @@ public class Maze : MonoBehaviour
                 if (map[x, z] == 1)
                 {
                     // draws a white wall ie non-walkable block
-                    GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                    wall.transform.localScale = new Vector3(scale, scale, scale);
-                    wall.transform.position = pos;
+                    //GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    //wall.transform.localScale = new Vector3(scale, scale, scale);
+                    //wall.transform.position = pos;
                 }
                 else
                 {
