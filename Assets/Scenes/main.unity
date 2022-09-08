@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -457,6 +457,15 @@ MonoBehaviour:
   scale: 6
   straight: {fileID: 4000756420633539618, guid: bf512bdce8cd7b94caf1a6d72f20956a,
     type: 3}
+  cornerCurved: {fileID: 6292668618009423725, guid: 353e3a153d0d46f42a1ef2a850e5978d,
+    type: 3}
+  cornerStraight: {fileID: 6576345349112795516, guid: 5a799a0b94ec01f478ff4791bf24eeed,
+    type: 3}
+  crossroads: {fileID: 8307234702677824954, guid: 085464187c116ae478d766879e6cef9b,
+    type: 3}
+  junction: {fileID: 2656907509875544423, guid: 7593410103f238f41aec57598941f983,
+    type: 3}
+  deadend: {fileID: 1133380095356439039, guid: f8ba0e50caf3add42ad66381de966d5f, type: 3}
 --- !u!114 &1201391781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -473,6 +482,11 @@ MonoBehaviour:
   depth: 30
   scale: 6
   straight: {fileID: 0}
+  cornerCurved: {fileID: 0}
+  cornerStraight: {fileID: 0}
+  crossroads: {fileID: 0}
+  junction: {fileID: 0}
+  deadend: {fileID: 0}
 --- !u!114 &1201391782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -489,6 +503,11 @@ MonoBehaviour:
   depth: 30
   scale: 6
   straight: {fileID: 0}
+  cornerCurved: {fileID: 0}
+  cornerStraight: {fileID: 0}
+  crossroads: {fileID: 0}
+  junction: {fileID: 0}
+  deadend: {fileID: 0}
 --- !u!114 &1201391783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -505,6 +524,11 @@ MonoBehaviour:
   depth: 30
   scale: 6
   straight: {fileID: 0}
+  cornerCurved: {fileID: 0}
+  cornerStraight: {fileID: 0}
+  crossroads: {fileID: 0}
+  junction: {fileID: 0}
+  deadend: {fileID: 0}
 --- !u!1 &1565847500
 GameObject:
   m_ObjectHideFlags: 0
