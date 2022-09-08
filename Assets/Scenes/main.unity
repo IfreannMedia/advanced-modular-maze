@@ -158,17 +158,17 @@ MonoBehaviour:
   width: 30
   depth: 30
   scale: 6
-  straight: {fileID: 4000756420633539618, guid: bf512bdce8cd7b94caf1a6d72f20956a,
+  straight: {fileID: 4942437307075667575, guid: 210cc00f0e013b243a3d2618122e1e47,
     type: 3}
   cornerCurved: {fileID: 6292668618009423725, guid: 353e3a153d0d46f42a1ef2a850e5978d,
     type: 3}
-  cornerStraight: {fileID: 6576345349112795516, guid: 5a799a0b94ec01f478ff4791bf24eeed,
+  cornerStraight: {fileID: 5356694659249093066, guid: 778938a0fdf5cd144b3b3473077c4785,
     type: 3}
-  crossroads: {fileID: 8307234702677824954, guid: 085464187c116ae478d766879e6cef9b,
+  crossroads: {fileID: 1244753488583200989, guid: 0a4f1ae6075559c4396c62b034447889,
     type: 3}
-  junction: {fileID: 2656907509875544423, guid: 7593410103f238f41aec57598941f983,
+  junction: {fileID: 9052722631508559994, guid: 17f1e00684e35ce4e96ae4c809e26c8d,
     type: 3}
-  deadend: {fileID: 1133380095356439039, guid: f8ba0e50caf3add42ad66381de966d5f, type: 3}
+  deadend: {fileID: 2111443901806660277, guid: 7ede3e19ef6686f49a3047a9f3ae640a, type: 3}
   player: {fileID: 5407462}
 --- !u!114 &5158075
 MonoBehaviour:
