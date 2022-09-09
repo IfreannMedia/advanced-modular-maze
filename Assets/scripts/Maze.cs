@@ -109,9 +109,9 @@ public class Maze : MonoBehaviour
                 if (map[x, z] == 1)
                 {
                     // draws a white wall ie non-walkable block
-                    GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                    wall.transform.localScale = new Vector3(scale, scale, scale);
-                    wall.transform.position = pos;
+                    //GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    //wall.transform.localScale = new Vector3(scale, scale, scale);
+                    //wall.transform.position = pos;
                 }
                 else
                 {
@@ -130,11 +130,12 @@ public class Maze : MonoBehaviour
                         junctionBottom, junctionLeft, junctionRight, junctionTop });
         if (matchedPattern == verticalStraight)
         {
-            Instantiate(straight, pos, Quaternion.identity);
+            Instantiate(straight, pos, Quaternion.Euler(0, 90, 0));
+           
         }
         else if (matchedPattern == horizontalStraight)
         {
-            Instantiate(straight, pos, Quaternion.Euler(0, 90, 0));
+            Instantiate(straight, pos, Quaternion.identity);
         }
         else if (matchedPattern == cornerLeftBottom || matchedPattern == cornerLeftTop || matchedPattern == cornerRightBottom || matchedPattern == cornerRightTop)
         {
@@ -167,13 +168,11 @@ public class Maze : MonoBehaviour
     {
         Quaternion val = Quaternion.identity;
         if (pattern == cornerLeftTop)
-            val = Quaternion.Euler(0, -90, 0);
-        else if (pattern == cornerRightTop)
-            val = Quaternion.identity;
-        else if (pattern == cornerLeftBottom)
-            val = Quaternion.Euler(0, 180, 0);
-        else if (pattern == cornerRightBottom)
             val = Quaternion.Euler(0, 90, 0);
+        else if (pattern == cornerRightTop)
+            val = Quaternion.Euler(0,-180,0);
+        else if (pattern == cornerRightBottom)
+            val = Quaternion.Euler(0, -90, 0);
         return val;
     }
 
@@ -181,11 +180,11 @@ public class Maze : MonoBehaviour
     {
         Quaternion val = Quaternion.identity;
         if (pattern == deadendLeft)
-            val = Quaternion.Euler(0, 90, 0);
-        else if (pattern == deadendRight)
-            val = Quaternion.Euler(0, -90, 0);
-        else if (pattern == deadendTop)
             val = Quaternion.Euler(0, 180, 0);
+        else if (pattern == deadendTop)
+            val = Quaternion.Euler(0, -90, 0);
+        else if (pattern == deadendBottom)
+            val = Quaternion.Euler(0, 90, 0);
         return val;
     }
 
@@ -193,10 +192,10 @@ public class Maze : MonoBehaviour
     {
         Quaternion val = Quaternion.identity;
         if (pattern == junctionLeft)
-            val = Quaternion.Euler(0, 90, 0);
+            val = Quaternion.Euler(0, 180, 0);
         else if (pattern == junctionTop)
-            val = Quaternion.Euler(0, -180, 0);
-        else if (pattern == junctionRight)
+            val = Quaternion.Euler(0, -90, 0);
+        else if (pattern == junctionBottom)
             val = Quaternion.Euler(0, -90, 0);
         return val;
     }

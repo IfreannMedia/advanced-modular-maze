@@ -158,15 +158,15 @@ MonoBehaviour:
   width: 30
   depth: 30
   scale: 6
-  straight: {fileID: 4942437307075667575, guid: 210cc00f0e013b243a3d2618122e1e47,
+  straight: {fileID: 8368093966971478274, guid: 0d58cf45854e849458d3422367f2dee7,
     type: 3}
-  cornerStraight: {fileID: 5356694659249093066, guid: 778938a0fdf5cd144b3b3473077c4785,
+  cornerStraight: {fileID: 7858249156388607808, guid: decb9858f0e3a52419679d01ca6f8717,
     type: 3}
-  crossroads: {fileID: 1244753488583200989, guid: 0a4f1ae6075559c4396c62b034447889,
+  crossroads: {fileID: 7810688408694929967, guid: 64bccd40a87de074c87639d2d03a9add,
     type: 3}
-  junction: {fileID: 9052722631508559994, guid: 17f1e00684e35ce4e96ae4c809e26c8d,
+  junction: {fileID: 8928891807332465263, guid: ed9236cd58b7ab7459161abaf633b1b1,
     type: 3}
-  deadend: {fileID: 2111443901806660277, guid: 7ede3e19ef6686f49a3047a9f3ae640a, type: 3}
+  deadend: {fileID: 3914236786083739875, guid: e82d39b8d6d618742a068322f33934ba, type: 3}
   player: {fileID: 5407462}
 --- !u!114 &5158075
 MonoBehaviour:
