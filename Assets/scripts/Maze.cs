@@ -62,8 +62,29 @@ public class Maze : MonoBehaviour
     {
         InitialiseMap();
         Generate();
+        // add rooms here, same as setting walkable 0/non walkable 1
+        AddRooms(3, 4 ,6);
         DrawMap();
         PlaceFPC();
+    }
+
+    public virtual void AddRooms(int count, int minSize, int maxSize)
+    {
+        for (int c = 0; c < count; c++)
+        {
+            int startX = Random.Range(3,width - 3);
+            int startZ = Random.Range(3,depth -3);
+            int roomWidth = Random.Range(minSize,maxSize);
+            int roomDepth = Random.Range(minSize,maxSize);
+
+            for (int x = startX; x < width - 3 && x < startX + roomWidth; x++)
+            {
+                for (int z = startZ; z < depth - 3 && z < startZ + roomWidth; z++)
+                {
+                    map[x, z] = 0;
+                }
+            }
+        }
     }
 
     public virtual void PlaceFPC()
@@ -153,6 +174,11 @@ public class Maze : MonoBehaviour
         else if (matchedPattern == junctionBottom || matchedPattern == junctionLeft || matchedPattern == junctionRight || matchedPattern == junctionTop)
         {
             Instantiate(junction, pos, GetJunctionRotation(matchedPattern));
+        } else
+        {
+            GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            wall.transform.localScale = new Vector3(scale, scale, scale);
+            wall.transform.position = pos;
         }
     }
 
