@@ -10,9 +10,9 @@ public class FPController : MonoBehaviour
     public AudioSource jump;
     public AudioSource land;
 
-    float speed = 0.1f;
-    float Xsensitivity = 2;
-    float Ysensitivity = 2;
+    public float speed = 0.1f;
+    public float Xsensitivity = 2;
+    public float Ysensitivity = 2;
     float MinimumX = -90;
     float MaximumX = 90;
     Rigidbody rb;

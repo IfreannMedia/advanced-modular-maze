@@ -27,7 +27,7 @@ public class Maze : MonoBehaviour
     public int scale = 6;
 
     public GameObject straight;
-    public GameObject cornerCurved; // use for bottom or top right (-90 on y)
+    //public GameObject cornerCurved; // use for bottom or top right (-90 on y) -- only relevant for the piped map
     public GameObject cornerStraight; // use for bottom or top left (90 on y)
     public GameObject crossroads;
     public GameObject junction;
@@ -50,10 +50,10 @@ public class Maze : MonoBehaviour
     private int[] deadendBottom = new int[] { 5, 1, 5, 1, 0, 1, 5, 0, 5 };
     private int[] deadendRight = new int[] { 5, 1, 5, 1, 0, 0, 5, 1, 5 };
 
-    private int[] cornerLeftTop = new int[] { 5, 0, 5, 0, 0, 1, 5, 1, 5 };
-    private int[] cornerLeftBottom = new int[] { 5, 1, 5, 0, 0, 1, 5, 0, 5 };
-    private int[] cornerRightBottom = new int[] { 5, 1, 5, 1, 0, 0, 5, 0, 5 };
-    private int[] cornerRightTop = new int[] { 5, 0, 5, 1, 0, 0, 5, 1, 5 };
+    private int[] cornerLeftTop = new int[] { 5, 1, 5, 1, 0, 0, 5, 0, 5 };
+    private int[] cornerLeftBottom = new int[] { 5, 0, 5, 1, 0, 0, 5, 1, 5 };
+    private int[] cornerRightBottom = new int[] { 5, 0, 5, 0, 0, 1, 5, 1, 5 };
+    private int[] cornerRightTop = new int[] { 5, 1, 5, 0, 0, 1, 5, 0, 5 };
 
     private readonly int wildcard = 5;
 
@@ -109,9 +109,9 @@ public class Maze : MonoBehaviour
                 if (map[x, z] == 1)
                 {
                     // draws a white wall ie non-walkable block
-                    //GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                    //wall.transform.localScale = new Vector3(scale, scale, scale);
-                    //wall.transform.position = pos;
+                    GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    wall.transform.localScale = new Vector3(scale, scale, scale);
+                    wall.transform.position = pos;
                 }
                 else
                 {
@@ -139,7 +139,7 @@ public class Maze : MonoBehaviour
         else if (matchedPattern == cornerLeftBottom || matchedPattern == cornerLeftTop || matchedPattern == cornerRightBottom || matchedPattern == cornerRightTop)
         {
             Quaternion rot = GetCornerRotation(matchedPattern);
-            Instantiate(GetCornerPiece(matchedPattern), pos, rot);
+            Instantiate(cornerStraight, pos, rot);
         }
         else if (matchedPattern == crossroadsPattern)
         {
@@ -155,13 +155,13 @@ public class Maze : MonoBehaviour
         }
     }
 
-    private GameObject GetCornerPiece(int[] pattern)
-    {
-        if (pattern == cornerLeftBottom || pattern == cornerLeftTop)
-            return cornerStraight;
-        else
-            return cornerCurved;
-    }
+    //private GameObject GetCornerPiece(int[] pattern)
+    //{
+    //    if (pattern == cornerLeftBottom || pattern == cornerLeftTop)
+    //        return cornerStraight;
+    //    else
+    //        return cornerCurved;
+    //}
 
     private Quaternion GetCornerRotation(int[] pattern)
     {
@@ -169,11 +169,11 @@ public class Maze : MonoBehaviour
         if (pattern == cornerLeftTop)
             val = Quaternion.Euler(0, -90, 0);
         else if (pattern == cornerRightTop)
-            val = Quaternion.Euler(0, 90, 0);
+            val = Quaternion.identity;
         else if (pattern == cornerLeftBottom)
             val = Quaternion.Euler(0, 180, 0);
         else if (pattern == cornerRightBottom)
-            val = Quaternion.Euler(0, 180, 0);
+            val = Quaternion.Euler(0, 90, 0);
         return val;
     }
 
@@ -192,11 +192,11 @@ public class Maze : MonoBehaviour
     private Quaternion GetJunctionRotation(int[] pattern)
     {
         Quaternion val = Quaternion.identity;
-        if (pattern == junctionBottom)
+        if (pattern == junctionLeft)
             val = Quaternion.Euler(0, 90, 0);
-        else if (pattern == junctionLeft)
-            val = Quaternion.Euler(0, 180, 0);
         else if (pattern == junctionTop)
+            val = Quaternion.Euler(0, -180, 0);
+        else if (pattern == junctionRight)
             val = Quaternion.Euler(0, -90, 0);
         return val;
     }
