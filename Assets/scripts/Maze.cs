@@ -28,10 +28,13 @@ public class Maze : MonoBehaviour
 
     public GameObject straight;
     //public GameObject cornerCurved; // use for bottom or top right (-90 on y) -- only relevant for the piped map
-    public GameObject cornerStraight; // use for bottom or top left (90 on y)
+    public GameObject cornerStraight;
     public GameObject crossroads;
     public GameObject junction;
     public GameObject deadend;
+    public GameObject wallPiece;
+    public GameObject floorPiece;
+    public GameObject cielingPiece;
 
     public FPController player;
 
@@ -40,10 +43,10 @@ public class Maze : MonoBehaviour
     private int[] horizontalStraight = new int[] { 5, 1, 5, 0, 0, 0, 5, 1, 5 };
     private int[] crossroadsPattern = new int[] { 5, 0, 5, 0, 0, 0, 5, 0, 5 };
 
-    private int[] junctionTop = new int[] { 5, 0, 5, 0, 0, 0, 5, 1, 5 }; // entering top
-    private int[] junctionBottom = new int[] { 5, 1, 5, 0, 0, 0, 5, 0, 5 }; // entering bottom
-    private int[] junctionLeft = new int[] { 5, 0, 5, 0, 0, 1, 5, 0, 5 }; // entering left
-    private int[] junctionRight = new int[] { 5, 0, 5, 1, 0, 0, 5, 0, 5 }; // entering right
+    private int[] junctionTop = new int[] { 1, 0, 1, 0, 0, 0, 5, 1, 5 }; // entering top
+    private int[] junctionBottom = new int[] { 5, 1, 5, 0, 0, 0, 1, 0, 1 }; // entering bottom
+    private int[] junctionLeft = new int[] { 1, 0, 5, 0, 0, 1, 1, 0, 5 }; // entering left
+    private int[] junctionRight = new int[] { 5, 0, 1, 1, 0, 0, 5, 0, 1 }; // entering right
 
     private int[] deadendTop = new int[] { 5, 0, 5, 1, 0, 1, 5, 1, 5 };
     private int[] deadendLeft = new int[] { 5, 1, 5, 0, 0, 1, 5, 1, 5 };
@@ -130,9 +133,9 @@ public class Maze : MonoBehaviour
                 if (map[x, z] == 1)
                 {
                     // draws a white wall ie non-walkable block
-                    //GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                    //wall.transform.localScale = new Vector3(scale, scale, scale);
-                    //wall.transform.position = pos;
+                    GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    wall.transform.localScale = new Vector3(scale, scale, scale);
+                    wall.transform.position = pos;
                 }
                 else
                 {
@@ -163,6 +166,20 @@ public class Maze : MonoBehaviour
             Quaternion rot = GetCornerRotation(matchedPattern);
             Instantiate(cornerStraight, pos, rot);
         }
+        else if (matchedPattern == junctionBottom || matchedPattern == junctionLeft || matchedPattern == junctionRight || matchedPattern == junctionTop)
+        {
+            Instantiate(junction, pos, GetJunctionRotation(matchedPattern));
+        }
+        else if (ShouldAddRoomFloorPiece(x,z))
+        {
+            Instantiate(floorPiece, pos, Quaternion.identity);
+            Instantiate(cielingPiece, pos, Quaternion.identity);
+            LocateWalls(x, z);
+            if (top)Instantiate(wallPiece, pos, Quaternion.Euler(0,90,0));
+            if(left)Instantiate(wallPiece, pos, Quaternion.identity);
+            if(right)Instantiate(wallPiece, pos, Quaternion.Euler(0, 180, 0));
+            if(bottom) Instantiate(wallPiece, pos, Quaternion.Euler(0, -90, 0));
+        }
         else if (matchedPattern == crossroadsPattern)
         {
             Instantiate(crossroads, pos, Quaternion.identity);
@@ -171,15 +188,41 @@ public class Maze : MonoBehaviour
         {
             Instantiate(deadend, pos, GetDeadendRotation(matchedPattern));
         }
-        else if (matchedPattern == junctionBottom || matchedPattern == junctionLeft || matchedPattern == junctionRight || matchedPattern == junctionTop)
-        {
-            Instantiate(junction, pos, GetJunctionRotation(matchedPattern));
-        } else
+         else
         {
             GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             wall.transform.localScale = new Vector3(scale, scale, scale);
             wall.transform.position = pos;
         }
+    }
+
+    bool top;
+    bool bottom;
+    bool left;
+    bool right;
+
+    public void LocateWalls(int x, int z)
+    {
+        top = false;
+        right= false;
+        bottom = false;
+        left = false;
+        // return if we are on the edge of the map
+        if (x <=0 || x >= width -1 || z <= 0 || z >= depth -1) return;
+
+        if (map[x, z + 1] == 1) top = true; // wall above current grid position
+        if (map[x, z - 1] == 1) bottom = true;
+        if (map[x+1, z] == 1) right = true;
+        if (map[x-1, z + 1] == 1) left = true;
+    }
+
+    public virtual bool ShouldAddRoomFloorPiece(int x, int z)
+    {
+        return map[x, z] == 0 
+            && (CountSquareNeighbours(x, z) > 1 
+            && CountDiagonalNeighbours(x,z) >=1 
+            || CountSquareNeighbours(x,z) >= 1
+            && CountDiagonalNeighbours(x,z) > 1);
     }
 
     //private GameObject GetCornerPiece(int[] pattern)
@@ -222,7 +265,7 @@ public class Maze : MonoBehaviour
         else if (pattern == junctionTop)
             val = Quaternion.Euler(0, -90, 0);
         else if (pattern == junctionBottom)
-            val = Quaternion.Euler(0, -90, 0);
+            val = Quaternion.Euler(0, 90, 0);
         return val;
     }
 
