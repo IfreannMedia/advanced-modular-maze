@@ -190,22 +190,45 @@ public class Maze : MonoBehaviour
                 wall = Instantiate(wallPiece, pos, Quaternion.identity);
                 wall.name = "wall_top";
                 if (map[x + 1,z] == 0 && map[x +1, z +1] == 0)
+                {
                     pillar = Instantiate(cornerPillar, pos, Quaternion.identity);
+                    pillar.name = "pillar_top_right";
+                }
+                if (map[x - 1, z] == 0 && map[x - 1, z + 1] == 0)
+                {
+                    pillar = Instantiate(cornerPillar, pos, Quaternion.Euler(0, -90, 0));
+                    pillar.name = "pillar_top_left";
+                }
             }
             if (left)
             {
                 wall = Instantiate(wallPiece, pos, Quaternion.Euler(0,-90,0));
                 wall.name = "wall_left";
+                //if (map[x + 1, z] == 0 && map[x + 1, z + 1] == 0)
+                //{
+                //    pillar = Instantiate(cornerPillar, pos, Quaternion.identity);
+                //    pillar.name = "pillar_top_right";
+                //}
             }
             if (right)
             {
                 wall = Instantiate(wallPiece, pos, Quaternion.Euler(0, 90, 0));
                 wall.name = "wall_right";
+                //if (map[x + 1, z] == 0 && map[x + 1, z + 1] == 0)
+                //{
+                //    pillar = Instantiate(cornerPillar, pos, Quaternion.identity);
+                //    pillar.name = "pillar_top_right";
+                //}
             }
             if (bottom)
             {
                 wall = Instantiate(wallPiece, pos, Quaternion.Euler(0, 180, 0));
                 wall.name = "wall_bottom";
+                //if (map[x + 1, z] == 0 && map[x + 1, z + 1] == 0)
+                //{
+                //    pillar = Instantiate(cornerPillar, pos, Quaternion.identity);
+                //    pillar.name = "pillar_top_right";
+                //}
             }
         }
         else
