@@ -34,6 +34,7 @@ public class Maze : MonoBehaviour
     public GameObject wallPiece;
     public GameObject floorPiece;
     public GameObject cielingPiece;
+    public GameObject cornerPillar;
 
     public FPController player;
 
@@ -183,24 +184,27 @@ public class Maze : MonoBehaviour
             Instantiate(cielingPiece, pos, Quaternion.identity);
             LocateWalls(x, z);
             GameObject wall;
+            GameObject pillar;
             if (top)
             {
-                wall = Instantiate(wallPiece, pos, Quaternion.Euler(0, 90, 0));
+                wall = Instantiate(wallPiece, pos, Quaternion.identity);
                 wall.name = "wall_top";
+                if (map[x + 1,z] == 0 && map[x +1, z +1] == 0)
+                    pillar = Instantiate(cornerPillar, pos, Quaternion.identity);
             }
             if (left)
             {
-                wall = Instantiate(wallPiece, pos, Quaternion.identity);
+                wall = Instantiate(wallPiece, pos, Quaternion.Euler(0,-90,0));
                 wall.name = "wall_left";
             }
             if (right)
             {
-                wall = Instantiate(wallPiece, pos, Quaternion.Euler(0, 180, 0));
+                wall = Instantiate(wallPiece, pos, Quaternion.Euler(0, 90, 0));
                 wall.name = "wall_right";
             }
             if (bottom)
             {
-                wall = Instantiate(wallPiece, pos, Quaternion.Euler(0, -90, 0));
+                wall = Instantiate(wallPiece, pos, Quaternion.Euler(0, 180, 0));
                 wall.name = "wall_bottom";
             }
         }
