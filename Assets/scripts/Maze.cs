@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class MapLocation
@@ -41,7 +40,7 @@ public class Maze : MonoBehaviour
     // patterns
     private int[] verticalStraight = new int[] { 5, 0, 5, 1, 0, 1, 5, 0, 5 };
     private int[] horizontalStraight = new int[] { 5, 1, 5, 0, 0, 0, 5, 1, 5 };
-    private int[] crossroadsPattern = new int[] { 5, 0, 5, 0, 0, 0, 5, 0, 5 };
+    private int[] crossroadsPattern = new int[] { 1, 0, 1, 0, 0, 0, 1, 0, 1 };
 
     private int[] junctionTop = new int[] { 1, 0, 1, 0, 0, 0, 5, 1, 5 }; // entering top
     private int[] junctionBottom = new int[] { 5, 1, 5, 0, 0, 0, 1, 0, 1 }; // entering bottom
@@ -53,10 +52,10 @@ public class Maze : MonoBehaviour
     private int[] deadendBottom = new int[] { 5, 1, 5, 1, 0, 1, 5, 0, 5 };
     private int[] deadendRight = new int[] { 5, 1, 5, 1, 0, 0, 5, 1, 5 };
 
-    private int[] cornerLeftTop = new int[] { 5, 1, 5, 1, 0, 0, 5, 0, 5 };
-    private int[] cornerLeftBottom = new int[] { 5, 0, 5, 1, 0, 0, 5, 1, 5 };
-    private int[] cornerRightBottom = new int[] { 5, 0, 5, 0, 0, 1, 5, 1, 5 };
-    private int[] cornerRightTop = new int[] { 5, 1, 5, 0, 0, 1, 5, 0, 5 };
+    private int[] cornerLeftTop = new int[] { 5, 1, 5, 1, 0, 0, 5, 0, 1 };
+    private int[] cornerLeftBottom = new int[] { 5, 0, 1, 1, 0, 0, 5, 1, 5 };
+    private int[] cornerRightBottom = new int[] { 1, 0, 5, 5, 0, 1, 5, 1, 5 };
+    private int[] cornerRightTop = new int[] { 5, 1, 5, 0, 0, 1, 1, 0, 5 };
 
     private readonly int wildcard = 5;
 
@@ -66,7 +65,7 @@ public class Maze : MonoBehaviour
         InitialiseMap();
         Generate();
         // add rooms here, same as setting walkable 0/non walkable 1
-        AddRooms(3, 4 ,6);
+        AddRooms(3, 4, 6);
         DrawMap();
         PlaceFPC();
     }
@@ -75,10 +74,10 @@ public class Maze : MonoBehaviour
     {
         for (int c = 0; c < count; c++)
         {
-            int startX = Random.Range(3,width - 3);
-            int startZ = Random.Range(3,depth -3);
-            int roomWidth = Random.Range(minSize,maxSize);
-            int roomDepth = Random.Range(minSize,maxSize);
+            int startX = Random.Range(3, width - 3);
+            int startZ = Random.Range(3, depth - 3);
+            int roomWidth = Random.Range(minSize, maxSize);
+            int roomDepth = Random.Range(minSize, maxSize);
 
             for (int x = startX; x < width - 3 && x < startX + roomWidth; x++)
             {
@@ -95,7 +94,7 @@ public class Maze : MonoBehaviour
         for (int z = 0; z < depth; z++)
             for (int x = 0; x < width; x++)
             {
-                if(map[x, z] == 0)
+                if (map[x, z] == 0)
                 {
                     player.transform.position = new Vector3(x * scale, 0, z * scale);
                     player.transform.rotation = Quaternion.Euler(Vector3.forward);
@@ -152,14 +151,22 @@ public class Maze : MonoBehaviour
                         crossroadsPattern,
                         deadendBottom, deadendLeft, deadendRight, deadendTop,
                         junctionBottom, junctionLeft, junctionRight, junctionTop });
-        if (matchedPattern == verticalStraight)
+        if (matchedPattern == deadendBottom || matchedPattern == deadendLeft || matchedPattern == deadendRight || matchedPattern == deadendTop)
+        {
+            Instantiate(deadend, pos, GetDeadendRotation(matchedPattern));
+        }
+        else if (matchedPattern == verticalStraight)
         {
             Instantiate(straight, pos, Quaternion.Euler(0, 90, 0));
-           
+
         }
         else if (matchedPattern == horizontalStraight)
         {
             Instantiate(straight, pos, Quaternion.identity);
+        }
+        else if (matchedPattern == crossroadsPattern)
+        {
+            Instantiate(crossroads, pos, Quaternion.identity);
         }
         else if (matchedPattern == cornerLeftBottom || matchedPattern == cornerLeftTop || matchedPattern == cornerRightBottom || matchedPattern == cornerRightTop)
         {
@@ -170,25 +177,34 @@ public class Maze : MonoBehaviour
         {
             Instantiate(junction, pos, GetJunctionRotation(matchedPattern));
         }
-        else if (ShouldAddRoomFloorPiece(x,z))
+        else if (ShouldAddRoomFloorPiece(x, z))
         {
             Instantiate(floorPiece, pos, Quaternion.identity);
             Instantiate(cielingPiece, pos, Quaternion.identity);
             LocateWalls(x, z);
-            if (top)Instantiate(wallPiece, pos, Quaternion.Euler(0,90,0));
-            if(left)Instantiate(wallPiece, pos, Quaternion.identity);
-            if(right)Instantiate(wallPiece, pos, Quaternion.Euler(0, 180, 0));
-            if(bottom) Instantiate(wallPiece, pos, Quaternion.Euler(0, -90, 0));
+            GameObject wall;
+            if (top)
+            {
+                wall = Instantiate(wallPiece, pos, Quaternion.Euler(0, 90, 0));
+                wall.name = "wall_top";
+            }
+            if (left)
+            {
+                wall = Instantiate(wallPiece, pos, Quaternion.identity);
+                wall.name = "wall_left";
+            }
+            if (right)
+            {
+                wall = Instantiate(wallPiece, pos, Quaternion.Euler(0, 180, 0));
+                wall.name = "wall_right";
+            }
+            if (bottom)
+            {
+                wall = Instantiate(wallPiece, pos, Quaternion.Euler(0, -90, 0));
+                wall.name = "wall_bottom";
+            }
         }
-        else if (matchedPattern == crossroadsPattern)
-        {
-            Instantiate(crossroads, pos, Quaternion.identity);
-        }
-        else if (matchedPattern == deadendBottom || matchedPattern == deadendLeft || matchedPattern == deadendRight || matchedPattern == deadendTop)
-        {
-            Instantiate(deadend, pos, GetDeadendRotation(matchedPattern));
-        }
-         else
+        else
         {
             GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             wall.transform.localScale = new Vector3(scale, scale, scale);
@@ -204,25 +220,25 @@ public class Maze : MonoBehaviour
     public void LocateWalls(int x, int z)
     {
         top = false;
-        right= false;
+        right = false;
         bottom = false;
         left = false;
         // return if we are on the edge of the map
-        if (x <=0 || x >= width -1 || z <= 0 || z >= depth -1) return;
+        if (x <= 0 || x >= width - 1 || z <= 0 || z >= depth - 1) return;
 
         if (map[x, z + 1] == 1) top = true; // wall above current grid position
         if (map[x, z - 1] == 1) bottom = true;
-        if (map[x+1, z] == 1) right = true;
-        if (map[x-1, z + 1] == 1) left = true;
+        if (map[x + 1, z] == 1) right = true;
+        if (map[x - 1, z] == 1) left = true;
     }
 
     public virtual bool ShouldAddRoomFloorPiece(int x, int z)
     {
-        return map[x, z] == 0 
-            && (CountSquareNeighbours(x, z) > 1 
-            && CountDiagonalNeighbours(x,z) >=1 
-            || CountSquareNeighbours(x,z) >= 1
-            && CountDiagonalNeighbours(x,z) > 1);
+        return map[x, z] == 0
+            && (CountSquareNeighbours(x, z) > 1
+            && CountDiagonalNeighbours(x, z) >= 1
+            || CountSquareNeighbours(x, z) >= 1
+            && CountDiagonalNeighbours(x, z) > 1);
     }
 
     //private GameObject GetCornerPiece(int[] pattern)
@@ -239,7 +255,7 @@ public class Maze : MonoBehaviour
         if (pattern == cornerLeftTop)
             val = Quaternion.Euler(0, 90, 0);
         else if (pattern == cornerRightTop)
-            val = Quaternion.Euler(0,-180,0);
+            val = Quaternion.Euler(0, -180, 0);
         else if (pattern == cornerRightBottom)
             val = Quaternion.Euler(0, -90, 0);
         return val;
