@@ -216,6 +216,7 @@ public class Maze : MonoBehaviour
             else if (ShouldAddDoorTop(z, x))
             {
                 GameObject door = Instantiate(doorway);
+                door.transform.position = new Vector3(x * scale, 0, z * scale);
                 door.name = "door-top";
                 door.transform.rotation = Quaternion.Euler(0, 90, 0);
             }
