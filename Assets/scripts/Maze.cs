@@ -64,10 +64,40 @@ public class Maze : MonoBehaviour
 
     private List<MapLocation> pillarLocations = new List<MapLocation>();
 
-    //private bool top;
-    //private bool right;
-    //private bool bottom;
-    //private bool left;
+    public enum PIECE_TYPE
+    {
+        HORIZONTAL_STRAIGHT,
+        VERTICAL_STRAIGHT,
+        RIGHT_UP_CORNER,
+        RIGHT_DOWN_CORNER,
+        LEFT_UP_CORNER,
+        LEFT_DOWN_CORNER,
+        T_JUNCTION,
+        T_UPSIDE_DOWN,
+        T_LEFT,
+        T_RIGHT,
+        DEADEAND,
+        DEAD_UPSIDE_DOWN,
+        DEAD_LEFT,
+        DEAD_RIGHT,
+        WALL,
+        CROSSROAD,
+        ROOM
+    }
+
+    public struct Pieces
+    {
+        public PIECE_TYPE piece;
+        public GameObject model;
+
+        public Pieces(PIECE_TYPE pt, GameObject mo)
+        {
+            this.piece = pt;
+            this.model = mo;
+        }
+    }
+
+    public Pieces[,] piecePlaces;
 
     // Start is called before the first frame update
     void Start()
@@ -116,6 +146,7 @@ public class Maze : MonoBehaviour
     void InitialiseMap()
     {
         map = new byte[width, depth];
+        piecePlaces = new Pieces[width, depth];
         for (int z = 0; z < depth; z++)
             for (int x = 0; x < width; x++)
             {
@@ -142,9 +173,10 @@ public class Maze : MonoBehaviour
                 if (map[x, z] == 1)
                 {
                     // draws a white wall ie non-walkable block
-                    GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                    wall.transform.localScale = new Vector3(scale, scale, scale);
-                    wall.transform.position = pos;
+                    //GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    //wall.transform.localScale = new Vector3(scale, scale, scale);
+                    //wall.transform.position = pos;
+                    piecePlaces[x, z] = new Pieces(PIECE_TYPE.WALL, null);
                 }
                 else
                 {
@@ -163,33 +195,33 @@ public class Maze : MonoBehaviour
                         junctionBottom, junctionLeft, junctionRight, junctionTop });
         if (matchedPattern == deadendBottom || matchedPattern == deadendLeft || matchedPattern == deadendRight || matchedPattern == deadendTop)
         {
-            Instantiate(deadend, pos, GetDeadendRotation(matchedPattern));
+            piecePlaces[x, z] = new Pieces(GetDeadEndPieceType(matchedPattern), Instantiate(deadend, pos, GetDeadendRotation(matchedPattern)));
         }
         else if (matchedPattern == verticalStraight)
         {
-            Instantiate(straight, pos, Quaternion.Euler(0, 90, 0));
+            piecePlaces[x, z] = new Pieces(PIECE_TYPE.VERTICAL_STRAIGHT, Instantiate(straight, pos, Quaternion.Euler(0, 90, 0)));
 
         }
         else if (matchedPattern == horizontalStraight)
         {
-            Instantiate(straight, pos, Quaternion.identity);
+            piecePlaces[x, z] = new Pieces(PIECE_TYPE.HORIZONTAL_STRAIGHT, Instantiate(straight, pos, Quaternion.identity));
         }
         else if (matchedPattern == crossroadsPattern)
         {
-            Instantiate(crossroads, pos, Quaternion.identity);
+            piecePlaces[x, z] = new Pieces(PIECE_TYPE.CROSSROAD, Instantiate(crossroads, pos, Quaternion.identity));
         }
         else if (matchedPattern == cornerLeftBottom || matchedPattern == cornerLeftTop || matchedPattern == cornerRightBottom || matchedPattern == cornerRightTop)
         {
-            Quaternion rot = GetCornerRotation(matchedPattern);
-            Instantiate(cornerStraight, pos, rot);
+            piecePlaces[x, z] = new Pieces(GetCornerPieceType(matchedPattern), Instantiate(cornerStraight, pos, GetCornerRotation(matchedPattern)));
+
         }
         else if (matchedPattern == junctionBottom || matchedPattern == junctionLeft || matchedPattern == junctionRight || matchedPattern == junctionTop)
         {
-            Instantiate(junction, pos, GetJunctionRotation(matchedPattern));
+            piecePlaces[x, z] = new Pieces(GetJunctionPieceType(matchedPattern), Instantiate(junction, pos, GetJunctionRotation(matchedPattern)));
         }
         else if (!PositionOnMapEdge(x, z) && ShouldAddRoomFloorPiece(x, z))
         {
-            Instantiate(floorPiece, pos, Quaternion.identity);
+            piecePlaces[x, z] = new Pieces(PIECE_TYPE.ROOM, Instantiate(floorPiece, pos, Quaternion.identity));
             Instantiate(cielingPiece, pos, Quaternion.identity);
             GameObject wall;
             GameObject pillar;
@@ -365,21 +397,6 @@ public class Maze : MonoBehaviour
         return x <= 0 || x >= width - 1 || z <= 0 || z >= depth - 1;
     }
 
-    //private void LocateWalls(int x, int z)
-    //{
-    //    top = false;
-    //    right = false;
-    //    bottom = false;
-    //    left = false;
-    //    // return if we are on the edge of the map
-    //    if (x <= 0 || x >= width - 1 || z <= 0 || z >= depth - 1) return;
-
-    //    if (map[x, z + 1] == 1) top = true; // wall above current grid position
-    //    if (map[x, z - 1] == 1) bottom = true;
-    //    if (map[x + 1, z] == 1) right = true;
-    //    if (map[x - 1, z] == 1) left = true;
-    //}
-
 
     public virtual bool ShouldAddRoomFloorPiece(int x, int z)
     {
@@ -402,6 +419,19 @@ public class Maze : MonoBehaviour
         return val;
     }
 
+    private PIECE_TYPE GetCornerPieceType(int[] pattern)
+    {
+        PIECE_TYPE val = PIECE_TYPE.LEFT_DOWN_CORNER;
+        if (pattern == cornerLeftTop)
+            val = PIECE_TYPE.LEFT_UP_CORNER;
+        else if (pattern == cornerRightTop)
+            val = PIECE_TYPE.RIGHT_UP_CORNER;
+        else if (pattern == cornerRightBottom)
+            val = PIECE_TYPE.RIGHT_DOWN_CORNER;
+        Debug.Log("got corner piece " + val + "for pattern: " + pattern[0] + ", " + pattern[1] + ", " + pattern[2] + ", " + pattern[3] + ", " + pattern[4] + ", " + pattern[5] + ", " + pattern[6] + ", " + pattern[7] + ", " + pattern[8]);
+        return val;
+    }
+
     private Quaternion GetDeadendRotation(int[] pattern)
     {
         Quaternion val = Quaternion.identity;
@@ -414,6 +444,19 @@ public class Maze : MonoBehaviour
         return val;
     }
 
+    private PIECE_TYPE GetDeadEndPieceType(int[] pattern)
+    {
+        PIECE_TYPE val = PIECE_TYPE.DEAD_RIGHT;
+        if (pattern == deadendLeft)
+            val = PIECE_TYPE.DEAD_LEFT;
+        else if (pattern == deadendTop)
+            val = PIECE_TYPE.DEAD_UPSIDE_DOWN;
+        else if (pattern == deadendBottom)
+            val = PIECE_TYPE.DEADEAND;
+        Debug.Log("got deadend piece " + val + "for pattern: " + pattern[0] + ", " + pattern[1] + ", " + pattern[2] + ", " + pattern[3] + ", " + pattern[4] + ", " + pattern[5] + ", " + pattern[6] + ", " + pattern[7] + ", " + pattern[8]);
+        return val;
+    }
+
     private Quaternion GetJunctionRotation(int[] pattern)
     {
         Quaternion val = Quaternion.identity;
@@ -423,6 +466,19 @@ public class Maze : MonoBehaviour
             val = Quaternion.Euler(0, -90, 0);
         else if (pattern == junctionBottom)
             val = Quaternion.Euler(0, 90, 0);
+        return val;
+    }
+
+    private PIECE_TYPE GetJunctionPieceType(int[] pattern)
+    {
+        PIECE_TYPE val = PIECE_TYPE.T_RIGHT;
+        if (pattern == junctionLeft)
+            val = PIECE_TYPE.T_LEFT;
+        else if (pattern == junctionTop)
+            val = PIECE_TYPE.T_UPSIDE_DOWN;
+        else if (pattern == junctionBottom)
+            val = PIECE_TYPE.T_JUNCTION;
+        Debug.Log("got junction piece " + val + "for pattern: " + pattern[0] + ", " + pattern[1] + ", " + pattern[2] + ", " + pattern[3] + ", " + pattern[4] + ", " + pattern[5] + ", " + pattern[6] + ", " + pattern[7] + ", " + pattern[8]);
         return val;
     }
 
