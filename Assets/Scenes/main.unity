@@ -158,24 +158,136 @@ MonoBehaviour:
   width: 30
   depth: 30
   scale: 6
-  straight: {fileID: 8368093966971478274, guid: 0d58cf45854e849458d3422367f2dee7,
-    type: 3}
-  cornerStraight: {fileID: 7858249156388607808, guid: decb9858f0e3a52419679d01ca6f8717,
-    type: 3}
-  crossroads: {fileID: 7810688408694929967, guid: 64bccd40a87de074c87639d2d03a9add,
-    type: 3}
-  junction: {fileID: 8928891807332465263, guid: ed9236cd58b7ab7459161abaf633b1b1,
-    type: 3}
-  deadend: {fileID: 3914236786083739875, guid: e82d39b8d6d618742a068322f33934ba, type: 3}
-  wallPiece: {fileID: 2721988035655537674, guid: 7d047f4bd7b074db5b3aff0456ad638b,
-    type: 3}
-  floorPiece: {fileID: 5716204157453608282, guid: 1aef7fca960957e46829dcdd81cb04d8,
-    type: 3}
-  cielingPiece: {fileID: 4334461237710688992, guid: aebce63472786e342a628bdcdaf0fb64,
-    type: 3}
-  cornerPillar: {fileID: 8671647262600949619, guid: 2bacbe20d0f0da0478094c8463caf000,
-    type: 3}
-  doorway: {fileID: 2947399344182589165, guid: 8bf05fd3aa35fb748bdcb0f40491f982, type: 3}
+  verticalStraight:
+    pieceType: 0
+    prefab: {fileID: 8368093966971478274, guid: 0d58cf45854e849458d3422367f2dee7,
+      type: 3}
+    rotation: {x: 0, y: 90, z: 0}
+  horizontalStraight:
+    pieceType: 0
+    prefab: {fileID: 8368093966971478274, guid: 0d58cf45854e849458d3422367f2dee7,
+      type: 3}
+    rotation: {x: 0, y: 0, z: 0}
+  crossroad:
+    pieceType: 0
+    prefab: {fileID: 7810688408694929967, guid: 64bccd40a87de074c87639d2d03a9add,
+      type: 3}
+    rotation: {x: 0, y: 0, z: 0}
+  rightUpCorner:
+    pieceType: 0
+    prefab: {fileID: 7858249156388607808, guid: decb9858f0e3a52419679d01ca6f8717,
+      type: 3}
+    rotation: {x: 0, y: -180, z: 0}
+  rightDownCorner:
+    pieceType: 0
+    prefab: {fileID: 7858249156388607808, guid: decb9858f0e3a52419679d01ca6f8717,
+      type: 3}
+    rotation: {x: 0, y: -90, z: 0}
+  leftUpCorner:
+    pieceType: 0
+    prefab: {fileID: 7858249156388607808, guid: decb9858f0e3a52419679d01ca6f8717,
+      type: 3}
+    rotation: {x: 0, y: 90, z: 0}
+  leftDownCorner:
+    pieceType: 0
+    prefab: {fileID: 7858249156388607808, guid: decb9858f0e3a52419679d01ca6f8717,
+      type: 3}
+    rotation: {x: 0, y: 0, z: 0}
+  tJunctionDown:
+    pieceType: 0
+    prefab: {fileID: 8928891807332465263, guid: ed9236cd58b7ab7459161abaf633b1b1,
+      type: 3}
+    rotation: {x: 0, y: -90, z: 0}
+  tJunctionLeft:
+    pieceType: 0
+    prefab: {fileID: 8928891807332465263, guid: ed9236cd58b7ab7459161abaf633b1b1,
+      type: 3}
+    rotation: {x: 0, y: 180, z: 0}
+  tJunctionRight:
+    pieceType: 0
+    prefab: {fileID: 8928891807332465263, guid: ed9236cd58b7ab7459161abaf633b1b1,
+      type: 3}
+    rotation: {x: 0, y: 0, z: 0}
+  tJunctionUp:
+    pieceType: 0
+    prefab: {fileID: 8928891807332465263, guid: ed9236cd58b7ab7459161abaf633b1b1,
+      type: 3}
+    rotation: {x: 0, y: 90, z: 0}
+  endUp:
+    pieceType: 0
+    prefab: {fileID: 3914236786083739875, guid: e82d39b8d6d618742a068322f33934ba,
+      type: 3}
+    rotation: {x: 0, y: 90, z: 0}
+  endDown:
+    pieceType: 0
+    prefab: {fileID: 3914236786083739875, guid: e82d39b8d6d618742a068322f33934ba,
+      type: 3}
+    rotation: {x: 0, y: -90, z: 0}
+  endRight:
+    pieceType: 0
+    prefab: {fileID: 3914236786083739875, guid: e82d39b8d6d618742a068322f33934ba,
+      type: 3}
+    rotation: {x: 0, y: 0, z: 0}
+  endLeft:
+    pieceType: 0
+    prefab: {fileID: 3914236786083739875, guid: e82d39b8d6d618742a068322f33934ba,
+      type: 3}
+    rotation: {x: 0, y: 180, z: 0}
+  wallTop:
+    pieceType: 0
+    prefab: {fileID: 2721988035655537674, guid: 7d047f4bd7b074db5b3aff0456ad638b,
+      type: 3}
+    rotation: {x: 0, y: 0, z: 0}
+  wallBottom:
+    pieceType: 0
+    prefab: {fileID: 2721988035655537674, guid: 7d047f4bd7b074db5b3aff0456ad638b,
+      type: 3}
+    rotation: {x: 0, y: 180, z: 0}
+  wallLeft:
+    pieceType: 0
+    prefab: {fileID: 2721988035655537674, guid: 7d047f4bd7b074db5b3aff0456ad638b,
+      type: 3}
+    rotation: {x: 0, y: -90, z: 0}
+  wallRight:
+    pieceType: 0
+    prefab: {fileID: 2721988035655537674, guid: 7d047f4bd7b074db5b3aff0456ad638b,
+      type: 3}
+    rotation: {x: 0, y: 90, z: 0}
+  floor:
+    pieceType: 0
+    prefab: {fileID: 5716204157453608282, guid: 1aef7fca960957e46829dcdd81cb04d8,
+      type: 3}
+    rotation: {x: 0, y: 0, z: 0}
+  cieling:
+    pieceType: 0
+    prefab: {fileID: 4334461237710688992, guid: aebce63472786e342a628bdcdaf0fb64,
+      type: 3}
+    rotation: {x: 0, y: 0, z: 0}
+  pillar:
+    pieceType: 0
+    prefab: {fileID: 8671647262600949619, guid: 2bacbe20d0f0da0478094c8463caf000,
+      type: 3}
+    rotation: {x: 0, y: 0, z: 0}
+  doorTop:
+    pieceType: 0
+    prefab: {fileID: 2947399344182589165, guid: 8bf05fd3aa35fb748bdcb0f40491f982,
+      type: 3}
+    rotation: {x: 0, y: 90, z: 0}
+  doorBottom:
+    pieceType: 0
+    prefab: {fileID: 2947399344182589165, guid: 8bf05fd3aa35fb748bdcb0f40491f982,
+      type: 3}
+    rotation: {x: 0, y: -90, z: 0}
+  doorRight:
+    pieceType: 0
+    prefab: {fileID: 2947399344182589165, guid: 8bf05fd3aa35fb748bdcb0f40491f982,
+      type: 3}
+    rotation: {x: 0, y: 180, z: 0}
+  doorLeft:
+    pieceType: 0
+    prefab: {fileID: 2947399344182589165, guid: 8bf05fd3aa35fb748bdcb0f40491f982,
+      type: 3}
+    rotation: {x: 0, y: 0, z: 0}
   player: {fileID: 5407462}
 --- !u!114 &5158075
 MonoBehaviour:
@@ -192,16 +304,110 @@ MonoBehaviour:
   width: 30
   depth: 30
   scale: 6
-  straight: {fileID: 0}
-  cornerStraight: {fileID: 0}
-  crossroads: {fileID: 0}
-  junction: {fileID: 0}
-  deadend: {fileID: 0}
-  wallPiece: {fileID: 0}
-  floorPiece: {fileID: 0}
-  cielingPiece: {fileID: 0}
-  cornerPillar: {fileID: 0}
-  doorway: {fileID: 0}
+  verticalStraight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  horizontalStraight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  crossroad:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  rightUpCorner:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  rightDownCorner:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  leftUpCorner:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  leftDownCorner:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  tJunctionDown:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  tJunctionLeft:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  tJunctionRight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  tJunctionUp:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  endUp:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  endDown:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  endRight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  endLeft:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  wallTop:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  wallBottom:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  wallLeft:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  wallRight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  floor:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  cieling:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  pillar:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  doorTop:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  doorBottom:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  doorRight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  doorLeft:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
   player: {fileID: 0}
 --- !u!114 &5158076
 MonoBehaviour:
@@ -218,16 +424,110 @@ MonoBehaviour:
   width: 30
   depth: 30
   scale: 6
-  straight: {fileID: 0}
-  cornerStraight: {fileID: 0}
-  crossroads: {fileID: 0}
-  junction: {fileID: 0}
-  deadend: {fileID: 0}
-  wallPiece: {fileID: 0}
-  floorPiece: {fileID: 0}
-  cielingPiece: {fileID: 0}
-  cornerPillar: {fileID: 0}
-  doorway: {fileID: 0}
+  verticalStraight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  horizontalStraight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  crossroad:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  rightUpCorner:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  rightDownCorner:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  leftUpCorner:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  leftDownCorner:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  tJunctionDown:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  tJunctionLeft:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  tJunctionRight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  tJunctionUp:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  endUp:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  endDown:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  endRight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  endLeft:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  wallTop:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  wallBottom:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  wallLeft:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  wallRight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  floor:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  cieling:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  pillar:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  doorTop:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  doorBottom:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  doorRight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  doorLeft:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
   player: {fileID: 0}
 --- !u!114 &5158077
 MonoBehaviour:
@@ -244,16 +544,110 @@ MonoBehaviour:
   width: 30
   depth: 30
   scale: 6
-  straight: {fileID: 0}
-  cornerStraight: {fileID: 0}
-  crossroads: {fileID: 0}
-  junction: {fileID: 0}
-  deadend: {fileID: 0}
-  wallPiece: {fileID: 0}
-  floorPiece: {fileID: 0}
-  cielingPiece: {fileID: 0}
-  cornerPillar: {fileID: 0}
-  doorway: {fileID: 0}
+  verticalStraight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  horizontalStraight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  crossroad:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  rightUpCorner:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  rightDownCorner:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  leftUpCorner:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  leftDownCorner:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  tJunctionDown:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  tJunctionLeft:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  tJunctionRight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  tJunctionUp:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  endUp:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  endDown:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  endRight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  endLeft:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  wallTop:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  wallBottom:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  wallLeft:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  wallRight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  floor:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  cieling:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  pillar:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  doorTop:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  doorBottom:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  doorRight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  doorLeft:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
   player: {fileID: 0}
 --- !u!4 &5158078
 Transform:
@@ -496,17 +890,110 @@ MonoBehaviour:
   width: 30
   depth: 30
   scale: 6
-  straight: {fileID: 4000756420633539618, guid: bf512bdce8cd7b94caf1a6d72f20956a,
-    type: 3}
-  cornerStraight: {fileID: 0}
-  crossroads: {fileID: 0}
-  junction: {fileID: 0}
-  deadend: {fileID: 0}
-  wallPiece: {fileID: 0}
-  floorPiece: {fileID: 0}
-  cielingPiece: {fileID: 0}
-  cornerPillar: {fileID: 0}
-  doorway: {fileID: 0}
+  verticalStraight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  horizontalStraight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  crossroad:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  rightUpCorner:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  rightDownCorner:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  leftUpCorner:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  leftDownCorner:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  tJunctionDown:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  tJunctionLeft:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  tJunctionRight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  tJunctionUp:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  endUp:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  endDown:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  endRight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  endLeft:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  wallTop:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  wallBottom:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  wallLeft:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  wallRight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  floor:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  cieling:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  pillar:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  doorTop:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  doorBottom:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  doorRight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  doorLeft:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
   player: {fileID: 0}
 --- !u!114 &1201391781
 MonoBehaviour:
@@ -523,16 +1010,110 @@ MonoBehaviour:
   width: 30
   depth: 30
   scale: 6
-  straight: {fileID: 0}
-  cornerStraight: {fileID: 0}
-  crossroads: {fileID: 0}
-  junction: {fileID: 0}
-  deadend: {fileID: 0}
-  wallPiece: {fileID: 0}
-  floorPiece: {fileID: 0}
-  cielingPiece: {fileID: 0}
-  cornerPillar: {fileID: 0}
-  doorway: {fileID: 0}
+  verticalStraight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  horizontalStraight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  crossroad:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  rightUpCorner:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  rightDownCorner:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  leftUpCorner:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  leftDownCorner:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  tJunctionDown:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  tJunctionLeft:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  tJunctionRight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  tJunctionUp:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  endUp:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  endDown:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  endRight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  endLeft:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  wallTop:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  wallBottom:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  wallLeft:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  wallRight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  floor:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  cieling:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  pillar:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  doorTop:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  doorBottom:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  doorRight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  doorLeft:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
   player: {fileID: 0}
 --- !u!114 &1201391782
 MonoBehaviour:
@@ -549,16 +1130,110 @@ MonoBehaviour:
   width: 30
   depth: 30
   scale: 6
-  straight: {fileID: 0}
-  cornerStraight: {fileID: 0}
-  crossroads: {fileID: 0}
-  junction: {fileID: 0}
-  deadend: {fileID: 0}
-  wallPiece: {fileID: 0}
-  floorPiece: {fileID: 0}
-  cielingPiece: {fileID: 0}
-  cornerPillar: {fileID: 0}
-  doorway: {fileID: 0}
+  verticalStraight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  horizontalStraight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  crossroad:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  rightUpCorner:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  rightDownCorner:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  leftUpCorner:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  leftDownCorner:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  tJunctionDown:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  tJunctionLeft:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  tJunctionRight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  tJunctionUp:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  endUp:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  endDown:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  endRight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  endLeft:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  wallTop:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  wallBottom:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  wallLeft:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  wallRight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  floor:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  cieling:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  pillar:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  doorTop:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  doorBottom:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  doorRight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  doorLeft:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
   player: {fileID: 0}
 --- !u!114 &1201391783
 MonoBehaviour:
@@ -575,16 +1250,110 @@ MonoBehaviour:
   width: 30
   depth: 30
   scale: 6
-  straight: {fileID: 0}
-  cornerStraight: {fileID: 0}
-  crossroads: {fileID: 0}
-  junction: {fileID: 0}
-  deadend: {fileID: 0}
-  wallPiece: {fileID: 0}
-  floorPiece: {fileID: 0}
-  cielingPiece: {fileID: 0}
-  cornerPillar: {fileID: 0}
-  doorway: {fileID: 0}
+  verticalStraight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  horizontalStraight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  crossroad:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  rightUpCorner:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  rightDownCorner:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  leftUpCorner:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  leftDownCorner:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  tJunctionDown:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  tJunctionLeft:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  tJunctionRight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  tJunctionUp:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  endUp:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  endDown:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  endRight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  endLeft:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  wallTop:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  wallBottom:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  wallLeft:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  wallRight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  floor:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  cieling:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  pillar:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  doorTop:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  doorBottom:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  doorRight:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  doorLeft:
+    pieceType: 0
+    prefab: {fileID: 0}
+    rotation: {x: 0, y: 0, z: 0}
   player: {fileID: 0}
 --- !u!1 &1565847500
 GameObject:
