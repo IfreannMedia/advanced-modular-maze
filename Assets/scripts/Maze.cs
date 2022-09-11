@@ -188,47 +188,62 @@ public class Maze : MonoBehaviour
             if (top)
             {
                 wall = Instantiate(wallPiece, pos, Quaternion.identity);
-                wall.name = "wall_top";
+                wall.name = "wall-top";
                 if (map[x + 1,z] == 0 && map[x +1, z +1] == 0)
                 {
                     pillar = Instantiate(cornerPillar, pos, Quaternion.identity);
-                    pillar.name = "pillar_top_right";
+                    pillar.name = "pillar-top-right";
                 }
                 if (map[x - 1, z] == 0 && map[x - 1, z + 1] == 0)
                 {
                     pillar = Instantiate(cornerPillar, pos, Quaternion.Euler(0, -90, 0));
-                    pillar.name = "pillar_top_left";
+                    pillar.name = "pillar-top-left";
                 }
             }
             if (left)
             {
                 wall = Instantiate(wallPiece, pos, Quaternion.Euler(0,-90,0));
-                wall.name = "wall_left";
-                //if (map[x + 1, z] == 0 && map[x + 1, z + 1] == 0)
-                //{
-                //    pillar = Instantiate(cornerPillar, pos, Quaternion.identity);
-                //    pillar.name = "pillar_top_right";
-                //}
+                wall.name = "wall-left";
+                if (map[x, z+1] == 0 && map[x - 1, z + 1] == 0)
+                {
+                    pillar = Instantiate(cornerPillar, pos, Quaternion.Euler(0, -90, 0));
+                    pillar.name = "pillar-left-top";
+                }
+                if (map[x, z-1] == 0 && map[x - 1, z - 1] == 0)
+                {
+                    pillar = Instantiate(cornerPillar, pos, Quaternion.Euler(0, 180, 0));
+                    pillar.name = "pillar-left-bottom";
+                }
             }
             if (right)
             {
                 wall = Instantiate(wallPiece, pos, Quaternion.Euler(0, 90, 0));
-                wall.name = "wall_right";
-                //if (map[x + 1, z] == 0 && map[x + 1, z + 1] == 0)
-                //{
-                //    pillar = Instantiate(cornerPillar, pos, Quaternion.identity);
-                //    pillar.name = "pillar_top_right";
-                //}
+                wall.name = "wall-right";
+                if (map[x, z + 1] == 0 && map[x + 1, z + 1] == 0)
+                {
+                    pillar = Instantiate(cornerPillar, pos, Quaternion.identity);
+                    pillar.name = "pillar-right-top";
+                }
+                if (map[x, z - 1] == 0 && map[x + 1, z - 1] == 0)
+                {
+                    pillar = Instantiate(cornerPillar, pos, Quaternion.Euler(0, 90, 0));
+                    pillar.name = "pillar-right-bottom";
+                }
             }
             if (bottom)
             {
                 wall = Instantiate(wallPiece, pos, Quaternion.Euler(0, 180, 0));
-                wall.name = "wall_bottom";
-                //if (map[x + 1, z] == 0 && map[x + 1, z + 1] == 0)
-                //{
-                //    pillar = Instantiate(cornerPillar, pos, Quaternion.identity);
-                //    pillar.name = "pillar_top_right";
-                //}
+                wall.name = "wall-bottom";
+                if (map[x + 1, z] == 0 && map[x + 1, z - 1] == 0)
+                {
+                    pillar = Instantiate(cornerPillar, pos, Quaternion.Euler(0,90,0));
+                    pillar.name = "pillar-bottom-right";
+                }
+                if (map[x - 1, z] == 0 && map[x - 1, z - 1] == 0)
+                {
+                    pillar = Instantiate(cornerPillar, pos, Quaternion.Euler(0, 180, 0));
+                    pillar.name = "pillar-bottom-left";
+                }
             }
         }
         else
