@@ -240,6 +240,7 @@ public class Maze : MonoBehaviour
             }
             else if (ShouldAddDoorLeft(z, x))
             {
+                GameObject door = Instantiate(doorway);
                 door.transform.position = new Vector3(x * scale, 0, z * scale);
                 door.name = "door-left";
             }
@@ -290,6 +291,10 @@ public class Maze : MonoBehaviour
             }
             else if (ShouldAddDoorBottom(z, x))
             {
+                GameObject door = Instantiate(doorway);
+                door.transform.position = new Vector3(x * scale, 0, z * scale);
+                door.name = "door-top";
+                door.transform.rotation = Quaternion.Euler(0, 90, 0);
             }
         }
         else
@@ -307,9 +312,23 @@ public class Maze : MonoBehaviour
 
     private bool ShouldAddDoorRight(int z, int x)
     {
+        return map[x + 1, z] == 0 && map[x + 1, z + 1] == 1 && map[x + 1, z - 1] == 1;
+    }
+
+    private bool ShouldAddDoorBottom(int z, int x)
+    {
+        return map[x, z - 1] == 0 && map[x - 1, z - 1] == 1 && map[x + 1, z - 1] == 1;
+    }
+
+    private bool ShouldAddDoorLeft(int z, int x)
+    {
+        return map[x - 1, z] == 0 && map[x - 1, z + 1] == 1 && map[x - 1, z - 1] == 1;
+    }
+
     {
     }
 
+    private bool PositionOnMapEdge(int x, int z)
     {
         return x <= 0 || x >= width - 1 || z <= 0 || z >= depth - 1;
     }
