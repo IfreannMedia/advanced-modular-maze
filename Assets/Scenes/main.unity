@@ -175,6 +175,7 @@ MonoBehaviour:
     type: 3}
   cornerPillar: {fileID: 8671647262600949619, guid: 2bacbe20d0f0da0478094c8463caf000,
     type: 3}
+  doorway: {fileID: 2947399344182589165, guid: 8bf05fd3aa35fb748bdcb0f40491f982, type: 3}
   player: {fileID: 5407462}
 --- !u!114 &5158075
 MonoBehaviour:
@@ -200,6 +201,7 @@ MonoBehaviour:
   floorPiece: {fileID: 0}
   cielingPiece: {fileID: 0}
   cornerPillar: {fileID: 0}
+  doorway: {fileID: 0}
   player: {fileID: 0}
 --- !u!114 &5158076
 MonoBehaviour:
@@ -225,6 +227,7 @@ MonoBehaviour:
   floorPiece: {fileID: 0}
   cielingPiece: {fileID: 0}
   cornerPillar: {fileID: 0}
+  doorway: {fileID: 0}
   player: {fileID: 0}
 --- !u!114 &5158077
 MonoBehaviour:
@@ -250,6 +253,7 @@ MonoBehaviour:
   floorPiece: {fileID: 0}
   cielingPiece: {fileID: 0}
   cornerPillar: {fileID: 0}
+  doorway: {fileID: 0}
   player: {fileID: 0}
 --- !u!4 &5158078
 Transform:
@@ -502,6 +506,7 @@ MonoBehaviour:
   floorPiece: {fileID: 0}
   cielingPiece: {fileID: 0}
   cornerPillar: {fileID: 0}
+  doorway: {fileID: 0}
   player: {fileID: 0}
 --- !u!114 &1201391781
 MonoBehaviour:
@@ -527,6 +532,7 @@ MonoBehaviour:
   floorPiece: {fileID: 0}
   cielingPiece: {fileID: 0}
   cornerPillar: {fileID: 0}
+  doorway: {fileID: 0}
   player: {fileID: 0}
 --- !u!114 &1201391782
 MonoBehaviour:
@@ -552,6 +558,7 @@ MonoBehaviour:
   floorPiece: {fileID: 0}
   cielingPiece: {fileID: 0}
   cornerPillar: {fileID: 0}
+  doorway: {fileID: 0}
   player: {fileID: 0}
 --- !u!114 &1201391783
 MonoBehaviour:
@@ -577,6 +584,7 @@ MonoBehaviour:
   floorPiece: {fileID: 0}
   cielingPiece: {fileID: 0}
   cornerPillar: {fileID: 0}
+  doorway: {fileID: 0}
   player: {fileID: 0}
 --- !u!1 &1565847500
 GameObject:

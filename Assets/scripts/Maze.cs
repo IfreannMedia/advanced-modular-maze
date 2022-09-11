@@ -36,6 +36,7 @@ public class Maze : MonoBehaviour
     public GameObject floorPiece;
     public GameObject cielingPiece;
     public GameObject cornerPillar;
+    public GameObject doorway;
 
     public FPController player;
 
@@ -62,6 +63,11 @@ public class Maze : MonoBehaviour
     private readonly int wildcard = 5;
 
     private List<MapLocation> pillarLocations = new List<MapLocation>();
+
+    private bool top;
+    private bool right;
+    private bool bottom;
+    private bool left;
 
     // Start is called before the first frame update
     void Start()
@@ -181,14 +187,14 @@ public class Maze : MonoBehaviour
         {
             Instantiate(junction, pos, GetJunctionRotation(matchedPattern));
         }
-        else if (ShouldAddRoomFloorPiece(x, z))
+        else if (!PositionOnMapEdge(x, z) && ShouldAddRoomFloorPiece(x, z))
         {
             Instantiate(floorPiece, pos, Quaternion.identity);
             Instantiate(cielingPiece, pos, Quaternion.identity);
             LocateWalls(x, z);
             GameObject wall;
             GameObject pillar;
-            if (top)
+            if (ShouldAddWallTop(x, z))
             {
                 wall = Instantiate(wallPiece, pos, Quaternion.identity);
                 wall.name = "wall-top";
@@ -207,7 +213,13 @@ public class Maze : MonoBehaviour
                     pillarLocations.Add(new MapLocation(x - 1, z));
                 }
             }
-            if (left)
+            else if (ShouldAddDoorTop(z, x))
+            {
+                GameObject door = Instantiate(doorway);
+                door.name = "door-top";
+                door.transform.rotation = Quaternion.Euler(0, 90, 0);
+            }
+            if (ShouldAddWallLeft(x, z))
             {
                 wall = Instantiate(wallPiece, pos, Quaternion.Euler(0, -90, 0));
                 wall.name = "wall-left";
@@ -226,7 +238,12 @@ public class Maze : MonoBehaviour
                     pillarLocations.Add(new MapLocation(x - 1, z - 1));
                 }
             }
-            if (right)
+            else if (ShouldAddDoorLeft(z, x))
+            {
+                door.transform.position = new Vector3(x * scale, 0, z * scale);
+                door.name = "door-left";
+            }
+            if (ShouldAddWallRight(x, z))
             {
                 wall = Instantiate(wallPiece, pos, Quaternion.Euler(0, 90, 0));
                 wall.name = "wall-right";
@@ -245,7 +262,14 @@ public class Maze : MonoBehaviour
                     pillarLocations.Add(new MapLocation(x, z - 1));
                 }
             }
-            if (bottom)
+            else if (ShouldAddDoorRight(z, x))
+            {
+                GameObject door = Instantiate(doorway);
+                door.transform.position = new Vector3(x * scale, 0, z * scale);
+                door.name = "door-right";
+                door.transform.rotation = Quaternion.Euler(0, 180, 0);
+            }
+            if (ShouldAddWallBottom(x, z))
             {
                 wall = Instantiate(wallPiece, pos, Quaternion.Euler(0, 180, 0));
                 wall.name = "wall-bottom";
@@ -264,6 +288,9 @@ public class Maze : MonoBehaviour
                     pillarLocations.Add(new MapLocation(x - 1, z - 1));
                 }
             }
+            else if (ShouldAddDoorBottom(z, x))
+            {
+            }
         }
         else
         {
@@ -273,12 +300,21 @@ public class Maze : MonoBehaviour
         }
     }
 
-    bool top;
-    bool bottom;
-    bool left;
-    bool right;
+    private bool ShouldAddDoorTop(int z, int x)
+    {
+        return map[x, z + 1] == 0 && map[x - 1, z + 1] == 1 && map[x + 1, z + 1] == 1;
+    }
 
-    public void LocateWalls(int x, int z)
+    private bool ShouldAddDoorRight(int z, int x)
+    {
+    {
+    }
+
+    {
+        return x <= 0 || x >= width - 1 || z <= 0 || z >= depth - 1;
+    }
+
+    private void LocateWalls(int x, int z)
     {
         top = false;
         right = false;
@@ -293,6 +329,7 @@ public class Maze : MonoBehaviour
         if (map[x - 1, z] == 1) left = true;
     }
 
+
     public virtual bool ShouldAddRoomFloorPiece(int x, int z)
     {
         return map[x, z] == 0
@@ -301,14 +338,6 @@ public class Maze : MonoBehaviour
             || CountSquareNeighbours(x, z) >= 1
             && CountDiagonalNeighbours(x, z) > 1);
     }
-
-    //private GameObject GetCornerPiece(int[] pattern)
-    //{
-    //    if (pattern == cornerLeftBottom || pattern == cornerLeftTop)
-    //        return cornerStraight;
-    //    else
-    //        return cornerCurved;
-    //}
 
     private Quaternion GetCornerRotation(int[] pattern)
     {
