@@ -64,10 +64,10 @@ public class Maze : MonoBehaviour
 
     private List<MapLocation> pillarLocations = new List<MapLocation>();
 
-    private bool top;
-    private bool right;
-    private bool bottom;
-    private bool left;
+    //private bool top;
+    //private bool right;
+    //private bool bottom;
+    //private bool left;
 
     // Start is called before the first frame update
     void Start()
@@ -148,13 +148,13 @@ public class Maze : MonoBehaviour
                 }
                 else
                 {
-                    PlaceWalkablePiece(z, x, pos);
+                    PlaceWalkablePiece(x, z, pos);
                 }
 
             }
     }
 
-    private void PlaceWalkablePiece(int z, int x, Vector3 pos)
+    private void PlaceWalkablePiece(int x, int z, Vector3 pos)
     {
         int[] matchedPattern = HasMatchedPattern(x, z, new int[][] { verticalStraight, horizontalStraight,
                         cornerLeftBottom, cornerLeftTop, cornerRightBottom, cornerRightTop,
@@ -191,9 +191,9 @@ public class Maze : MonoBehaviour
         {
             Instantiate(floorPiece, pos, Quaternion.identity);
             Instantiate(cielingPiece, pos, Quaternion.identity);
-            LocateWalls(x, z);
             GameObject wall;
             GameObject pillar;
+            // walls and pillars
             if (ShouldAddWallTop(x, z))
             {
                 wall = Instantiate(wallPiece, pos, Quaternion.identity);
@@ -202,6 +202,7 @@ public class Maze : MonoBehaviour
                 {
                     pillar = Instantiate(cornerPillar);
                     pillar.transform.position = new Vector3(x * scale, 0, z * scale);
+                    pillar.transform.localScale = new Vector3(1.01f, 1.00f, 1.01f);
                     pillar.name = "pillar-top-right";
                     pillarLocations.Add(new MapLocation(x, z));
                 }
@@ -209,16 +210,10 @@ public class Maze : MonoBehaviour
                 {
                     pillar = Instantiate(cornerPillar);
                     pillar.transform.position = new Vector3((x - 1) * scale, 0, z * scale);
+                    pillar.transform.localScale = new Vector3(1.01f, 1.00f, 1.01f);
                     pillar.name = "pillar-top-left";
                     pillarLocations.Add(new MapLocation(x - 1, z));
                 }
-            }
-            else if (ShouldAddDoorTop(z, x))
-            {
-                GameObject door = Instantiate(doorway);
-                door.transform.position = new Vector3(x * scale, 0, z * scale);
-                door.name = "door-top";
-                door.transform.rotation = Quaternion.Euler(0, 90, 0);
             }
             if (ShouldAddWallLeft(x, z))
             {
@@ -228,6 +223,7 @@ public class Maze : MonoBehaviour
                 {
                     pillar = Instantiate(cornerPillar);
                     pillar.transform.position = new Vector3((x - 1) * scale, 0, z * scale);
+                    pillar.transform.localScale = new Vector3(1.01f, 1.00f, 1.01f);
                     pillar.name = "pillar-left-top";
                     pillarLocations.Add(new MapLocation(x - 1, z));
                 }
@@ -235,15 +231,10 @@ public class Maze : MonoBehaviour
                 {
                     pillar = Instantiate(cornerPillar);
                     pillar.transform.position = new Vector3((x - 1) * scale, 0, (z - 1) * scale);
+                    pillar.transform.localScale = new Vector3(1.01f, 1.00f, 1.01f);
                     pillar.name = "pillar-left-bottom";
                     pillarLocations.Add(new MapLocation(x - 1, z - 1));
                 }
-            }
-            else if (ShouldAddDoorLeft(z, x))
-            {
-                GameObject door = Instantiate(doorway);
-                door.transform.position = new Vector3(x * scale, 0, z * scale);
-                door.name = "door-left";
             }
             if (ShouldAddWallRight(x, z))
             {
@@ -253,6 +244,7 @@ public class Maze : MonoBehaviour
                 {
                     pillar = Instantiate(cornerPillar);
                     pillar.transform.position = new Vector3(x * scale, 0, z * scale);
+                    pillar.transform.localScale = new Vector3(1.01f, 1.00f, 1.01f);
                     pillar.name = "pillar-right-top";
                     pillarLocations.Add(new MapLocation(x, z));
                 }
@@ -260,16 +252,10 @@ public class Maze : MonoBehaviour
                 {
                     pillar = Instantiate(cornerPillar);
                     pillar.transform.position = new Vector3(x * scale, 0, (z - 1) * scale);
+                    pillar.transform.localScale = new Vector3(1.01f, 1.00f, 1.01f);
                     pillar.name = "pillar-right-bottom";
                     pillarLocations.Add(new MapLocation(x, z - 1));
                 }
-            }
-            else if (ShouldAddDoorRight(z, x))
-            {
-                GameObject door = Instantiate(doorway);
-                door.transform.position = new Vector3(x * scale, 0, z * scale);
-                door.name = "door-right";
-                door.transform.rotation = Quaternion.Euler(0, 180, 0);
             }
             if (ShouldAddWallBottom(x, z))
             {
@@ -279,6 +265,7 @@ public class Maze : MonoBehaviour
                 {
                     pillar = Instantiate(cornerPillar);
                     pillar.transform.position = new Vector3(x * scale, 0, (z - 1) * scale);
+                    pillar.transform.localScale = new Vector3(1.01f, 1.00f, 1.01f);
                     pillar.name = "pillar-bottom-right";
                     pillarLocations.Add(new MapLocation(x, z - 1));
                 }
@@ -286,16 +273,43 @@ public class Maze : MonoBehaviour
                 {
                     pillar = Instantiate(cornerPillar);
                     pillar.transform.position = new Vector3((x - 1) * scale, 0, (z - 1) * scale);
+                    pillar.transform.localScale = new Vector3(1.01f, 1.00f, 1.01f);
                     pillar.name = "pillar-bottom-left";
                     pillarLocations.Add(new MapLocation(x - 1, z - 1));
                 }
             }
-            else if (ShouldAddDoorBottom(z, x))
+
+            // doors
+            if (ShouldAddDoorTop(x, z))
             {
                 GameObject door = Instantiate(doorway);
                 door.transform.position = new Vector3(x * scale, 0, z * scale);
                 door.name = "door-top";
                 door.transform.rotation = Quaternion.Euler(0, 90, 0);
+                door.transform.Translate(0, 0, 0.01f);
+            }
+            if (ShouldAddDoorBottom(x, z))
+            {
+                GameObject door = Instantiate(doorway);
+                door.transform.position = new Vector3(x * scale, 0, z * scale);
+                door.name = "door-bottom";
+                door.transform.rotation = Quaternion.Euler(0, -90, 0);
+                door.transform.Translate(0, 0, -0.01f);
+            }
+            if (ShouldAddDoorRight(x, z))
+            {
+                GameObject door = Instantiate(doorway);
+                door.transform.position = new Vector3(x * scale, 0, z * scale);
+                door.name = "door-right";
+                door.transform.rotation = Quaternion.Euler(0, 180, 0);
+                door.transform.Translate(-0.01f, 0, 0);
+            }
+            if (ShouldAddDoorLeft(x, z))
+            {
+                GameObject door = Instantiate(doorway);
+                door.transform.position = new Vector3(x * scale, 0, z * scale);
+                door.name = "door-left";
+                door.transform.Translate(0.01f, 0, 0);
             }
         }
         else
@@ -306,42 +320,42 @@ public class Maze : MonoBehaviour
         }
     }
 
-    private bool ShouldAddDoorTop(int z, int x)
+    private bool ShouldAddDoorTop(int x, int z)
     {
         return map[x, z + 1] == 0 && map[x - 1, z + 1] == 1 && map[x + 1, z + 1] == 1;
     }
 
-    private bool ShouldAddDoorRight(int z, int x)
+    private bool ShouldAddDoorRight(int x, int z)
     {
         return map[x + 1, z] == 0 && map[x + 1, z + 1] == 1 && map[x + 1, z - 1] == 1;
     }
 
-    private bool ShouldAddDoorBottom(int z, int x)
+    private bool ShouldAddDoorBottom(int x, int z)
     {
         return map[x, z - 1] == 0 && map[x - 1, z - 1] == 1 && map[x + 1, z - 1] == 1;
     }
 
-    private bool ShouldAddDoorLeft(int z, int x)
+    private bool ShouldAddDoorLeft(int x, int z)
     {
         return map[x - 1, z] == 0 && map[x - 1, z + 1] == 1 && map[x - 1, z - 1] == 1;
     }
 
-    private bool ShouldAddWallTop(int z, int x)
+    private bool ShouldAddWallTop(int x, int z)
     {
         return map[x, z + 1] == 1;
     }
 
-    private bool ShouldAddWallRight(int z, int x)
+    private bool ShouldAddWallRight(int x, int z)
     {
         return map[x + 1, z] == 1;
     }
 
-    private bool ShouldAddWallBottom(int z, int x)
+    private bool ShouldAddWallBottom(int x, int z)
     {
         return map[x, z - 1] == 1;
     }
 
-    private bool ShouldAddWallLeft(int z, int x)
+    private bool ShouldAddWallLeft(int x, int z)
     {
         return map[x - 1, z] == 1;
     }
@@ -351,20 +365,20 @@ public class Maze : MonoBehaviour
         return x <= 0 || x >= width - 1 || z <= 0 || z >= depth - 1;
     }
 
-    private void LocateWalls(int x, int z)
-    {
-        top = false;
-        right = false;
-        bottom = false;
-        left = false;
-        // return if we are on the edge of the map
-        if (x <= 0 || x >= width - 1 || z <= 0 || z >= depth - 1) return;
+    //private void LocateWalls(int x, int z)
+    //{
+    //    top = false;
+    //    right = false;
+    //    bottom = false;
+    //    left = false;
+    //    // return if we are on the edge of the map
+    //    if (x <= 0 || x >= width - 1 || z <= 0 || z >= depth - 1) return;
 
-        if (map[x, z + 1] == 1) top = true; // wall above current grid position
-        if (map[x, z - 1] == 1) bottom = true;
-        if (map[x + 1, z] == 1) right = true;
-        if (map[x - 1, z] == 1) left = true;
-    }
+    //    if (map[x, z + 1] == 1) top = true; // wall above current grid position
+    //    if (map[x, z - 1] == 1) bottom = true;
+    //    if (map[x + 1, z] == 1) right = true;
+    //    if (map[x - 1, z] == 1) left = true;
+    //}
 
 
     public virtual bool ShouldAddRoomFloorPiece(int x, int z)
