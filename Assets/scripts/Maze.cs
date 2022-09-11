@@ -176,11 +176,55 @@ public class Maze : MonoBehaviour
                     //GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
                     //wall.transform.localScale = new Vector3(scale, scale, scale);
                     //wall.transform.position = pos;
+                    //Debug.Log("setting piece to wall: " + x + ", " + z);
                     piecePlaces[x, z] = new Pieces(PIECE_TYPE.WALL, null);
                 }
                 else
                 {
                     PlaceWalkablePiece(x, z, pos);
+                }
+
+            }
+
+        for (int z = 0; z < depth; z++)
+            for (int x = 0; x < width; x++)
+            {
+                if (piecePlaces[x, z].piece != PIECE_TYPE.ROOM) continue;
+                Vector3 pos = new Vector3(x * scale, 0, z * scale);
+                if (map[x, z] != 1)
+                {
+   
+                    if (ShouldAddDoorTop(x, z))
+                    {
+                        GameObject door = Instantiate(doorway);
+                        door.transform.position = new Vector3(x * scale, 0, z * scale);
+                        door.name = "door-top";
+                        door.transform.rotation = Quaternion.Euler(0, 90, 0);
+                        door.transform.Translate(0, 0, 0.01f);
+                    }
+                    if (ShouldAddDoorBottom(x, z))
+                    {
+                        GameObject door = Instantiate(doorway);
+                        door.transform.position = new Vector3(x * scale, 0, z * scale);
+                        door.name = "door-bottom";
+                        door.transform.rotation = Quaternion.Euler(0, -90, 0);
+                        door.transform.Translate(0, 0, -0.01f);
+                    }
+                    if (ShouldAddDoorRight(x, z))
+                    {
+                        GameObject door = Instantiate(doorway);
+                        door.transform.position = new Vector3(x * scale, 0, z * scale);
+                        door.name = "door-right";
+                        door.transform.rotation = Quaternion.Euler(0, 180, 0);
+                        door.transform.Translate(-0.01f, 0, 0);
+                    }
+                    if (ShouldAddDoorLeft(x, z))
+                    {
+                        GameObject door = Instantiate(doorway);
+                        door.transform.position = new Vector3(x * scale, 0, z * scale);
+                        door.name = "door-left";
+                        door.transform.Translate(0.01f, 0, 0);
+                    }
                 }
 
             }
@@ -228,6 +272,7 @@ public class Maze : MonoBehaviour
             // walls and pillars
             if (ShouldAddWallTop(x, z))
             {
+                Debug.Log("WILL NOW set top wall: " + x + ", " + z);
                 wall = Instantiate(wallPiece, pos, Quaternion.identity);
                 wall.name = "wall-top";
                 if (map[x + 1, z] == 0 && map[x + 1, z + 1] == 0 && !pillarLocations.Contains(new MapLocation(x, z)))
@@ -310,66 +355,27 @@ public class Maze : MonoBehaviour
                     pillarLocations.Add(new MapLocation(x - 1, z - 1));
                 }
             }
-
-            // doors
-            if (ShouldAddDoorTop(x, z))
-            {
-                GameObject door = Instantiate(doorway);
-                door.transform.position = new Vector3(x * scale, 0, z * scale);
-                door.name = "door-top";
-                door.transform.rotation = Quaternion.Euler(0, 90, 0);
-                door.transform.Translate(0, 0, 0.01f);
-            }
-            if (ShouldAddDoorBottom(x, z))
-            {
-                GameObject door = Instantiate(doorway);
-                door.transform.position = new Vector3(x * scale, 0, z * scale);
-                door.name = "door-bottom";
-                door.transform.rotation = Quaternion.Euler(0, -90, 0);
-                door.transform.Translate(0, 0, -0.01f);
-            }
-            if (ShouldAddDoorRight(x, z))
-            {
-                GameObject door = Instantiate(doorway);
-                door.transform.position = new Vector3(x * scale, 0, z * scale);
-                door.name = "door-right";
-                door.transform.rotation = Quaternion.Euler(0, 180, 0);
-                door.transform.Translate(-0.01f, 0, 0);
-            }
-            if (ShouldAddDoorLeft(x, z))
-            {
-                GameObject door = Instantiate(doorway);
-                door.transform.position = new Vector3(x * scale, 0, z * scale);
-                door.name = "door-left";
-                door.transform.Translate(0.01f, 0, 0);
-            }
-        }
-        else
-        {
-            GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            wall.transform.localScale = new Vector3(scale, scale, scale);
-            wall.transform.position = pos;
         }
     }
 
     private bool ShouldAddDoorTop(int x, int z)
     {
-        return map[x, z + 1] == 0 && map[x - 1, z + 1] == 1 && map[x + 1, z + 1] == 1;
+        return piecePlaces[x, z + 1].piece != PIECE_TYPE.WALL && piecePlaces[x - 1, z + 1].piece == PIECE_TYPE.WALL && piecePlaces[x + 1, z + 1].piece == PIECE_TYPE.WALL;
     }
 
     private bool ShouldAddDoorRight(int x, int z)
     {
-        return map[x + 1, z] == 0 && map[x + 1, z + 1] == 1 && map[x + 1, z - 1] == 1;
+        return piecePlaces[x + 1, z].piece != PIECE_TYPE.WALL && piecePlaces[x + 1, z + 1].piece == PIECE_TYPE.WALL && piecePlaces[x + 1, z - 1].piece == PIECE_TYPE.WALL;
     }
 
     private bool ShouldAddDoorBottom(int x, int z)
     {
-        return map[x, z - 1] == 0 && map[x - 1, z - 1] == 1 && map[x + 1, z - 1] == 1;
+        return piecePlaces[x, z - 1].piece != PIECE_TYPE.WALL && piecePlaces[x - 1, z - 1].piece == PIECE_TYPE.WALL && piecePlaces[x + 1, z - 1].piece == PIECE_TYPE.WALL;
     }
 
     private bool ShouldAddDoorLeft(int x, int z)
     {
-        return map[x - 1, z] == 0 && map[x - 1, z + 1] == 1 && map[x - 1, z - 1] == 1;
+        return piecePlaces[x - 1, z].piece != PIECE_TYPE.WALL && piecePlaces[x - 1, z + 1].piece == PIECE_TYPE.WALL && piecePlaces[x - 1, z - 1].piece == PIECE_TYPE.WALL;
     }
 
     private bool ShouldAddWallTop(int x, int z)
