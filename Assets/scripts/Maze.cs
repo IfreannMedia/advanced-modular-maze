@@ -20,6 +20,7 @@ public class Maze : MonoBehaviour
                                             new MapLocation(0,1),
                                             new MapLocation(-1,0),
                                             new MapLocation(0,-1) };
+
     public int width = 30; //x length
     public int depth = 30; //z length
     public byte[,] map;
@@ -59,6 +60,8 @@ public class Maze : MonoBehaviour
     private int[] cornerRightTop = new int[] { 5, 1, 5, 0, 0, 1, 1, 0, 5 };
 
     private readonly int wildcard = 5;
+
+    private List<MapLocation> pillarLocations = new List<MapLocation>();
 
     // Start is called before the first frame update
     void Start()
@@ -189,60 +192,76 @@ public class Maze : MonoBehaviour
             {
                 wall = Instantiate(wallPiece, pos, Quaternion.identity);
                 wall.name = "wall-top";
-                if (map[x + 1,z] == 0 && map[x +1, z +1] == 0)
+                if (map[x + 1, z] == 0 && map[x + 1, z + 1] == 0 && !pillarLocations.Contains(new MapLocation(x, z)))
                 {
-                    pillar = Instantiate(cornerPillar, pos, Quaternion.identity);
+                    pillar = Instantiate(cornerPillar);
+                    pillar.transform.position = new Vector3(x * scale, 0, z * scale);
                     pillar.name = "pillar-top-right";
+                    pillarLocations.Add(new MapLocation(x, z));
                 }
-                if (map[x - 1, z] == 0 && map[x - 1, z + 1] == 0)
+                if (map[x - 1, z] == 0 && map[x - 1, z + 1] == 0 && !pillarLocations.Contains(new MapLocation(x - 1, z)))
                 {
-                    pillar = Instantiate(cornerPillar, pos, Quaternion.Euler(0, -90, 0));
+                    pillar = Instantiate(cornerPillar);
+                    pillar.transform.position = new Vector3((x - 1) * scale, 0, z * scale);
                     pillar.name = "pillar-top-left";
+                    pillarLocations.Add(new MapLocation(x - 1, z));
                 }
             }
             if (left)
             {
-                wall = Instantiate(wallPiece, pos, Quaternion.Euler(0,-90,0));
+                wall = Instantiate(wallPiece, pos, Quaternion.Euler(0, -90, 0));
                 wall.name = "wall-left";
-                if (map[x, z+1] == 0 && map[x - 1, z + 1] == 0)
+                if (map[x, z + 1] == 0 && map[x - 1, z + 1] == 0 && !pillarLocations.Contains(new MapLocation(x - 1, z)))
                 {
-                    pillar = Instantiate(cornerPillar, pos, Quaternion.Euler(0, -90, 0));
+                    pillar = Instantiate(cornerPillar);
+                    pillar.transform.position = new Vector3((x - 1) * scale, 0, z * scale);
                     pillar.name = "pillar-left-top";
+                    pillarLocations.Add(new MapLocation(x - 1, z));
                 }
-                if (map[x, z-1] == 0 && map[x - 1, z - 1] == 0)
+                if (map[x, z - 1] == 0 && map[x - 1, z - 1] == 0 && !pillarLocations.Contains(new MapLocation(x - 1, z - 1)))
                 {
-                    pillar = Instantiate(cornerPillar, pos, Quaternion.Euler(0, 180, 0));
+                    pillar = Instantiate(cornerPillar);
+                    pillar.transform.position = new Vector3((x - 1) * scale, 0, (z - 1) * scale);
                     pillar.name = "pillar-left-bottom";
+                    pillarLocations.Add(new MapLocation(x - 1, z - 1));
                 }
             }
             if (right)
             {
                 wall = Instantiate(wallPiece, pos, Quaternion.Euler(0, 90, 0));
                 wall.name = "wall-right";
-                if (map[x, z + 1] == 0 && map[x + 1, z + 1] == 0)
+                if (map[x, z + 1] == 0 && map[x + 1, z + 1] == 0 && !pillarLocations.Contains(new MapLocation(x, z)))
                 {
-                    pillar = Instantiate(cornerPillar, pos, Quaternion.identity);
+                    pillar = Instantiate(cornerPillar);
+                    pillar.transform.position = new Vector3(x * scale, 0, z * scale);
                     pillar.name = "pillar-right-top";
+                    pillarLocations.Add(new MapLocation(x, z));
                 }
-                if (map[x, z - 1] == 0 && map[x + 1, z - 1] == 0)
+                if (map[x, z - 1] == 0 && map[x + 1, z - 1] == 0 && !pillarLocations.Contains(new MapLocation(x, z - 1)))
                 {
-                    pillar = Instantiate(cornerPillar, pos, Quaternion.Euler(0, 90, 0));
+                    pillar = Instantiate(cornerPillar);
+                    pillar.transform.position = new Vector3(x * scale, 0, (z - 1) * scale);
                     pillar.name = "pillar-right-bottom";
+                    pillarLocations.Add(new MapLocation(x, z - 1));
                 }
             }
             if (bottom)
             {
                 wall = Instantiate(wallPiece, pos, Quaternion.Euler(0, 180, 0));
                 wall.name = "wall-bottom";
-                if (map[x + 1, z] == 0 && map[x + 1, z - 1] == 0)
+                if (map[x + 1, z] == 0 && map[x + 1, z - 1] == 0 && !pillarLocations.Contains(new MapLocation(x, z - 1)))
                 {
-                    pillar = Instantiate(cornerPillar, pos, Quaternion.Euler(0,90,0));
+                    pillar = Instantiate(cornerPillar);
+                    pillar.transform.position = new Vector3(x * scale, 0, (z - 1) * scale);
                     pillar.name = "pillar-bottom-right";
+                    pillarLocations.Add(new MapLocation(x, z - 1));
                 }
-                if (map[x - 1, z] == 0 && map[x - 1, z - 1] == 0)
+                if (map[x - 1, z] == 0 && map[x - 1, z - 1] == 0 && !pillarLocations.Contains(new MapLocation(x - 1, z - 1)))
                 {
-                    pillar = Instantiate(cornerPillar, pos, Quaternion.Euler(0, 180, 0));
+                    pillar = Instantiate(cornerPillar);
+                    pillar.transform.position = new Vector3((x - 1) * scale, 0, (z - 1) * scale);
                     pillar.name = "pillar-bottom-left";
+                    pillarLocations.Add(new MapLocation(x - 1, z - 1));
                 }
             }
         }
