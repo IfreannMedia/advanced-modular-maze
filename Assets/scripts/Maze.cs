@@ -326,7 +326,24 @@ public class Maze : MonoBehaviour
         return map[x - 1, z] == 0 && map[x - 1, z + 1] == 1 && map[x - 1, z - 1] == 1;
     }
 
+    private bool ShouldAddWallTop(int z, int x)
     {
+        return map[x, z + 1] == 1;
+    }
+
+    private bool ShouldAddWallRight(int z, int x)
+    {
+        return map[x + 1, z] == 1;
+    }
+
+    private bool ShouldAddWallBottom(int z, int x)
+    {
+        return map[x, z - 1] == 1;
+    }
+
+    private bool ShouldAddWallLeft(int z, int x)
+    {
+        return map[x - 1, z] == 1;
     }
 
     private bool PositionOnMapEdge(int x, int z)
