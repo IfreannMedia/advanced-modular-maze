@@ -164,7 +164,7 @@ public class Maze : MonoBehaviour
             {
                 if (map[x, z] == 0)
                 {
-                    FPC.transform.position = new Vector3(x * scale, 0, z * scale);
+                    FPC.transform.position = new Vector3(x * scale, level, z * scale);
                     return;
                 }
             }
@@ -182,6 +182,7 @@ public class Maze : MonoBehaviour
 
     void DrawMap()
     {
+        int height = level;
         for (int z = 0; z < depth; z++)
             for (int x = 0; x < width; x++)
             {
@@ -198,7 +199,7 @@ public class Maze : MonoBehaviour
                 else if (Search2D(x, z, new int[] { 5, 1, 5, 0, 0, 1, 5, 1, 5 })) //horizontal end piece -|
                 {
                     GameObject block = Instantiate(EndpieceRight.prefab);
-                    block.transform.position = new Vector3(x * scale, 0, z * scale);
+                    block.transform.position = new Vector3(x * scale, height, z * scale);
                     block.transform.Rotate(EndpieceRight.rotation);
 
                     piecePlaces[x, z].piece = PieceType.DeadToRight;
@@ -208,7 +209,7 @@ public class Maze : MonoBehaviour
                 else if (Search2D(x, z, new int[] { 5, 1, 5, 1, 0, 0, 5, 1, 5 })) //horizontal end piece |-
                 {
                     GameObject block = Instantiate(EndpieceLeft.prefab);
-                    block.transform.position = new Vector3(x * scale, 0, z * scale);
+                    block.transform.position = new Vector3(x * scale, height, z * scale);
                     block.transform.Rotate(EndpieceLeft.rotation);
                     piecePlaces[x, z].piece = PieceType.DeadToLeft;
                     piecePlaces[x, z].model = block;
@@ -217,7 +218,7 @@ public class Maze : MonoBehaviour
                 else if (Search2D(x, z, new int[] { 5, 1, 5, 1, 0, 1, 5, 0, 5 })) //vertical end piece T
                 {
                     GameObject block = Instantiate(Endpiece.prefab);
-                    block.transform.position = new Vector3(x * scale, 0, z * scale);
+                    block.transform.position = new Vector3(x * scale, height, z * scale);
                     block.transform.Rotate(Endpiece.rotation);
                     piecePlaces[x, z].piece = PieceType.DeadEnd;
                     piecePlaces[x, z].model = block;
@@ -225,14 +226,14 @@ public class Maze : MonoBehaviour
                 else if (Search2D(x, z, new int[] { 5, 0, 5, 1, 0, 1, 5, 1, 5 })) //vertical end piece upside downT
                 {
                     GameObject block = Instantiate(EndpieceUpsideDown.prefab);
-                    block.transform.position = new Vector3(x * scale, 0, z * scale);
+                    block.transform.position = new Vector3(x * scale, height, z * scale);
                     block.transform.Rotate(EndpieceUpsideDown.rotation);
                     piecePlaces[x, z].piece = PieceType.DeadUpsideDown;
                     piecePlaces[x, z].model = block;
                 }
                 else if (Search2D(x, z, new int[] { 5, 0, 5, 1, 0, 1, 5, 0, 5 })) //vertical straight
                 {
-                    Vector3 pos = new Vector3(x * scale, 0, z * scale);
+                    Vector3 pos = new Vector3(x * scale, height, z * scale);
                     GameObject go = Instantiate(VerticalStraight.prefab, pos, Quaternion.identity);
                     go.transform.Rotate(VerticalStraight.rotation);
                     piecePlaces[x, z].piece = PieceType.Vertical_Straight;
@@ -240,7 +241,7 @@ public class Maze : MonoBehaviour
                 }
                 else if (Search2D(x, z, new int[] { 5, 1, 5, 0, 0, 0, 5, 1, 5 })) //horizontal straight
                 {
-                    Vector3 pos = new Vector3(x * scale, 0, z * scale);
+                    Vector3 pos = new Vector3(x * scale, height, z * scale);
                     GameObject go = Instantiate(HorizontalStraight.prefab, pos, Quaternion.identity);
                     go.transform.Rotate(HorizontalStraight.rotation);
                     piecePlaces[x, z].piece = PieceType.Horizontal_Straight;
@@ -250,7 +251,7 @@ public class Maze : MonoBehaviour
                 else if (Search2D(x, z, new int[] { 1, 0, 1, 0, 0, 0, 1, 0, 1 })) //crossroad
                 {
                     GameObject go = Instantiate(Crossroad.prefab);
-                    go.transform.position = new Vector3(x * scale, 0, z * scale);
+                    go.transform.position = new Vector3(x * scale, height, z * scale);
                     go.transform.Rotate(Crossroad.rotation);
                     piecePlaces[x, z].piece = PieceType.Crossroad;
                     piecePlaces[x, z].model = go;
@@ -258,7 +259,7 @@ public class Maze : MonoBehaviour
                 else if (Search2D(x, z, new int[] { 5, 1, 5, 0, 0, 1, 1, 0, 5 })) //upper left corner
                 {
                     GameObject go = Instantiate(LeftUpCorner.prefab);
-                    go.transform.position = new Vector3(x * scale, 0, z * scale);
+                    go.transform.position = new Vector3(x * scale, height, z * scale);
                     go.transform.Rotate(LeftUpCorner.rotation);
                     piecePlaces[x, z].piece = PieceType.Left_Up_Corner;
                     piecePlaces[x, z].model = go;
@@ -266,7 +267,7 @@ public class Maze : MonoBehaviour
                 else if (Search2D(x, z, new int[] { 5, 1, 5, 1, 0, 0, 5, 0, 1 })) //upper right corner
                 {
                     GameObject go = Instantiate(RightUpCorner.prefab);
-                    go.transform.position = new Vector3(x * scale, 0, z * scale);
+                    go.transform.position = new Vector3(x * scale, height, z * scale);
                     go.transform.Rotate(RightUpCorner.rotation);
                     piecePlaces[x, z].piece = PieceType.Right_Up_Corner;
                     piecePlaces[x, z].model = go;
@@ -274,7 +275,7 @@ public class Maze : MonoBehaviour
                 else if (Search2D(x, z, new int[] { 5, 0, 1, 1, 0, 0, 5, 1, 5 })) //lower right corner
                 {
                     GameObject go = Instantiate(RightDownCorner.prefab);
-                    go.transform.position = new Vector3(x * scale, 0, z * scale);
+                    go.transform.position = new Vector3(x * scale, height, z * scale);
                     go.transform.Rotate(RightDownCorner.rotation);
                     piecePlaces[x, z].piece = PieceType.Right_Down_Corner;
                     piecePlaces[x, z].model = go;
@@ -282,7 +283,7 @@ public class Maze : MonoBehaviour
                 else if (Search2D(x, z, new int[] { 1, 0, 5, 5, 0, 1, 5, 1, 5 })) //lower left corner
                 {
                     GameObject go = Instantiate(LeftDownCorner.prefab);
-                    go.transform.position = new Vector3(x * scale, 0, z * scale);
+                    go.transform.position = new Vector3(x * scale, height, z * scale);
                     go.transform.Rotate(LeftDownCorner.rotation);
                     piecePlaces[x, z].piece = PieceType.Left_Down_Corner;
                     piecePlaces[x, z].model = go;
@@ -290,7 +291,7 @@ public class Maze : MonoBehaviour
                 else if (Search2D(x, z, new int[] { 1, 0, 1, 0, 0, 0, 5, 1, 5 })) //tjunc  upsidedown T
                 {
                     GameObject go = Instantiate(tIntersectionUpsideDown.prefab);
-                    go.transform.position = new Vector3(x * scale, 0, z * scale);
+                    go.transform.position = new Vector3(x * scale, height, z * scale);
                     go.transform.Rotate(tIntersectionUpsideDown.rotation);
                     piecePlaces[x, z].piece = PieceType.TUpsideDown;
                     piecePlaces[x, z].model = go;
@@ -298,7 +299,7 @@ public class Maze : MonoBehaviour
                 else if (Search2D(x, z, new int[] { 5, 1, 5, 0, 0, 0, 1, 0, 1 })) //tjunc  T
                 {
                     GameObject go = Instantiate(tIntersection.prefab);
-                    go.transform.position = new Vector3(x * scale, 0, z * scale);
+                    go.transform.position = new Vector3(x * scale, height, z * scale);
                     go.transform.Rotate(tIntersection.rotation);
                     piecePlaces[x, z].piece = PieceType.T_Junction;
                     piecePlaces[x, z].model = go;
@@ -306,7 +307,7 @@ public class Maze : MonoBehaviour
                 else if (Search2D(x, z, new int[] { 1, 0, 5, 0, 0, 1, 1, 0, 5 })) //tjunc  -|
                 {
                     GameObject go = Instantiate(tIntersectionRight.prefab);
-                    go.transform.position = new Vector3(x * scale, 0, z * scale);
+                    go.transform.position = new Vector3(x * scale, height, z * scale);
                     go.transform.Rotate(tIntersectionRight.rotation);
                     piecePlaces[x, z].piece = PieceType.TToRight;
                     piecePlaces[x, z].model = go;
@@ -314,7 +315,7 @@ public class Maze : MonoBehaviour
                 else if (Search2D(x, z, new int[] { 5, 0, 1, 1, 0, 0, 5, 0, 1 })) //tjunc  |-
                 {
                     GameObject go = Instantiate(tIntersectionLeft.prefab);
-                    go.transform.position = new Vector3(x * scale, 0, z * scale);
+                    go.transform.position = new Vector3(x * scale, height, z * scale);
                     go.transform.Rotate(tIntersectionLeft.rotation);
                     piecePlaces[x, z].piece = PieceType.TToLeft;
                     piecePlaces[x, z].model = go;
@@ -323,10 +324,10 @@ public class Maze : MonoBehaviour
                                             CountSquareNeighbours(x, z) >= 1 && CountDiagonalNeighbours(x, z) > 1))
                 {
                     GameObject floor = Instantiate(Floorpiece.prefab);
-                    floor.transform.position = new Vector3(x * scale, 0, z * scale);
+                    floor.transform.position = new Vector3(x * scale, height, z * scale);
 
                     GameObject ceiling = Instantiate(Ceilingpiece.prefab);
-                    ceiling.transform.position = new Vector3(x * scale, 0, z * scale);
+                    ceiling.transform.position = new Vector3(x * scale, height, z * scale);
 
                     piecePlaces[x, z].piece = PieceType.Room;
                     piecePlaces[x, z].model = floor;
@@ -336,14 +337,14 @@ public class Maze : MonoBehaviour
                     if (top)
                     {
                         GameObject wall1 = Instantiate(WallpieceTop.prefab);
-                        wall1.transform.position = new Vector3(x * scale, 0, z * scale);
+                        wall1.transform.position = new Vector3(x * scale, height, z * scale);
                         wall1.transform.Rotate(WallpieceTop.rotation);
                         wall1.name = "Top Wall";
 
                         if (map[x + 1, z] == 0 && map[x + 1, z + 1] == 0 && !pillarLocations.Contains(new MapLocation(x,z)))
                         {
                             pillarCorner = Instantiate(Pillar.prefab);
-                            pillarCorner.transform.position = new Vector3(x * scale, 0, z * scale);
+                            pillarCorner.transform.position = new Vector3(x * scale, height, z * scale);
                             pillarCorner.name = "Top Right";
                             pillarLocations.Add(new MapLocation(x, z));
                             pillarCorner.transform.localScale = new Vector3(1.01f, 1, 1.01f);
@@ -352,7 +353,7 @@ public class Maze : MonoBehaviour
                         if (map[x - 1, z] == 0 && map[x - 1, z + 1] == 0 && !pillarLocations.Contains(new MapLocation(x - 1, z)))
                         {
                             pillarCorner = Instantiate(Pillar.prefab);
-                            pillarCorner.transform.position = new Vector3((x-1) * scale, 0, z * scale);
+                            pillarCorner.transform.position = new Vector3((x-1) * scale, height, z * scale);
                             pillarCorner.name = "Top Left";
                             pillarLocations.Add(new MapLocation(x - 1, z));
                             pillarCorner.transform.localScale = new Vector3(1.01f, 1, 1.01f);
@@ -362,14 +363,14 @@ public class Maze : MonoBehaviour
                     if (bottom)
                     {
                         GameObject wall2 = Instantiate(WallpieceBottom.prefab);
-                        wall2.transform.position = new Vector3(x * scale, 0, z * scale);
+                        wall2.transform.position = new Vector3(x * scale, height, z * scale);
                         wall2.transform.Rotate(WallpieceBottom.rotation);
                         wall2.name = "Bottom Wall";
 
                         if (map[x + 1, z] == 0 && map[x + 1, z - 1] == 0 && !pillarLocations.Contains(new MapLocation(x, z - 1)))
                         {
                             pillarCorner = Instantiate(Pillar.prefab);
-                            pillarCorner.transform.position = new Vector3(x * scale, 0, ( z - 1) * scale);
+                            pillarCorner.transform.position = new Vector3(x * scale, height, ( z - 1) * scale);
                             pillarCorner.name = "Bottom Right";
                             pillarLocations.Add(new MapLocation(x, z - 1));
                             pillarCorner.transform.localScale = new Vector3(1.01f, 1, 1.01f);
@@ -378,7 +379,7 @@ public class Maze : MonoBehaviour
                         if (map[x - 1, z - 1] == 0 && map[x - 1, z] == 0 && !pillarLocations.Contains(new MapLocation(x - 1, z - 1)))
                         {
                             pillarCorner = Instantiate(Pillar.prefab);
-                            pillarCorner.transform.position = new Vector3((x - 1) * scale, 0, (z - 1) * scale);
+                            pillarCorner.transform.position = new Vector3((x - 1) * scale, height, (z - 1) * scale);
                             pillarCorner.name = "Bottom Left";
                             pillarLocations.Add(new MapLocation(x - 1, z - 1));
                             pillarCorner.transform.localScale = new Vector3(1.01f, 1, 1.01f);
@@ -388,14 +389,14 @@ public class Maze : MonoBehaviour
                     if (right)
                     {
                         GameObject wall3 = Instantiate(WallpieceRight.prefab);
-                        wall3.transform.position = new Vector3(x * scale, 0, z * scale);
+                        wall3.transform.position = new Vector3(x * scale, height, z * scale);
                         wall3.transform.Rotate(WallpieceRight.rotation);
                         wall3.name = "Right Wall";
 
                         if (map[x + 1, z + 1] == 0 && map[x, z + 1] == 0 && !pillarLocations.Contains(new MapLocation(x, z - 1)))
                         {
                             pillarCorner = Instantiate(Pillar.prefab);
-                            pillarCorner.transform.position = new Vector3(x * scale, 0, (z - 1) * scale);
+                            pillarCorner.transform.position = new Vector3(x * scale, height, (z - 1) * scale);
                             pillarCorner.name = "Right Top";
                             pillarLocations.Add(new MapLocation(x, z - 1));
                             pillarCorner.transform.localScale = new Vector3(1.01f, 1, 1.01f);
@@ -404,7 +405,7 @@ public class Maze : MonoBehaviour
                         if (map[x, z - 1] == 0 && map[x + 1, z - 1] == 0 && !pillarLocations.Contains(new MapLocation(x + 1, z - 1)))
                         {
                             pillarCorner = Instantiate(Pillar.prefab);
-                            pillarCorner.transform.position = new Vector3((x + 1) * scale, 0, (z - 1) * scale);
+                            pillarCorner.transform.position = new Vector3((x + 1) * scale, height, (z - 1) * scale);
                             pillarCorner.name = "Right Bottom";
                             pillarLocations.Add(new MapLocation(x + 1, z - 1));
                             pillarCorner.transform.localScale = new Vector3(1.01f, 1, 1.01f);
@@ -414,14 +415,14 @@ public class Maze : MonoBehaviour
                     if (left)
                     {
                         GameObject wall4 = Instantiate(WallpieceLeft.prefab);
-                        wall4.transform.position = new Vector3(x * scale, 0, z * scale);
+                        wall4.transform.position = new Vector3(x * scale, height, z * scale);
                         wall4.transform.Rotate(WallpieceLeft.rotation);
                         wall4.name = "Left Wall";
 
                         if (map[x - 1, z + 1] == 0 && map[x, z + 1] == 0 && !pillarLocations.Contains(new MapLocation(x - 1, z)))
                         {
                             pillarCorner = Instantiate(Pillar.prefab);
-                            pillarCorner.transform.position = new Vector3((x - 1) * scale, 0, z * scale);
+                            pillarCorner.transform.position = new Vector3((x - 1) * scale, height, z * scale);
                             pillarCorner.name = "Left Top";
                             pillarLocations.Add(new MapLocation(x - 1, z));
                             pillarCorner.transform.localScale = new Vector3(1.01f, 1, 1.01f);
@@ -430,7 +431,7 @@ public class Maze : MonoBehaviour
                         if (map[x - 1, z - 1] == 0 && map[x, z - 1] == 0 && !pillarLocations.Contains(new MapLocation(x - 1, z - 1)))
                         {
                             pillarCorner = Instantiate(Pillar.prefab);
-                            pillarCorner.transform.position = new Vector3((x - 1) * scale, 0, (z - 1) * scale);
+                            pillarCorner.transform.position = new Vector3((x - 1) * scale, height, (z - 1) * scale);
                             pillarCorner.name = "Left Bottom";
                             pillarLocations.Add(new MapLocation(x - 1, z - 1));
                             pillarCorner.transform.localScale = new Vector3(1.01f, 1, 1.01f);
@@ -450,7 +451,7 @@ public class Maze : MonoBehaviour
                 if (top)
                 {
                     doorway = Instantiate(DoorTop.prefab);
-                    doorway.transform.position = new Vector3(x * scale, 0, z * scale);
+                    doorway.transform.position = new Vector3(x * scale, height, z * scale);
                     doorway.transform.Rotate(DoorTop.rotation);
                     doorway.name = "Top Doorway";
                     doorway.transform.Translate(0, 0, 0.01f);
@@ -458,7 +459,7 @@ public class Maze : MonoBehaviour
                 if (bottom)
                 {
                     doorway = Instantiate(DoorBottom.prefab);
-                    doorway.transform.position = new Vector3(x * scale, 0, z * scale);
+                    doorway.transform.position = new Vector3(x * scale, height, z * scale);
                     doorway.transform.Rotate(DoorBottom.rotation);
                     doorway.name = "Bottom Doorway";
                     doorway.transform.Translate(0, 0, 0.01f);
@@ -466,7 +467,7 @@ public class Maze : MonoBehaviour
                 if (left)
                 {
                     doorway = Instantiate(DoorLeft.prefab);
-                    doorway.transform.position = new Vector3(x * scale, 0, z * scale);
+                    doorway.transform.position = new Vector3(x * scale, height, z * scale);
                     doorway.transform.Rotate(DoorLeft.rotation);
                     doorway.name = "Left Doorway";
                     doorway.transform.Translate(0, 0, 0.01f);
@@ -474,7 +475,7 @@ public class Maze : MonoBehaviour
                 if (right)
                 {
                     doorway = Instantiate(DoorRight.prefab);
-                    doorway.transform.position = new Vector3(x * scale, 0, z * scale);
+                    doorway.transform.position = new Vector3(x * scale, height, z * scale);
                     doorway.transform.Rotate(DoorRight.rotation);
                     doorway.name = "Right Doorway";
                     doorway.transform.Translate(0, 0, 0.01f);
