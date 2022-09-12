@@ -131,8 +131,7 @@ public class Maze : MonoBehaviour
     public Pieces[,] piecePlaces;
 
 
-    // Start is called before the first frame update
-    void Start()
+    public void Build()
     {
         InitialiseMap();
         Generate();
@@ -159,6 +158,7 @@ public class Maze : MonoBehaviour
 
     public virtual void PlaceFPC()
     {
+        if (!FPC) return;
         for (int z = 0; z < depth; z++)
             for (int x = 0; x < width; x++)
             {
