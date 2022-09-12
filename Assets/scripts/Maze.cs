@@ -182,7 +182,7 @@ public class Maze : MonoBehaviour
 
     void DrawMap()
     {
-        int height = level;
+        int height = level * scale * 2;
         for (int z = 0; z < depth; z++)
             for (int x = 0; x < width; x++)
             {
