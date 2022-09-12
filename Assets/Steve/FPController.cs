@@ -10,9 +10,9 @@ public class FPController : MonoBehaviour
     public AudioSource jump;
     public AudioSource land;
 
-    public float speed = 0.1f;
-    public float Xsensitivity = 2;
-    public float Ysensitivity = 2;
+    float speed = 0.1f;
+    float Xsensitivity = 2;
+    float Ysensitivity = 2;
     float MinimumX = -90;
     float MaximumX = 90;
     Rigidbody rb;
@@ -22,6 +22,8 @@ public class FPController : MonoBehaviour
 
     bool cursorIsLocked = true;
     bool lockCursor = true;
+
+    bool inPipe = false;
 
     float x;
     float z;
@@ -43,6 +45,7 @@ public class FPController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F))
             anim.SetBool("arm", !anim.GetBool("arm"));
+           
 
         if (Mathf.Abs(x) > 0 || Mathf.Abs(z) > 0)
         {
@@ -108,6 +111,12 @@ public class FPController : MonoBehaviour
         x = Input.GetAxis("Horizontal") * speed;
         z = Input.GetAxis("Vertical") * speed;
 
+        if (inPipe)
+        {
+
+        }
+
+
         transform.position += this.transform.forward * z + cam.transform.right * x;
 
         UpdateCursorLock();
@@ -130,7 +139,7 @@ public class FPController : MonoBehaviour
     bool IsGrounded()
     {
         RaycastHit hitInfo;
-        if (Physics.SphereCast(transform.position, capsule.radius/2f, Vector3.down, out hitInfo,
+        if (Physics.SphereCast(transform.position, capsule.radius, Vector3.down, out hitInfo,
                 (capsule.height / 2f) - capsule.radius + 0.1f))
         {
             return true;
@@ -146,6 +155,35 @@ public class FPController : MonoBehaviour
             {
                 InvokeRepeating("PlayFootStepAudio", 0, 0.4f);
             }
+        }
+    }
+
+    void OnTriggerEnter(Collider col)
+    {
+        if (col.gameObject.tag == "pipe")
+        {
+            inPipe = true;
+            this.GetComponent<Rigidbody>().useGravity = false;
+        }
+    }
+
+   void OnTriggerStay(Collider col)
+    {
+        if (col.gameObject.tag == "pipe")
+        {
+            if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
+            {
+                transform.Translate(0, 0.1f, 0);
+            }
+        }
+    }
+
+    void OnTriggerExit(Collider col)
+    {
+        if (col.gameObject.tag == "pipe")
+        {
+            inPipe = false;
+            this.GetComponent<Rigidbody>().useGravity = true;
         }
     }
 

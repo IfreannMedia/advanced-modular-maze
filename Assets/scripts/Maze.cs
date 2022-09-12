@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MapLocation
@@ -11,6 +12,33 @@ public class MapLocation
         x = _x;
         z = _z;
     }
+
+    public Vector2 ToVector()
+    {
+        return new Vector2(x, z);
+    }
+
+    public static MapLocation operator +(MapLocation a, MapLocation b)
+       => new MapLocation(a.x + b.x, a.z + b.z);
+
+    public override bool Equals(object obj)
+    {
+        if ((obj == null) || !this.GetType().Equals(obj.GetType()))
+        {
+            return false;
+        }
+        else
+        {
+            return x == ((MapLocation)obj).x && z == ((MapLocation)obj).z;
+        }
+
+    }
+
+    public override int GetHashCode()
+    {
+        return 0;
+    }
+
 }
 
 public class Maze : MonoBehaviour
@@ -21,170 +49,112 @@ public class Maze : MonoBehaviour
                                             new MapLocation(-1,0),
                                             new MapLocation(0,-1) };
 
+    public List<MapLocation> pillarLocations = new List<MapLocation>();
+
     public int width = 30; //x length
     public int depth = 30; //z length
     public byte[,] map;
     public int scale = 6;
+    public int level = 0;
 
     [System.Serializable]
     public struct Module
     {
-        [HideInInspector] public PIECE_TYPE pieceType;
         public GameObject prefab;
         public Vector3 rotation;
     }
 
-    public Module verticalStraight;
-    public Module horizontalStraight;
-    public Module crossroad;
-    public Module rightUpCorner;
-    public Module rightDownCorner;
-    public Module leftUpCorner;
-    public Module leftDownCorner;
-    public Module tJunctionDown;
-    public Module tJunctionLeft;
-    public Module tJunctionRight;
-    public Module tJunctionUp;
-    public Module endUp;
-    public Module endDown;
-    public Module endRight;
-    public Module endLeft;
-    public Module wallTop;
-    public Module wallBottom;
-    public Module wallLeft;
-    public Module wallRight;
-    public Module floor;
-    public Module cieling;
-    public Module pillar;
-    public Module doorTop;
-    public Module doorBottom;
-    public Module doorRight;
-    public Module doorLeft;
+    public Module VerticalStraight;
+    public Module HorizontalStraight;
+    public Module Crossroad;
+    public Module RightUpCorner;
+    public Module RightDownCorner;
+    public Module LeftUpCorner;
+    public Module LeftDownCorner;
+    public Module tIntersection;
+    public Module tIntersectionUpsideDown;
+    public Module tIntersectionLeft;
+    public Module tIntersectionRight;
+    public Module Endpiece;
+    public Module EndpieceUpsideDown;
+    public Module EndpieceRight;
+    public Module EndpieceLeft;
+    public Module WallpieceTop;
+    public Module WallpieceBottom;
+    public Module WallpieceRight;
+    public Module WallpieceLeft;
+    public Module Floorpiece;
+    public Module Ceilingpiece;
 
-    public FPController player;
+    public Module Pillar;
+    public Module DoorTop;
+    public Module DoorBottom;
+    public Module DoorRight;
+    public Module DoorLeft;
 
-    // patterns
-    private int[] verticalStraightPattern = new int[] { 5, 0, 5, 1, 0, 1, 5, 0, 5 };
-    private int[] horizontalStraightPattern = new int[] { 5, 1, 5, 0, 0, 0, 5, 1, 5 };
-    private int[] crossroadsPattern = new int[] { 1, 0, 1, 0, 0, 0, 1, 0, 1 };
 
-    private int[] junctionTopPattern = new int[] { 1, 0, 1, 0, 0, 0, 5, 1, 5 }; // entering top
-    private int[] junctionBottomPattern = new int[] { 5, 1, 5, 0, 0, 0, 1, 0, 1 }; // entering bottom
-    private int[] junctionLeftPattern = new int[] { 1, 0, 5, 0, 0, 1, 1, 0, 5 }; // entering left
-    private int[] junctionRightPattern = new int[] { 5, 0, 1, 1, 0, 0, 5, 0, 1 }; // entering right
+    public GameObject FPC;
 
-    private int[] deadendTopPattern = new int[] { 5, 0, 5, 1, 0, 1, 5, 1, 5 };
-    private int[] deadendLeftPattern = new int[] { 5, 1, 5, 0, 0, 1, 5, 1, 5 };
-    private int[] deadendBottomPattern = new int[] { 5, 1, 5, 1, 0, 1, 5, 0, 5 };
-    private int[] deadendRightPattern = new int[] { 5, 1, 5, 1, 0, 0, 5, 1, 5 };
-
-    private int[] cornerLeftTopPattern = new int[] { 5, 1, 5, 1, 0, 0, 5, 0, 1 };
-    private int[] cornerLeftBottomPattern = new int[] { 5, 0, 1, 1, 0, 0, 5, 1, 5 };
-    private int[] cornerRightBottomPattern = new int[] { 1, 0, 5, 5, 0, 1, 5, 1, 5 };
-    private int[] cornerRightTopPattern = new int[] { 5, 1, 5, 0, 0, 1, 1, 0, 5 };
-
-    private readonly int wildcard = 5;
-
-    private List<MapLocation> pillarLocations = new List<MapLocation>();
-
-    public enum PIECE_TYPE
+    public enum PieceType
     {
-        HORIZONTAL_STRAIGHT,
-        VERTICAL_STRAIGHT,
-        RIGHT_UP_CORNER,
-        RIGHT_DOWN_CORNER,
-        LEFT_UP_CORNER,
-        LEFT_DOWN_CORNER,
-        T_JUNCTION,
-        T_UPSIDE_DOWN,
-        T_LEFT,
-        T_RIGHT,
-        DEADEAND,
-        DEAD_UPSIDE_DOWN,
-        DEAD_LEFT,
-        DEAD_RIGHT,
-        WALL,
-        CROSSROAD,
-        ROOM,
-        ROOM_WALL,
-        ROOM_DOORWAY,
-        FLOOR,
-        CIELING,
-        PILLAR
+        Horizontal_Straight,
+        Vertical_Straight,
+        Right_Up_Corner,
+        Right_Down_Corner,
+        Left_Up_Corner,
+        Left_Down_Corner,
+        T_Junction,
+        TUpsideDown,
+        TToLeft,
+        TToRight,
+        DeadEnd,
+        DeadUpsideDown,
+        DeadToRight,
+        DeadToLeft,
+        Wall,
+        Crossroad,
+        Room
     }
 
     public struct Pieces
     {
-        public PIECE_TYPE piece;
+        public PieceType piece;
         public GameObject model;
 
-        public Pieces(PIECE_TYPE pt, GameObject mo)
+        public Pieces(PieceType pt, GameObject m)
         {
-            this.piece = pt;
-            this.model = mo;
+            piece = pt;
+            model = m;
         }
     }
 
     public Pieces[,] piecePlaces;
 
+
+    // Start is called before the first frame update
     void Start()
     {
-        SetPieceTypes();
         InitialiseMap();
         Generate();
-        AddRooms(3, 4, 6);
+        AddRooms(5, 4, 10);
         DrawMap();
         PlaceFPC();
     }
 
-    public virtual void SetPieceTypes()
-    {
-        verticalStraight.pieceType = PIECE_TYPE.VERTICAL_STRAIGHT;
-        horizontalStraight.pieceType = PIECE_TYPE.HORIZONTAL_STRAIGHT;
-        crossroad.pieceType = PIECE_TYPE.CROSSROAD;
-        rightUpCorner.pieceType = PIECE_TYPE.RIGHT_UP_CORNER;
-        rightDownCorner.pieceType = PIECE_TYPE.RIGHT_DOWN_CORNER;
-        leftUpCorner.pieceType = PIECE_TYPE.LEFT_UP_CORNER;
-        leftDownCorner.pieceType = PIECE_TYPE.LEFT_DOWN_CORNER;
-        tJunctionDown.pieceType = PIECE_TYPE.T_JUNCTION;
-        tJunctionLeft.pieceType = PIECE_TYPE.T_LEFT;
-        tJunctionRight.pieceType = PIECE_TYPE.T_RIGHT;
-        tJunctionUp.pieceType = PIECE_TYPE.T_UPSIDE_DOWN;
-        endUp.pieceType = PIECE_TYPE.DEAD_UPSIDE_DOWN;
-        endDown.pieceType = PIECE_TYPE.DEADEAND;
-        endRight.pieceType = PIECE_TYPE.DEAD_RIGHT;
-        endLeft.pieceType = PIECE_TYPE.DEAD_LEFT;
-        wallTop.pieceType = PIECE_TYPE.ROOM_WALL;
-        wallBottom.pieceType = PIECE_TYPE.ROOM_WALL;
-        wallLeft.pieceType = PIECE_TYPE.ROOM_WALL;
-        wallRight.pieceType = PIECE_TYPE.ROOM_WALL;
-        floor.pieceType = PIECE_TYPE.FLOOR;
-        cieling.pieceType = PIECE_TYPE.CIELING;
-        pillar.pieceType = PIECE_TYPE.PILLAR;
-        doorTop.pieceType = PIECE_TYPE.ROOM_DOORWAY;
-        doorBottom.pieceType = PIECE_TYPE.ROOM_DOORWAY;
-        doorRight.pieceType = PIECE_TYPE.ROOM_DOORWAY;
-        doorLeft.pieceType = PIECE_TYPE.ROOM_DOORWAY;
-    }
-
     public virtual void AddRooms(int count, int minSize, int maxSize)
     {
-        this.endDown.pieceType = PIECE_TYPE.DEADEAND;
-        for (int c = 0; c < count; c++)
-        {
-            int startX = Random.Range(3, width - 3);
-            int startZ = Random.Range(3, depth - 3);
-            int roomWidth = Random.Range(minSize, maxSize);
-            int roomDepth = Random.Range(minSize, maxSize);
 
-            for (int x = startX; x < width - 3 && x < startX + roomWidth; x++)
+    }
+
+    void InitialiseMap()
+    {
+        map = new byte[width,depth];
+        piecePlaces = new Pieces[width, depth];
+        for (int z = 0; z < depth; z++)
+            for (int x = 0; x < width; x++)
             {
-                for (int z = startZ; z < depth - 3 && z < startZ + roomDepth; z++)
-                {
-                    map[x, z] = 0;
-                }
+                    map[x, z] = 1;     //1 = wall  0 = corridor
             }
-        }
     }
 
     public virtual void PlaceFPC()
@@ -194,21 +164,9 @@ public class Maze : MonoBehaviour
             {
                 if (map[x, z] == 0)
                 {
-                    player.transform.position = new Vector3(x * scale, 0, z * scale);
-                    player.transform.rotation = Quaternion.Euler(Vector3.forward);
+                    FPC.transform.position = new Vector3(x * scale, 0, z * scale);
                     return;
                 }
-            }
-    }
-
-    void InitialiseMap()
-    {
-        map = new byte[width, depth];
-        piecePlaces = new Pieces[width, depth];
-        for (int z = 0; z < depth; z++)
-            for (int x = 0; x < width; x++)
-            {
-                map[x, z] = 1;     //1 = wall  0 = corridor
             }
     }
 
@@ -217,8 +175,8 @@ public class Maze : MonoBehaviour
         for (int z = 0; z < depth; z++)
             for (int x = 0; x < width; x++)
             {
-                if (Random.Range(0, 100) < 50)
-                    map[x, z] = 0;     //1 = wall  0 = corridor
+               if(Random.Range(0,100) < 50)
+                 map[x, z] = 0;     //1 = wall  0 = corridor
             }
     }
 
@@ -227,323 +185,357 @@ public class Maze : MonoBehaviour
         for (int z = 0; z < depth; z++)
             for (int x = 0; x < width; x++)
             {
-                Vector3 pos = new Vector3(x * scale, 0, z * scale);
                 if (map[x, z] == 1)
                 {
-                    // draws a white wall ie non-walkable block
+                    //Vector3 pos = new Vector3(x * scale, 0, z * scale);
                     //GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
                     //wall.transform.localScale = new Vector3(scale, scale, scale);
-                    //wall.transform.position = pos;
-                    //Debug.Log("setting piece to wall: " + x + ", " + z);
-                    piecePlaces[x, z] = new Pieces(PIECE_TYPE.WALL, null);
-                }
-                else
-                {
-                    PlaceWalkablePiece(x, z, pos);
-                }
+                    // wall.transform.position = pos;
 
+                    piecePlaces[x, z].piece = PieceType.Wall;
+                    piecePlaces[x, z].model = null;
+                }
+                else if (Search2D(x, z, new int[] { 5, 1, 5, 0, 0, 1, 5, 1, 5 })) //horizontal end piece -|
+                {
+                    GameObject block = Instantiate(EndpieceRight.prefab);
+                    block.transform.position = new Vector3(x * scale, 0, z * scale);
+                    block.transform.Rotate(EndpieceRight.rotation);
+
+                    piecePlaces[x, z].piece = PieceType.DeadToRight;
+                    piecePlaces[x, z].model = block;
+
+                }
+                else if (Search2D(x, z, new int[] { 5, 1, 5, 1, 0, 0, 5, 1, 5 })) //horizontal end piece |-
+                {
+                    GameObject block = Instantiate(EndpieceLeft.prefab);
+                    block.transform.position = new Vector3(x * scale, 0, z * scale);
+                    block.transform.Rotate(EndpieceLeft.rotation);
+                    piecePlaces[x, z].piece = PieceType.DeadToLeft;
+                    piecePlaces[x, z].model = block;
+
+                }
+                else if (Search2D(x, z, new int[] { 5, 1, 5, 1, 0, 1, 5, 0, 5 })) //vertical end piece T
+                {
+                    GameObject block = Instantiate(Endpiece.prefab);
+                    block.transform.position = new Vector3(x * scale, 0, z * scale);
+                    block.transform.Rotate(Endpiece.rotation);
+                    piecePlaces[x, z].piece = PieceType.DeadEnd;
+                    piecePlaces[x, z].model = block;
+                }
+                else if (Search2D(x, z, new int[] { 5, 0, 5, 1, 0, 1, 5, 1, 5 })) //vertical end piece upside downT
+                {
+                    GameObject block = Instantiate(EndpieceUpsideDown.prefab);
+                    block.transform.position = new Vector3(x * scale, 0, z * scale);
+                    block.transform.Rotate(EndpieceUpsideDown.rotation);
+                    piecePlaces[x, z].piece = PieceType.DeadUpsideDown;
+                    piecePlaces[x, z].model = block;
+                }
+                else if (Search2D(x, z, new int[] { 5, 0, 5, 1, 0, 1, 5, 0, 5 })) //vertical straight
+                {
+                    Vector3 pos = new Vector3(x * scale, 0, z * scale);
+                    GameObject go = Instantiate(VerticalStraight.prefab, pos, Quaternion.identity);
+                    go.transform.Rotate(VerticalStraight.rotation);
+                    piecePlaces[x, z].piece = PieceType.Vertical_Straight;
+                    piecePlaces[x, z].model = go;
+                }
+                else if (Search2D(x, z, new int[] { 5, 1, 5, 0, 0, 0, 5, 1, 5 })) //horizontal straight
+                {
+                    Vector3 pos = new Vector3(x * scale, 0, z * scale);
+                    GameObject go = Instantiate(HorizontalStraight.prefab, pos, Quaternion.identity);
+                    go.transform.Rotate(HorizontalStraight.rotation);
+                    piecePlaces[x, z].piece = PieceType.Horizontal_Straight;
+                    piecePlaces[x, z].model = go;
+
+                }
+                else if (Search2D(x, z, new int[] { 1, 0, 1, 0, 0, 0, 1, 0, 1 })) //crossroad
+                {
+                    GameObject go = Instantiate(Crossroad.prefab);
+                    go.transform.position = new Vector3(x * scale, 0, z * scale);
+                    go.transform.Rotate(Crossroad.rotation);
+                    piecePlaces[x, z].piece = PieceType.Crossroad;
+                    piecePlaces[x, z].model = go;
+                }
+                else if (Search2D(x, z, new int[] { 5, 1, 5, 0, 0, 1, 1, 0, 5 })) //upper left corner
+                {
+                    GameObject go = Instantiate(LeftUpCorner.prefab);
+                    go.transform.position = new Vector3(x * scale, 0, z * scale);
+                    go.transform.Rotate(LeftUpCorner.rotation);
+                    piecePlaces[x, z].piece = PieceType.Left_Up_Corner;
+                    piecePlaces[x, z].model = go;
+                }
+                else if (Search2D(x, z, new int[] { 5, 1, 5, 1, 0, 0, 5, 0, 1 })) //upper right corner
+                {
+                    GameObject go = Instantiate(RightUpCorner.prefab);
+                    go.transform.position = new Vector3(x * scale, 0, z * scale);
+                    go.transform.Rotate(RightUpCorner.rotation);
+                    piecePlaces[x, z].piece = PieceType.Right_Up_Corner;
+                    piecePlaces[x, z].model = go;
+                }
+                else if (Search2D(x, z, new int[] { 5, 0, 1, 1, 0, 0, 5, 1, 5 })) //lower right corner
+                {
+                    GameObject go = Instantiate(RightDownCorner.prefab);
+                    go.transform.position = new Vector3(x * scale, 0, z * scale);
+                    go.transform.Rotate(RightDownCorner.rotation);
+                    piecePlaces[x, z].piece = PieceType.Right_Down_Corner;
+                    piecePlaces[x, z].model = go;
+                }
+                else if (Search2D(x, z, new int[] { 1, 0, 5, 5, 0, 1, 5, 1, 5 })) //lower left corner
+                {
+                    GameObject go = Instantiate(LeftDownCorner.prefab);
+                    go.transform.position = new Vector3(x * scale, 0, z * scale);
+                    go.transform.Rotate(LeftDownCorner.rotation);
+                    piecePlaces[x, z].piece = PieceType.Left_Down_Corner;
+                    piecePlaces[x, z].model = go;
+                }
+                else if (Search2D(x, z, new int[] { 1, 0, 1, 0, 0, 0, 5, 1, 5 })) //tjunc  upsidedown T
+                {
+                    GameObject go = Instantiate(tIntersectionUpsideDown.prefab);
+                    go.transform.position = new Vector3(x * scale, 0, z * scale);
+                    go.transform.Rotate(tIntersectionUpsideDown.rotation);
+                    piecePlaces[x, z].piece = PieceType.TUpsideDown;
+                    piecePlaces[x, z].model = go;
+                }
+                else if (Search2D(x, z, new int[] { 5, 1, 5, 0, 0, 0, 1, 0, 1 })) //tjunc  T
+                {
+                    GameObject go = Instantiate(tIntersection.prefab);
+                    go.transform.position = new Vector3(x * scale, 0, z * scale);
+                    go.transform.Rotate(tIntersection.rotation);
+                    piecePlaces[x, z].piece = PieceType.T_Junction;
+                    piecePlaces[x, z].model = go;
+                }
+                else if (Search2D(x, z, new int[] { 1, 0, 5, 0, 0, 1, 1, 0, 5 })) //tjunc  -|
+                {
+                    GameObject go = Instantiate(tIntersectionRight.prefab);
+                    go.transform.position = new Vector3(x * scale, 0, z * scale);
+                    go.transform.Rotate(tIntersectionRight.rotation);
+                    piecePlaces[x, z].piece = PieceType.TToRight;
+                    piecePlaces[x, z].model = go;
+                }
+                else if (Search2D(x, z, new int[] { 5, 0, 1, 1, 0, 0, 5, 0, 1 })) //tjunc  |-
+                {
+                    GameObject go = Instantiate(tIntersectionLeft.prefab);
+                    go.transform.position = new Vector3(x * scale, 0, z * scale);
+                    go.transform.Rotate(tIntersectionLeft.rotation);
+                    piecePlaces[x, z].piece = PieceType.TToLeft;
+                    piecePlaces[x, z].model = go;
+                }
+                else if (map[x, z] == 0 && (CountSquareNeighbours(x, z) > 1 && CountDiagonalNeighbours(x, z) >= 1 ||
+                                            CountSquareNeighbours(x, z) >= 1 && CountDiagonalNeighbours(x, z) > 1))
+                {
+                    GameObject floor = Instantiate(Floorpiece.prefab);
+                    floor.transform.position = new Vector3(x * scale, 0, z * scale);
+
+                    GameObject ceiling = Instantiate(Ceilingpiece.prefab);
+                    ceiling.transform.position = new Vector3(x * scale, 0, z * scale);
+
+                    piecePlaces[x, z].piece = PieceType.Room;
+                    piecePlaces[x, z].model = floor;
+
+                    GameObject pillarCorner;
+                    LocateWalls(x, z);
+                    if (top)
+                    {
+                        GameObject wall1 = Instantiate(WallpieceTop.prefab);
+                        wall1.transform.position = new Vector3(x * scale, 0, z * scale);
+                        wall1.transform.Rotate(WallpieceTop.rotation);
+                        wall1.name = "Top Wall";
+
+                        if (map[x + 1, z] == 0 && map[x + 1, z + 1] == 0 && !pillarLocations.Contains(new MapLocation(x,z)))
+                        {
+                            pillarCorner = Instantiate(Pillar.prefab);
+                            pillarCorner.transform.position = new Vector3(x * scale, 0, z * scale);
+                            pillarCorner.name = "Top Right";
+                            pillarLocations.Add(new MapLocation(x, z));
+                            pillarCorner.transform.localScale = new Vector3(1.01f, 1, 1.01f);
+                        }
+
+                        if (map[x - 1, z] == 0 && map[x - 1, z + 1] == 0 && !pillarLocations.Contains(new MapLocation(x - 1, z)))
+                        {
+                            pillarCorner = Instantiate(Pillar.prefab);
+                            pillarCorner.transform.position = new Vector3((x-1) * scale, 0, z * scale);
+                            pillarCorner.name = "Top Left";
+                            pillarLocations.Add(new MapLocation(x - 1, z));
+                            pillarCorner.transform.localScale = new Vector3(1.01f, 1, 1.01f);
+                        }
+                    }
+
+                    if (bottom)
+                    {
+                        GameObject wall2 = Instantiate(WallpieceBottom.prefab);
+                        wall2.transform.position = new Vector3(x * scale, 0, z * scale);
+                        wall2.transform.Rotate(WallpieceBottom.rotation);
+                        wall2.name = "Bottom Wall";
+
+                        if (map[x + 1, z] == 0 && map[x + 1, z - 1] == 0 && !pillarLocations.Contains(new MapLocation(x, z - 1)))
+                        {
+                            pillarCorner = Instantiate(Pillar.prefab);
+                            pillarCorner.transform.position = new Vector3(x * scale, 0, ( z - 1) * scale);
+                            pillarCorner.name = "Bottom Right";
+                            pillarLocations.Add(new MapLocation(x, z - 1));
+                            pillarCorner.transform.localScale = new Vector3(1.01f, 1, 1.01f);
+                        }
+
+                        if (map[x - 1, z - 1] == 0 && map[x - 1, z] == 0 && !pillarLocations.Contains(new MapLocation(x - 1, z - 1)))
+                        {
+                            pillarCorner = Instantiate(Pillar.prefab);
+                            pillarCorner.transform.position = new Vector3((x - 1) * scale, 0, (z - 1) * scale);
+                            pillarCorner.name = "Bottom Left";
+                            pillarLocations.Add(new MapLocation(x - 1, z - 1));
+                            pillarCorner.transform.localScale = new Vector3(1.01f, 1, 1.01f);
+                        }
+                    }
+
+                    if (right)
+                    {
+                        GameObject wall3 = Instantiate(WallpieceRight.prefab);
+                        wall3.transform.position = new Vector3(x * scale, 0, z * scale);
+                        wall3.transform.Rotate(WallpieceRight.rotation);
+                        wall3.name = "Right Wall";
+
+                        if (map[x + 1, z + 1] == 0 && map[x, z + 1] == 0 && !pillarLocations.Contains(new MapLocation(x, z - 1)))
+                        {
+                            pillarCorner = Instantiate(Pillar.prefab);
+                            pillarCorner.transform.position = new Vector3(x * scale, 0, (z - 1) * scale);
+                            pillarCorner.name = "Right Top";
+                            pillarLocations.Add(new MapLocation(x, z - 1));
+                            pillarCorner.transform.localScale = new Vector3(1.01f, 1, 1.01f);
+                        }
+
+                        if (map[x, z - 1] == 0 && map[x + 1, z - 1] == 0 && !pillarLocations.Contains(new MapLocation(x + 1, z - 1)))
+                        {
+                            pillarCorner = Instantiate(Pillar.prefab);
+                            pillarCorner.transform.position = new Vector3((x + 1) * scale, 0, (z - 1) * scale);
+                            pillarCorner.name = "Right Bottom";
+                            pillarLocations.Add(new MapLocation(x + 1, z - 1));
+                            pillarCorner.transform.localScale = new Vector3(1.01f, 1, 1.01f);
+                        }
+                    }
+
+                    if (left)
+                    {
+                        GameObject wall4 = Instantiate(WallpieceLeft.prefab);
+                        wall4.transform.position = new Vector3(x * scale, 0, z * scale);
+                        wall4.transform.Rotate(WallpieceLeft.rotation);
+                        wall4.name = "Left Wall";
+
+                        if (map[x - 1, z + 1] == 0 && map[x, z + 1] == 0 && !pillarLocations.Contains(new MapLocation(x - 1, z)))
+                        {
+                            pillarCorner = Instantiate(Pillar.prefab);
+                            pillarCorner.transform.position = new Vector3((x - 1) * scale, 0, z * scale);
+                            pillarCorner.name = "Left Top";
+                            pillarLocations.Add(new MapLocation(x - 1, z));
+                            pillarCorner.transform.localScale = new Vector3(1.01f, 1, 1.01f);
+                        }
+
+                        if (map[x - 1, z - 1] == 0 && map[x, z - 1] == 0 && !pillarLocations.Contains(new MapLocation(x - 1, z - 1)))
+                        {
+                            pillarCorner = Instantiate(Pillar.prefab);
+                            pillarCorner.transform.position = new Vector3((x - 1) * scale, 0, (z - 1) * scale);
+                            pillarCorner.name = "Left Bottom";
+                            pillarLocations.Add(new MapLocation(x - 1, z - 1));
+                            pillarCorner.transform.localScale = new Vector3(1.01f, 1, 1.01f);
+                        }
+                    }
+
+
+                }
             }
 
         for (int z = 0; z < depth; z++)
             for (int x = 0; x < width; x++)
             {
-                if (piecePlaces[x, z].piece != PIECE_TYPE.ROOM) continue;
-                Vector3 pos = new Vector3(x * scale, 0, z * scale);
-                if (map[x, z] != 1)
+                if (piecePlaces[x, z].piece != PieceType.Room) continue;
+                GameObject doorway;
+                LocateDoors(x, z);
+                if (top)
                 {
-
-                    if (ShouldAddDoorTop(x, z))
-                    {
-                        GameObject door = Instantiate(doorTop.prefab);
-                        door.transform.position = new Vector3(x * scale, 0, z * scale);
-                        door.name = "door-top";
-                        //door.transform.rotation = Quaternion.Euler(0, 90, 0);
-                        door.transform.rotation = Quaternion.Euler(doorTop.rotation);
-                        door.transform.Translate(0, 0, 0.01f);
-                    }
-                    if (ShouldAddDoorBottom(x, z))
-                    {
-                        GameObject door = Instantiate(doorBottom.prefab);
-                        door.transform.position = new Vector3(x * scale, 0, z * scale);
-                        door.name = "door-bottom";
-                        door.transform.rotation = Quaternion.Euler(doorBottom.rotation);
-                        //door.transform.rotation = Quaternion.Euler(0, -90, 0);
-                        door.transform.Translate(0, 0, -0.01f);
-                    }
-                    if (ShouldAddDoorRight(x, z))
-                    {
-                        GameObject door = Instantiate(doorRight.prefab);
-                        door.transform.position = new Vector3(x * scale, 0, z * scale);
-                        door.name = "door-right";
-                        door.transform.rotation = Quaternion.Euler(doorRight.rotation);
-                        //door.transform.rotation = Quaternion.Euler(0, 180, 0);
-                        door.transform.Translate(-0.01f, 0, 0);
-                    }
-                    if (ShouldAddDoorLeft(x, z))
-                    {
-                        GameObject door = Instantiate(doorLeft.prefab);
-                        door.transform.position = new Vector3(x * scale, 0, z * scale);
-                        door.transform.rotation = Quaternion.Euler(doorLeft.rotation);
-                        door.name = "door-left";
-                        door.transform.Translate(0.01f, 0, 0);
-                    }
+                    doorway = Instantiate(DoorTop.prefab);
+                    doorway.transform.position = new Vector3(x * scale, 0, z * scale);
+                    doorway.transform.Rotate(DoorTop.rotation);
+                    doorway.name = "Top Doorway";
+                    doorway.transform.Translate(0, 0, 0.01f);
                 }
-
-            }
-    }
-
-    private void PlaceWalkablePiece(int x, int z, Vector3 pos)
-    {
-        int[] matchedPattern = HasMatchedPattern(x, z, new int[][] { verticalStraightPattern, horizontalStraightPattern,
-                        cornerLeftBottomPattern, cornerLeftTopPattern, cornerRightBottomPattern, cornerRightTopPattern,
-                        crossroadsPattern,
-                        deadendBottomPattern, deadendLeftPattern, deadendRightPattern, deadendTopPattern,
-                        junctionBottomPattern, junctionLeftPattern, junctionRightPattern, junctionTopPattern });
-        if (matchedPattern == deadendBottomPattern || matchedPattern == deadendLeftPattern || matchedPattern == deadendRightPattern || matchedPattern == deadendTopPattern)
-        {
-            Module endPiece = GetEndPiece(matchedPattern);
-            piecePlaces[x, z] = new Pieces(endPiece.pieceType, Instantiate(endPiece.prefab, pos, Quaternion.Euler(endPiece.rotation)));
-        }
-        else if (matchedPattern == verticalStraightPattern)
-        {
-            piecePlaces[x, z] = new Pieces(verticalStraight.pieceType, Instantiate(verticalStraight.prefab, pos, Quaternion.Euler(verticalStraight.rotation)));
-        }
-        else if (matchedPattern == horizontalStraightPattern)
-        {
-            piecePlaces[x, z] = new Pieces(horizontalStraight.pieceType, Instantiate(horizontalStraight.prefab, pos, Quaternion.Euler(horizontalStraight.rotation)));
-        }
-        else if (matchedPattern == crossroadsPattern)
-        {
-            piecePlaces[x, z] = new Pieces(crossroad.pieceType, Instantiate(crossroad.prefab, pos, Quaternion.Euler(crossroad.rotation)));
-        }
-        else if (matchedPattern == cornerLeftBottomPattern || matchedPattern == cornerLeftTopPattern || matchedPattern == cornerRightBottomPattern || matchedPattern == cornerRightTopPattern)
-        {
-            Module cornerPiece = GetCornerPiece(matchedPattern);
-            piecePlaces[x, z] = new Pieces(cornerPiece.pieceType, Instantiate(cornerPiece.prefab, pos, Quaternion.Euler(cornerPiece.rotation)));
-
-        }
-        else if (matchedPattern == junctionBottomPattern || matchedPattern == junctionLeftPattern || matchedPattern == junctionRightPattern || matchedPattern == junctionTopPattern)
-        {
-            Module junctionPiece = GetJunctionPiece(matchedPattern);
-            piecePlaces[x, z] = new Pieces(junctionPiece.pieceType, Instantiate(junctionPiece.prefab, pos, Quaternion.Euler(junctionPiece.rotation)));
-        }
-        else if (!PositionOnMapEdge(x, z) && ShouldAddRoomFloorPiece(x, z))
-        {
-            piecePlaces[x, z] = new Pieces(floor.pieceType, Instantiate(floor.prefab, pos, Quaternion.Euler(floor.rotation)));
-            Instantiate(cieling.prefab, pos, Quaternion.Euler(cieling.rotation));
-            GameObject wall;
-            GameObject plr;
-            // walls and pillars
-            if (ShouldAddWallTop(x, z))
-            {
-                wall = Instantiate(wallTop.prefab, pos, Quaternion.Euler(wallTop.rotation));
-                wall.name = "wall-top";
-                if (map[x + 1, z] == 0 && map[x + 1, z + 1] == 0 && !pillarLocations.Contains(new MapLocation(x, z)))
+                if (bottom)
                 {
-                    plr = Instantiate(pillar.prefab);
-                    plr.transform.position = new Vector3(x * scale, 0, z * scale);
-                    plr.transform.localScale = new Vector3(1.01f, 1.00f, 1.01f);
-                    plr.name = "pillar-top-right";
-                    pillarLocations.Add(new MapLocation(x, z));
+                    doorway = Instantiate(DoorBottom.prefab);
+                    doorway.transform.position = new Vector3(x * scale, 0, z * scale);
+                    doorway.transform.Rotate(DoorBottom.rotation);
+                    doorway.name = "Bottom Doorway";
+                    doorway.transform.Translate(0, 0, 0.01f);
                 }
-                if (map[x - 1, z] == 0 && map[x - 1, z + 1] == 0 && !pillarLocations.Contains(new MapLocation(x - 1, z)))
+                if (left)
                 {
-                    plr = Instantiate(pillar.prefab);
-                    plr.transform.position = new Vector3((x - 1) * scale, 0, z * scale);
-                    plr.transform.localScale = new Vector3(1.01f, 1.00f, 1.01f);
-                    plr.name = "pillar-top-left";
-                    pillarLocations.Add(new MapLocation(x - 1, z));
+                    doorway = Instantiate(DoorLeft.prefab);
+                    doorway.transform.position = new Vector3(x * scale, 0, z * scale);
+                    doorway.transform.Rotate(DoorLeft.rotation);
+                    doorway.name = "Left Doorway";
+                    doorway.transform.Translate(0, 0, 0.01f);
+                }
+                if (right)
+                {
+                    doorway = Instantiate(DoorRight.prefab);
+                    doorway.transform.position = new Vector3(x * scale, 0, z * scale);
+                    doorway.transform.Rotate(DoorRight.rotation);
+                    doorway.name = "Right Doorway";
+                    doorway.transform.Translate(0, 0, 0.01f);
                 }
             }
-            if (ShouldAddWallLeft(x, z))
-            {
-                wall = Instantiate(wallLeft.prefab, pos, Quaternion.Euler(wallLeft.rotation));
-                wall.name = "wall-left";
-                if (map[x, z + 1] == 0 && map[x - 1, z + 1] == 0 && !pillarLocations.Contains(new MapLocation(x - 1, z)))
-                {
-                    plr = Instantiate(pillar.prefab);
-                    plr.transform.position = new Vector3((x - 1) * scale, 0, z * scale);
-                    plr.transform.localScale = new Vector3(1.01f, 1.00f, 1.01f);
-                    plr.name = "pillar-left-top";
-                    pillarLocations.Add(new MapLocation(x - 1, z));
-                }
-                if (map[x, z - 1] == 0 && map[x - 1, z - 1] == 0 && !pillarLocations.Contains(new MapLocation(x - 1, z - 1)))
-                {
-                    plr = Instantiate(pillar.prefab);
-                    plr.transform.position = new Vector3((x - 1) * scale, 0, (z - 1) * scale);
-                    plr.transform.localScale = new Vector3(1.01f, 1.00f, 1.01f);
-                    plr.name = "pillar-left-bottom";
-                    pillarLocations.Add(new MapLocation(x - 1, z - 1));
-                }
-            }
-            if (ShouldAddWallRight(x, z))
-            {
-                wall = Instantiate(wallRight.prefab, pos, Quaternion.Euler(wallRight.rotation));
-                wall.name = "wall-right";
-                if (map[x, z + 1] == 0 && map[x + 1, z + 1] == 0 && !pillarLocations.Contains(new MapLocation(x, z)))
-                {
-                    plr = Instantiate(pillar.prefab);
-                    plr.transform.position = new Vector3(x * scale, 0, z * scale);
-                    plr.transform.localScale = new Vector3(1.01f, 1.00f, 1.01f);
-                    plr.name = "pillar-right-top";
-                    pillarLocations.Add(new MapLocation(x, z));
-                }
-                if (map[x, z - 1] == 0 && map[x + 1, z - 1] == 0 && !pillarLocations.Contains(new MapLocation(x, z - 1)))
-                {
-                    plr = Instantiate(pillar.prefab);
-                    plr.transform.position = new Vector3(x * scale, 0, (z - 1) * scale);
-                    plr.transform.localScale = new Vector3(1.01f, 1.00f, 1.01f);
-                    plr.name = "pillar-right-bottom";
-                    pillarLocations.Add(new MapLocation(x, z - 1));
-                }
-            }
-            if (ShouldAddWallBottom(x, z))
-            {
-                wall = Instantiate(wallBottom.prefab, pos, Quaternion.Euler(wallBottom.rotation));
-                wall.name = "wall-bottom";
-                if (map[x + 1, z] == 0 && map[x + 1, z - 1] == 0 && !pillarLocations.Contains(new MapLocation(x, z - 1)))
-                {
-                    plr = Instantiate(pillar.prefab);
-                    plr.transform.position = new Vector3(x * scale, 0, (z - 1) * scale);
-                    plr.transform.localScale = new Vector3(1.01f, 1.00f, 1.01f);
-                    plr.name = "pillar-bottom-right";
-                    pillarLocations.Add(new MapLocation(x, z - 1));
-                }
-                if (map[x - 1, z] == 0 && map[x - 1, z - 1] == 0 && !pillarLocations.Contains(new MapLocation(x - 1, z - 1)))
-                {
-                    plr = Instantiate(pillar.prefab);
-                    plr.transform.position = new Vector3((x - 1) * scale, 0, (z - 1) * scale);
-                    plr.transform.localScale = new Vector3(1.01f, 1.00f, 1.01f);
-                    plr.name = "pillar-bottom-left";
-                    pillarLocations.Add(new MapLocation(x - 1, z - 1));
-                }
-            }
-        }
     }
 
-    private Module GetEndPiece(int[] pattern)
+    bool top;
+    bool bottom;
+    bool right;
+    bool left;
+
+    public void LocateWalls(int x, int z)
     {
-        Module module = endRight;
-        if (pattern == deadendLeftPattern)
-            module = endLeft;
-        else if (pattern == deadendTopPattern)
-            module = endDown;
-        else if (pattern == deadendBottomPattern)
-            module = endUp;
-        return module;
+        top = false;
+        bottom = false;
+        right = false;
+        left = false;
+
+        if (x <= 0 || x >= width - 1 || z <= 0 || z >= depth - 1) return;
+        if (map[x, z + 1] == 1) top = true;
+        if (map[x, z - 1] == 1) bottom = true;
+        if (map[x + 1, z] == 1) right = true;
+        if (map[x - 1, z] == 1) left = true;
     }
 
-    private bool ShouldAddDoorTop(int x, int z)
+    public void LocateDoors(int x, int z)
     {
-        return piecePlaces[x, z + 1].piece != PIECE_TYPE.WALL && piecePlaces[x - 1, z + 1].piece == PIECE_TYPE.WALL && piecePlaces[x + 1, z + 1].piece == PIECE_TYPE.WALL;
+        top = false;
+        bottom = false;
+        right = false;
+        left = false;
+
+        if (x <= 0 || x >= width - 1 || z <= 0 || z >= depth - 1) return;
+        if (piecePlaces[x, z + 1].piece != PieceType.Room && piecePlaces[x, z + 1].piece != PieceType.Wall) top = true;
+        if (piecePlaces[x, z - 1].piece != PieceType.Room && piecePlaces[x, z - 1].piece != PieceType.Wall) bottom = true;
+        if (piecePlaces[x + 1, z].piece != PieceType.Room && piecePlaces[x + 1, z].piece != PieceType.Wall) right = true;
+        if (piecePlaces[x - 1, z].piece != PieceType.Room && piecePlaces[x - 1, z].piece != PieceType.Wall) left = true;
     }
 
-    private bool ShouldAddDoorRight(int x, int z)
+    bool IsRoom(int x, int z)
     {
-        return piecePlaces[x + 1, z].piece != PIECE_TYPE.WALL && piecePlaces[x + 1, z + 1].piece == PIECE_TYPE.WALL && piecePlaces[x + 1, z - 1].piece == PIECE_TYPE.WALL;
-    }
-
-    private bool ShouldAddDoorBottom(int x, int z)
-    {
-        return piecePlaces[x, z - 1].piece != PIECE_TYPE.WALL && piecePlaces[x - 1, z - 1].piece == PIECE_TYPE.WALL && piecePlaces[x + 1, z - 1].piece == PIECE_TYPE.WALL;
-    }
-
-    private bool ShouldAddDoorLeft(int x, int z)
-    {
-        return piecePlaces[x - 1, z].piece != PIECE_TYPE.WALL && piecePlaces[x - 1, z + 1].piece == PIECE_TYPE.WALL && piecePlaces[x - 1, z - 1].piece == PIECE_TYPE.WALL;
-    }
-
-    private bool ShouldAddWallTop(int x, int z)
-    {
-        return map[x, z + 1] == 1;
-    }
-
-    private bool ShouldAddWallRight(int x, int z)
-    {
-        return map[x + 1, z] == 1;
-    }
-
-    private bool ShouldAddWallBottom(int x, int z)
-    {
-        return map[x, z - 1] == 1;
-    }
-
-    private bool ShouldAddWallLeft(int x, int z)
-    {
-        return map[x - 1, z] == 1;
-    }
-
-    private bool PositionOnMapEdge(int x, int z)
-    {
-        return x <= 0 || x >= width - 1 || z <= 0 || z >= depth - 1;
+        return (CountSquareNeighbours(x, z) > 1 && CountDiagonalNeighbours(x, z) >= 1 ||
+                                            CountSquareNeighbours(x, z) >= 1 && CountDiagonalNeighbours(x, z) > 1);
     }
 
 
-    public virtual bool ShouldAddRoomFloorPiece(int x, int z)
+    bool Search2D(int c, int r, int[] pattern)
     {
-        return map[x, z] == 0
-            && (CountSquareNeighbours(x, z) > 1
-            && CountDiagonalNeighbours(x, z) >= 1
-            || CountSquareNeighbours(x, z) >= 1
-            && CountDiagonalNeighbours(x, z) > 1);
-    }
-
-    private Module GetCornerPiece(int[] pattern)
-    {
-        Module module = leftDownCorner;
-        if (pattern == cornerLeftTopPattern)
-            module = leftUpCorner;
-        else if (pattern == cornerRightTopPattern)
-            module = rightUpCorner;
-        else if (pattern == cornerRightBottomPattern)
-            module = rightDownCorner;
-        return module;
-    }
-
-    private Module GetJunctionPiece(int[] pattern)
-    {
-        Module module = tJunctionRight;
-        if (pattern == junctionLeftPattern)
-            module = tJunctionLeft;
-        else if (pattern == junctionTopPattern)
-            module = tJunctionDown;
-        else if (pattern == junctionBottomPattern)
-            module = tJunctionUp;
-        return module;
-    }
-
-    private int[] HasMatchedPattern(int x, int z, int[][] possibleMatches)
-    {
-        int[] matchedPattern = null;
-        for (int i = 0; i < possibleMatches.Length; i++)
-        {
-            matchedPattern = Search2D(x, z, possibleMatches[i]);
-            if (matchedPattern != null)
-                break;
-        }
-        return matchedPattern;
-    }
-
-    int[] Search2D(int cellPos, int rowPos, int[] pattern)
-    {
-        int matches = 0;
+        int count = 0;
         int pos = 0;
-        // loop over 3x3 grid along z and x axis, top down view of our maze position
-        // ie 3 z position, and for each z position, 3 x positions
-        // ie make a code that is 9 digits long, each digit representing a grid square,
-        // then check the map positions against this code (if they are open/walkable or a wall)
-        // starting at top left square in the grid (z=1, x=-1)
-        // 5 indicates a wildcard we don't care
         for (int z = 1; z > -2; z--)
         {
             for (int x = -1; x < 2; x++)
             {
-                if (pattern[pos] == map[cellPos + x, rowPos + z] || pattern[pos] == wildcard)
-                    matches++;
+                if (pattern[pos] == map[c + x, r + z] || pattern[pos] == 5)
+                    count++;
                 pos++;
             }
         }
-        return matches == 9 ? pattern : null;
+        return (count == 9);
     }
 
     public int CountSquareNeighbours(int x, int z)
@@ -570,6 +562,6 @@ public class Maze : MonoBehaviour
 
     public int CountAllNeighbours(int x, int z)
     {
-        return CountSquareNeighbours(x, z) + CountDiagonalNeighbours(x, z);
+        return CountSquareNeighbours(x,z) + CountDiagonalNeighbours(x,z);
     }
 }
