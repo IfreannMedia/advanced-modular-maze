@@ -11,6 +11,11 @@ public class DungeonManager : MonoBehaviour
     public float levelDistance = 1.5f;
 
     public GameObject stairwell;
+    List<MapLocation> levelOneDeadEnds = new List<MapLocation>();
+    List<MapLocation> levelTwoDeadEndsUpsideDown = new List<MapLocation>();
+
+    List<MapLocation> levelOneDeadEndsRight = new List<MapLocation>();
+    List<MapLocation> levelTwoDeadEndsLeft = new List<MapLocation>();
 
     // Start is called before the first frame update
     void Start()
@@ -30,19 +35,55 @@ public class DungeonManager : MonoBehaviour
             {
                 for (int z = 0; z < depth; z++)
                 {
-                    if (mazes[mazeIndex].piecePlaces[x, z].piece == Maze.PieceType.DeadEnd &&
-                        mazes[mazeIndex + 1].piecePlaces[x, z].piece == Maze.PieceType.DeadUpsideDown)
+                    if (mazes[mazeIndex].piecePlaces[x, z].piece == Maze.PieceType.DeadEnd)
                     {
-                        GenerateStairWell(mazeIndex, x, z, Quaternion.Euler(0, 90, 0));
+                        levelOneDeadEnds.Add(new MapLocation(x, z));
                     }
-                    else if (mazes[mazeIndex].piecePlaces[x, z].piece == Maze.PieceType.DeadToLeft
-                        && mazes[mazeIndex + 1].piecePlaces[x, z].piece == Maze.PieceType.DeadToRight)
+                    if (mazes[mazeIndex + 1].piecePlaces[x, z].piece == Maze.PieceType.DeadUpsideDown)
                     {
-                        GenerateStairWell(mazeIndex, x, z, Quaternion.identity);
+                        levelTwoDeadEndsUpsideDown.Add(new MapLocation(x, z));
                     }
+                    if (mazes[mazeIndex].piecePlaces[x, z].piece == Maze.PieceType.DeadToRight)
+                    {
+                        levelOneDeadEndsRight.Add(new MapLocation(x, z));
+                    }
+                    if (mazes[mazeIndex + 1].piecePlaces[x, z].piece == Maze.PieceType.DeadToLeft)
+                    {
+                        levelTwoDeadEndsLeft.Add(new MapLocation(x, z));
+                    }
+
+                    //if (mazes[mazeIndex].piecePlaces[x, z].piece == Maze.PieceType.DeadEnd &&
+                    //    mazes[mazeIndex + 1].piecePlaces[x, z].piece == Maze.PieceType.DeadUpsideDown)
+                    //{
+                    //    GenerateStairWell(mazeIndex, x, z, Quaternion.Euler(0, 90, 0));
+                    //}
+                    //else if (mazes[mazeIndex].piecePlaces[x, z].piece == Maze.PieceType.DeadToLeft
+                    //    && mazes[mazeIndex + 1].piecePlaces[x, z].piece == Maze.PieceType.DeadToRight)
+                    //{
+                    //    GenerateStairWell(mazeIndex, x, z, Quaternion.identity);
+                    //}
 
                 }
             }
+
+            if (levelOneDeadEnds.Count == 0 || levelTwoDeadEndsUpsideDown.Count == 0) break;
+
+            MapLocation bottomOfStairs = levelOneDeadEnds[UnityEngine.Random.Range(0, levelOneDeadEnds.Count)];
+            MapLocation topOfStairs = levelTwoDeadEndsUpsideDown[UnityEngine.Random.Range(0, levelTwoDeadEndsUpsideDown.Count)];
+
+            Vector3 stairBottomPos = new Vector3(bottomOfStairs.x * mazes[mazeIndex].scale,
+                                                 mazes[mazeIndex].scale * mazes[mazeIndex].level * mazes[mazeIndex].levelDistance,
+                                                 bottomOfStairs.z * mazes[mazeIndex].scale);
+            Vector3 stairTopPos = new Vector3(topOfStairs.x * mazes[mazeIndex + 1].scale,
+                                                 mazes[mazeIndex + 1].scale * mazes[mazeIndex + 1].level * mazes[mazeIndex + 1].levelDistance,
+                                                 topOfStairs.z * mazes[mazeIndex + 1].scale);
+
+            // visualize places
+            GameObject sphere = Instantiate(GameObject.CreatePrimitive(PrimitiveType.Sphere), stairBottomPos, Quaternion.identity);
+            GameObject sphere2 = Instantiate(GameObject.CreatePrimitive(PrimitiveType.Sphere), stairTopPos, Quaternion.identity);
+            sphere.name = "BOTTOM STAIRS";
+            sphere2.name = "TOP STAIRS";
+
         }
     }
 
