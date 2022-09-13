@@ -8,11 +8,9 @@ public class DungeonManager : MonoBehaviour
     public Maze[] mazes;
     public int width = 30;
     public int depth = 30;
+    public float levelDistance = 1.5f;
 
-    public GameObject deadEndManholeLadder;
-    public GameObject deadEndManholeUp;
-    public GameObject straightManholeLadder;
-    public GameObject straightManholeUp;
+    public GameObject stairwell;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +21,7 @@ public class DungeonManager : MonoBehaviour
             mazes[i].width = width;
             mazes[i].depth = depth;
             mazes[i].level = level++;
+            mazes[i].levelDistance = levelDistance;
             mazes[i].Build();
         }
         for (int mazeIndex = 0; mazeIndex < mazes.Length - 1; mazeIndex++)
@@ -31,15 +30,32 @@ public class DungeonManager : MonoBehaviour
             {
                 for (int z = 0; z < depth; z++)
                 {
-                    
+                    if (mazes[mazeIndex].piecePlaces[x, z].piece == Maze.PieceType.DeadEnd &&
+                        mazes[mazeIndex + 1].piecePlaces[x, z].piece == Maze.PieceType.DeadUpsideDown)
+                    {
+                        GenerateStairWell(mazeIndex, x, z, Quaternion.Euler(0, 90, 0));
+                    }
+                    else if (mazes[mazeIndex].piecePlaces[x, z].piece == Maze.PieceType.DeadToLeft
+                        && mazes[mazeIndex + 1].piecePlaces[x, z].piece == Maze.PieceType.DeadToRight)
+                    {
+                        GenerateStairWell(mazeIndex, x, z, Quaternion.identity);
+                    }
+
                 }
             }
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void GenerateStairWell(int mazeIndex, int x, int z, Quaternion rot)
     {
-
+        Destroy(mazes[mazeIndex].piecePlaces[x, z].model);
+        Destroy(mazes[mazeIndex + 1].piecePlaces[x, z].model);
+        Vector3 stairPos = new Vector3(x * mazes[mazeIndex].scale,
+                                            mazes[mazeIndex].scale * mazes[mazeIndex].level * levelDistance,
+                                            z * mazes[mazeIndex].scale);
+        mazes[mazeIndex].piecePlaces[x, z].model = Instantiate(stairwell, stairPos, rot);
+        mazes[mazeIndex].piecePlaces[x, z].piece = Maze.PieceType.Manhole;
+        mazes[mazeIndex + 1].piecePlaces[x, z].model = null;
+        mazes[mazeIndex + 1].piecePlaces[x, z].piece = Maze.PieceType.Manhole;
     }
 }

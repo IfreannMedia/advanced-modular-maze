@@ -8,6 +8,7 @@ public class MazeManager : MonoBehaviour
     public Maze[] mazes;
     public int width = 30;
     public int depth = 30;
+    public float levelDistance = 2f;
 
     public GameObject deadEndManholeLadder;
     public GameObject deadEndManholeUp;
@@ -23,6 +24,7 @@ public class MazeManager : MonoBehaviour
             mazes[i].width = width;
             mazes[i].depth = depth;
             mazes[i].level = level++;
+            mazes[i].levelDistance = levelDistance;
             mazes[i].Build();
         }
         for (int mazeIndex = 0; mazeIndex < mazes.Length - 1; mazeIndex++)
@@ -38,12 +40,12 @@ public class MazeManager : MonoBehaviour
                             Destroy(mazes[mazeIndex].piecePlaces[x, z].model);
                             Destroy(mazes[mazeIndex + 1].piecePlaces[x, z].model);
                             Vector3 upManholePos = new Vector3(x * mazes[mazeIndex].scale,
-                                                                mazes[mazeIndex].scale * mazes[mazeIndex].level * 2,
+                                                                mazes[mazeIndex].scale * mazes[mazeIndex].level * levelDistance,
                                                                 z * mazes[mazeIndex].scale);
                             mazes[mazeIndex].piecePlaces[x, z].model = Instantiate(straightManholeUp, upManholePos, Quaternion.identity);
                             mazes[mazeIndex].piecePlaces[x, z].piece = Maze.PieceType.Manhole;
                             Vector3 downManholePos = new Vector3(x * mazes[mazeIndex + 1].scale,
-                                        mazes[mazeIndex + 1].scale * mazes[mazeIndex + 1].level * 2,
+                                        mazes[mazeIndex + 1].scale * mazes[mazeIndex + 1].level * levelDistance,
                                         z * mazes[mazeIndex + 1].scale);
                             mazes[mazeIndex + 1].piecePlaces[x, z].model = Instantiate(straightManholeLadder, downManholePos, Quaternion.identity);
                             mazes[mazeIndex + 1].piecePlaces[x, z].piece = Maze.PieceType.Manhole;
@@ -55,13 +57,13 @@ public class MazeManager : MonoBehaviour
                             Destroy(mazes[mazeIndex].piecePlaces[x, z].model);
                             Destroy(mazes[mazeIndex + 1].piecePlaces[x, z].model);
                             Vector3 upManholePos = new Vector3(x * mazes[mazeIndex].scale,
-                                                                mazes[mazeIndex].scale * mazes[mazeIndex].level * 2,
+                                                                mazes[mazeIndex].scale * mazes[mazeIndex].level * levelDistance,
                                                                 z * mazes[mazeIndex].scale);
                             mazes[mazeIndex].piecePlaces[x, z].model = Instantiate(deadEndManholeUp, upManholePos, Quaternion.identity);
                             mazes[mazeIndex].piecePlaces[x, z].piece = Maze.PieceType.Manhole;
 
                             Vector3 downManholePos = new Vector3(x * mazes[mazeIndex + 1].scale,
-                                        mazes[mazeIndex + 1].scale * mazes[mazeIndex + 1].level * 2,
+                                        mazes[mazeIndex + 1].scale * mazes[mazeIndex + 1].level * levelDistance,
                                         z * mazes[mazeIndex + 1].scale);
                             mazes[mazeIndex + 1].piecePlaces[x, z].model = Instantiate(deadEndManholeLadder, downManholePos, Quaternion.identity);
                             mazes[mazeIndex + 1].piecePlaces[x, z].piece = Maze.PieceType.Manhole;

@@ -56,6 +56,7 @@ public class Maze : MonoBehaviour
     public byte[,] map;
     public int scale = 6;
     public int level = 0;
+    public float levelDistance = 2f;
 
     [System.Serializable]
     public struct Module
@@ -183,7 +184,7 @@ public class Maze : MonoBehaviour
 
     void DrawMap()
     {
-        int height = level * scale * 2;
+        int height = (int)(level * scale * levelDistance);
         for (int z = 0; z < depth; z++)
             for (int x = 0; x < width; x++)
             {
