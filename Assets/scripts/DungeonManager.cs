@@ -31,6 +31,10 @@ public class DungeonManager : MonoBehaviour
         }
         for (int mazeIndex = 0; mazeIndex < mazes.Length - 1; mazeIndex++)
         {
+            levelOneDeadEnds.Clear();
+            levelOneDeadEndsRight.Clear();
+            levelTwoDeadEndsLeft.Clear();
+            levelTwoDeadEndsUpsideDown.Clear();
             for (int x = 0; x < width; x++)
             {
                 for (int z = 0; z < depth; z++)
@@ -52,17 +56,6 @@ public class DungeonManager : MonoBehaviour
                         levelTwoDeadEndsLeft.Add(new MapLocation(x, z));
                     }
 
-                    //if (mazes[mazeIndex].piecePlaces[x, z].piece == Maze.PieceType.DeadEnd &&
-                    //    mazes[mazeIndex + 1].piecePlaces[x, z].piece == Maze.PieceType.DeadUpsideDown)
-                    //{
-                    //    GenerateStairWell(mazeIndex, x, z, Quaternion.Euler(0, 90, 0));
-                    //}
-                    //else if (mazes[mazeIndex].piecePlaces[x, z].piece == Maze.PieceType.DeadToLeft
-                    //    && mazes[mazeIndex + 1].piecePlaces[x, z].piece == Maze.PieceType.DeadToRight)
-                    //{
-                    //    GenerateStairWell(mazeIndex, x, z, Quaternion.identity);
-                    //}
-
                 }
             }
 
@@ -71,6 +64,10 @@ public class DungeonManager : MonoBehaviour
             MapLocation bottomOfStairs = levelOneDeadEnds[UnityEngine.Random.Range(0, levelOneDeadEnds.Count)];
             MapLocation topOfStairs = levelTwoDeadEndsUpsideDown[UnityEngine.Random.Range(0, levelTwoDeadEndsUpsideDown.Count)];
 
+            mazes[mazeIndex + 1].xOffset = bottomOfStairs.x - topOfStairs.x + mazes[mazeIndex].xOffset;
+            mazes[mazeIndex + 1].zOffset = bottomOfStairs.z - topOfStairs.z + mazes[mazeIndex].zOffset;
+
+
             Vector3 stairBottomPos = new Vector3(bottomOfStairs.x * mazes[mazeIndex].scale,
                                                  mazes[mazeIndex].scale * mazes[mazeIndex].level * mazes[mazeIndex].levelDistance,
                                                  bottomOfStairs.z * mazes[mazeIndex].scale);
@@ -78,25 +75,30 @@ public class DungeonManager : MonoBehaviour
                                                  mazes[mazeIndex + 1].scale * mazes[mazeIndex + 1].level * mazes[mazeIndex + 1].levelDistance,
                                                  topOfStairs.z * mazes[mazeIndex + 1].scale);
 
-            // visualize places
-            GameObject sphere = Instantiate(GameObject.CreatePrimitive(PrimitiveType.Sphere), stairBottomPos, Quaternion.identity);
-            GameObject sphere2 = Instantiate(GameObject.CreatePrimitive(PrimitiveType.Sphere), stairTopPos, Quaternion.identity);
-            sphere.name = "BOTTOM STAIRS";
-            sphere2.name = "TOP STAIRS";
+            GenerateStairWell(mazeIndex, bottomOfStairs, topOfStairs, stairBottomPos, Quaternion.Euler(0,90,0));
 
+        }
+        for (int mazeIndex = 0; mazeIndex < mazes.Length - 1; mazeIndex++)
+        {
+            mazes[mazeIndex + 1].gameObject.transform.Translate(mazes[mazeIndex + 1].xOffset * mazes[mazeIndex + 1].scale,
+                0,
+                mazes[mazeIndex + 1].zOffset * mazes[mazeIndex + 1].scale);
         }
     }
 
-    private void GenerateStairWell(int mazeIndex, int x, int z, Quaternion rot)
+    private void GenerateStairWell(int mazeIndex, MapLocation bottom, MapLocation top, Vector3 stairPos, Quaternion rot)
     {
-        Destroy(mazes[mazeIndex].piecePlaces[x, z].model);
-        Destroy(mazes[mazeIndex + 1].piecePlaces[x, z].model);
-        Vector3 stairPos = new Vector3(x * mazes[mazeIndex].scale,
-                                            mazes[mazeIndex].scale * mazes[mazeIndex].level * levelDistance,
-                                            z * mazes[mazeIndex].scale);
-        mazes[mazeIndex].piecePlaces[x, z].model = Instantiate(stairwell, stairPos, rot);
-        mazes[mazeIndex].piecePlaces[x, z].piece = Maze.PieceType.Manhole;
-        mazes[mazeIndex + 1].piecePlaces[x, z].model = null;
-        mazes[mazeIndex + 1].piecePlaces[x, z].piece = Maze.PieceType.Manhole;
+        Destroy(mazes[mazeIndex].piecePlaces[bottom.x, bottom.z].model);
+        Destroy(mazes[mazeIndex + 1].piecePlaces[top.x, top.z].model);
+        //Vector3 stairPos = new Vector3(x * mazes[mazeIndex].scale,
+        //                                    mazes[mazeIndex].scale * mazes[mazeIndex].level * levelDistance,
+        //                                    z * mazes[mazeIndex].scale);
+        mazes[mazeIndex].piecePlaces[bottom.x, bottom.z].model = Instantiate(stairwell, stairPos, rot);
+        mazes[mazeIndex].piecePlaces[bottom.x, bottom.z].piece = Maze.PieceType.Manhole;
+        mazes[mazeIndex + 1].piecePlaces[top.x, top.z].model = null;
+        mazes[mazeIndex + 1].piecePlaces[top.x, top.z].piece = Maze.PieceType.Manhole;
+        mazes[mazeIndex].piecePlaces[bottom.x, bottom.z].model.transform.SetParent(mazes[mazeIndex].transform);
+
+
     }
 }

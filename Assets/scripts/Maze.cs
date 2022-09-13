@@ -57,6 +57,8 @@ public class Maze : MonoBehaviour
     public int scale = 6;
     public int level = 0;
     public float levelDistance = 2f;
+    public float xOffset = 0.0f;
+    public float zOffset = 0.0f;
 
     [System.Serializable]
     public struct Module
