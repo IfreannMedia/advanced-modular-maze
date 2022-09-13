@@ -6,6 +6,7 @@ public class RecursiveDungeon : Maze
 {
     public override void Generate()
     {
+        transform.position = Vector3.zero;
         Generate(5, 5);
     }
 

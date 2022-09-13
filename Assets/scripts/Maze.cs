@@ -203,7 +203,7 @@ public class Maze : MonoBehaviour
                     GameObject block = Instantiate(EndpieceRight.prefab);
                     block.transform.position = new Vector3(x * scale, height, z * scale);
                     block.transform.Rotate(EndpieceRight.rotation);
-
+                    block.transform.SetParent(transform);
                     piecePlaces[x, z].piece = PieceType.DeadToRight;
                     piecePlaces[x, z].model = block;
 
@@ -213,6 +213,7 @@ public class Maze : MonoBehaviour
                     GameObject block = Instantiate(EndpieceLeft.prefab);
                     block.transform.position = new Vector3(x * scale, height, z * scale);
                     block.transform.Rotate(EndpieceLeft.rotation);
+                    block.transform.SetParent(transform);
                     piecePlaces[x, z].piece = PieceType.DeadToLeft;
                     piecePlaces[x, z].model = block;
 
@@ -222,6 +223,7 @@ public class Maze : MonoBehaviour
                     GameObject block = Instantiate(Endpiece.prefab);
                     block.transform.position = new Vector3(x * scale, height, z * scale);
                     block.transform.Rotate(Endpiece.rotation);
+                    block.transform.SetParent(transform);
                     piecePlaces[x, z].piece = PieceType.DeadEnd;
                     piecePlaces[x, z].model = block;
                 }
@@ -230,6 +232,7 @@ public class Maze : MonoBehaviour
                     GameObject block = Instantiate(EndpieceUpsideDown.prefab);
                     block.transform.position = new Vector3(x * scale, height, z * scale);
                     block.transform.Rotate(EndpieceUpsideDown.rotation);
+                    block.transform.SetParent(transform);
                     piecePlaces[x, z].piece = PieceType.DeadUpsideDown;
                     piecePlaces[x, z].model = block;
                 }
@@ -238,6 +241,7 @@ public class Maze : MonoBehaviour
                     Vector3 pos = new Vector3(x * scale, height, z * scale);
                     GameObject go = Instantiate(VerticalStraight.prefab, pos, Quaternion.identity);
                     go.transform.Rotate(VerticalStraight.rotation);
+                    go.transform.SetParent(transform);
                     piecePlaces[x, z].piece = PieceType.Vertical_Straight;
                     piecePlaces[x, z].model = go;
                 }
@@ -246,6 +250,7 @@ public class Maze : MonoBehaviour
                     Vector3 pos = new Vector3(x * scale, height, z * scale);
                     GameObject go = Instantiate(HorizontalStraight.prefab, pos, Quaternion.identity);
                     go.transform.Rotate(HorizontalStraight.rotation);
+                    go.transform.SetParent(transform);
                     piecePlaces[x, z].piece = PieceType.Horizontal_Straight;
                     piecePlaces[x, z].model = go;
 
@@ -255,6 +260,7 @@ public class Maze : MonoBehaviour
                     GameObject go = Instantiate(Crossroad.prefab);
                     go.transform.position = new Vector3(x * scale, height, z * scale);
                     go.transform.Rotate(Crossroad.rotation);
+                    go.transform.SetParent(transform);
                     piecePlaces[x, z].piece = PieceType.Crossroad;
                     piecePlaces[x, z].model = go;
                 }
@@ -263,6 +269,7 @@ public class Maze : MonoBehaviour
                     GameObject go = Instantiate(LeftUpCorner.prefab);
                     go.transform.position = new Vector3(x * scale, height, z * scale);
                     go.transform.Rotate(LeftUpCorner.rotation);
+                    go.transform.SetParent(transform);
                     piecePlaces[x, z].piece = PieceType.Left_Up_Corner;
                     piecePlaces[x, z].model = go;
                 }
@@ -271,6 +278,7 @@ public class Maze : MonoBehaviour
                     GameObject go = Instantiate(RightUpCorner.prefab);
                     go.transform.position = new Vector3(x * scale, height, z * scale);
                     go.transform.Rotate(RightUpCorner.rotation);
+                    go.transform.SetParent(transform);
                     piecePlaces[x, z].piece = PieceType.Right_Up_Corner;
                     piecePlaces[x, z].model = go;
                 }
@@ -279,6 +287,7 @@ public class Maze : MonoBehaviour
                     GameObject go = Instantiate(RightDownCorner.prefab);
                     go.transform.position = new Vector3(x * scale, height, z * scale);
                     go.transform.Rotate(RightDownCorner.rotation);
+                    go.transform.SetParent(transform);
                     piecePlaces[x, z].piece = PieceType.Right_Down_Corner;
                     piecePlaces[x, z].model = go;
                 }
@@ -287,6 +296,7 @@ public class Maze : MonoBehaviour
                     GameObject go = Instantiate(LeftDownCorner.prefab);
                     go.transform.position = new Vector3(x * scale, height, z * scale);
                     go.transform.Rotate(LeftDownCorner.rotation);
+                    go.transform.SetParent(transform);
                     piecePlaces[x, z].piece = PieceType.Left_Down_Corner;
                     piecePlaces[x, z].model = go;
                 }
@@ -295,6 +305,7 @@ public class Maze : MonoBehaviour
                     GameObject go = Instantiate(tIntersectionUpsideDown.prefab);
                     go.transform.position = new Vector3(x * scale, height, z * scale);
                     go.transform.Rotate(tIntersectionUpsideDown.rotation);
+                    go.transform.SetParent(transform);
                     piecePlaces[x, z].piece = PieceType.TUpsideDown;
                     piecePlaces[x, z].model = go;
                 }
@@ -303,6 +314,7 @@ public class Maze : MonoBehaviour
                     GameObject go = Instantiate(tIntersection.prefab);
                     go.transform.position = new Vector3(x * scale, height, z * scale);
                     go.transform.Rotate(tIntersection.rotation);
+                    go.transform.SetParent(transform);
                     piecePlaces[x, z].piece = PieceType.T_Junction;
                     piecePlaces[x, z].model = go;
                 }
@@ -311,6 +323,7 @@ public class Maze : MonoBehaviour
                     GameObject go = Instantiate(tIntersectionRight.prefab);
                     go.transform.position = new Vector3(x * scale, height, z * scale);
                     go.transform.Rotate(tIntersectionRight.rotation);
+                    go.transform.SetParent(transform);
                     piecePlaces[x, z].piece = PieceType.TToRight;
                     piecePlaces[x, z].model = go;
                 }
@@ -319,6 +332,7 @@ public class Maze : MonoBehaviour
                     GameObject go = Instantiate(tIntersectionLeft.prefab);
                     go.transform.position = new Vector3(x * scale, height, z * scale);
                     go.transform.Rotate(tIntersectionLeft.rotation);
+                    go.transform.SetParent(transform);
                     piecePlaces[x, z].piece = PieceType.TToLeft;
                     piecePlaces[x, z].model = go;
                 }
@@ -327,9 +341,11 @@ public class Maze : MonoBehaviour
                 {
                     GameObject floor = Instantiate(Floorpiece.prefab);
                     floor.transform.position = new Vector3(x * scale, height, z * scale);
+                    floor.transform.SetParent(transform);
 
                     GameObject ceiling = Instantiate(Ceilingpiece.prefab);
                     ceiling.transform.position = new Vector3(x * scale, height, z * scale);
+                    ceiling.transform.SetParent(transform);
 
                     piecePlaces[x, z].piece = PieceType.Room;
                     piecePlaces[x, z].model = floor;
@@ -342,6 +358,7 @@ public class Maze : MonoBehaviour
                         wall1.transform.position = new Vector3(x * scale, height, z * scale);
                         wall1.transform.Rotate(WallpieceTop.rotation);
                         wall1.name = "Top Wall";
+                        wall1.transform.SetParent(transform);
 
                         if (map[x + 1, z] == 0 && map[x + 1, z + 1] == 0 && !pillarLocations.Contains(new MapLocation(x,z)))
                         {
@@ -350,6 +367,7 @@ public class Maze : MonoBehaviour
                             pillarCorner.name = "Top Right";
                             pillarLocations.Add(new MapLocation(x, z));
                             pillarCorner.transform.localScale = new Vector3(1.01f, 1, 1.01f);
+                            pillarCorner.transform.SetParent(transform);
                         }
 
                         if (map[x - 1, z] == 0 && map[x - 1, z + 1] == 0 && !pillarLocations.Contains(new MapLocation(x - 1, z)))
@@ -359,6 +377,7 @@ public class Maze : MonoBehaviour
                             pillarCorner.name = "Top Left";
                             pillarLocations.Add(new MapLocation(x - 1, z));
                             pillarCorner.transform.localScale = new Vector3(1.01f, 1, 1.01f);
+                            pillarCorner.transform.SetParent(transform);
                         }
                     }
 
@@ -368,6 +387,7 @@ public class Maze : MonoBehaviour
                         wall2.transform.position = new Vector3(x * scale, height, z * scale);
                         wall2.transform.Rotate(WallpieceBottom.rotation);
                         wall2.name = "Bottom Wall";
+                        wall2.transform.SetParent(transform);
 
                         if (map[x + 1, z] == 0 && map[x + 1, z - 1] == 0 && !pillarLocations.Contains(new MapLocation(x, z - 1)))
                         {
@@ -376,6 +396,7 @@ public class Maze : MonoBehaviour
                             pillarCorner.name = "Bottom Right";
                             pillarLocations.Add(new MapLocation(x, z - 1));
                             pillarCorner.transform.localScale = new Vector3(1.01f, 1, 1.01f);
+                            pillarCorner.transform.SetParent(transform);
                         }
 
                         if (map[x - 1, z - 1] == 0 && map[x - 1, z] == 0 && !pillarLocations.Contains(new MapLocation(x - 1, z - 1)))
@@ -385,6 +406,7 @@ public class Maze : MonoBehaviour
                             pillarCorner.name = "Bottom Left";
                             pillarLocations.Add(new MapLocation(x - 1, z - 1));
                             pillarCorner.transform.localScale = new Vector3(1.01f, 1, 1.01f);
+                            pillarCorner.transform.SetParent(transform);
                         }
                     }
 
@@ -394,7 +416,7 @@ public class Maze : MonoBehaviour
                         wall3.transform.position = new Vector3(x * scale, height, z * scale);
                         wall3.transform.Rotate(WallpieceRight.rotation);
                         wall3.name = "Right Wall";
-
+                        wall3.transform.SetParent(transform);
                         if (map[x + 1, z + 1] == 0 && map[x, z + 1] == 0 && !pillarLocations.Contains(new MapLocation(x, z - 1)))
                         {
                             pillarCorner = Instantiate(Pillar.prefab);
@@ -402,6 +424,7 @@ public class Maze : MonoBehaviour
                             pillarCorner.name = "Right Top";
                             pillarLocations.Add(new MapLocation(x, z - 1));
                             pillarCorner.transform.localScale = new Vector3(1.01f, 1, 1.01f);
+                            pillarCorner.transform.SetParent(transform);
                         }
 
                         if (map[x, z - 1] == 0 && map[x + 1, z - 1] == 0 && !pillarLocations.Contains(new MapLocation(x + 1, z - 1)))
@@ -411,6 +434,7 @@ public class Maze : MonoBehaviour
                             pillarCorner.name = "Right Bottom";
                             pillarLocations.Add(new MapLocation(x + 1, z - 1));
                             pillarCorner.transform.localScale = new Vector3(1.01f, 1, 1.01f);
+                            pillarCorner.transform.SetParent(transform);
                         }
                     }
 
@@ -420,7 +444,7 @@ public class Maze : MonoBehaviour
                         wall4.transform.position = new Vector3(x * scale, height, z * scale);
                         wall4.transform.Rotate(WallpieceLeft.rotation);
                         wall4.name = "Left Wall";
-
+                        wall4.transform.SetParent(transform);
                         if (map[x - 1, z + 1] == 0 && map[x, z + 1] == 0 && !pillarLocations.Contains(new MapLocation(x - 1, z)))
                         {
                             pillarCorner = Instantiate(Pillar.prefab);
@@ -428,6 +452,7 @@ public class Maze : MonoBehaviour
                             pillarCorner.name = "Left Top";
                             pillarLocations.Add(new MapLocation(x - 1, z));
                             pillarCorner.transform.localScale = new Vector3(1.01f, 1, 1.01f);
+                            pillarCorner.transform.SetParent(transform);
                         }
 
                         if (map[x - 1, z - 1] == 0 && map[x, z - 1] == 0 && !pillarLocations.Contains(new MapLocation(x - 1, z - 1)))
@@ -437,6 +462,7 @@ public class Maze : MonoBehaviour
                             pillarCorner.name = "Left Bottom";
                             pillarLocations.Add(new MapLocation(x - 1, z - 1));
                             pillarCorner.transform.localScale = new Vector3(1.01f, 1, 1.01f);
+                            pillarCorner.transform.SetParent(transform);
                         }
                     }
 
@@ -457,6 +483,7 @@ public class Maze : MonoBehaviour
                     doorway.transform.Rotate(DoorTop.rotation);
                     doorway.name = "Top Doorway";
                     doorway.transform.Translate(0, 0, 0.01f);
+                    doorway.transform.SetParent(transform);
                 }
                 if (bottom)
                 {
@@ -465,6 +492,7 @@ public class Maze : MonoBehaviour
                     doorway.transform.Rotate(DoorBottom.rotation);
                     doorway.name = "Bottom Doorway";
                     doorway.transform.Translate(0, 0, 0.01f);
+                    doorway.transform.SetParent(transform);
                 }
                 if (left)
                 {
@@ -473,6 +501,7 @@ public class Maze : MonoBehaviour
                     doorway.transform.Rotate(DoorLeft.rotation);
                     doorway.name = "Left Doorway";
                     doorway.transform.Translate(0, 0, 0.01f);
+                    doorway.transform.SetParent(transform);
                 }
                 if (right)
                 {
@@ -481,6 +510,7 @@ public class Maze : MonoBehaviour
                     doorway.transform.Rotate(DoorRight.rotation);
                     doorway.name = "Right Doorway";
                     doorway.transform.Translate(0, 0, 0.01f);
+                    doorway.transform.SetParent(transform);
                 }
             }
     }
