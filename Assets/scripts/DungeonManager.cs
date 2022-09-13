@@ -31,42 +31,7 @@ public class DungeonManager : MonoBehaviour
             {
                 for (int z = 0; z < depth; z++)
                 {
-                    if (mazes[mazeIndex].piecePlaces[x, z].piece == mazes[mazeIndex + 1].piecePlaces[x, z].piece)
-                    {
-                        if (mazes[mazeIndex].piecePlaces[x, z].piece == Maze.PieceType.Vertical_Straight)
-                        {
-                            Destroy(mazes[mazeIndex].piecePlaces[x, z].model);
-                            Destroy(mazes[mazeIndex + 1].piecePlaces[x, z].model);
-                            Vector3 upManholePos = new Vector3(x * mazes[mazeIndex].scale,
-                                                                mazes[mazeIndex].scale * mazes[mazeIndex].level * 2,
-                                                                z * mazes[mazeIndex].scale);
-                            mazes[mazeIndex].piecePlaces[x, z].model = Instantiate(straightManholeUp, upManholePos, Quaternion.identity);
-                            mazes[mazeIndex].piecePlaces[x, z].piece = Maze.PieceType.Manhole;
-                            Vector3 downManholePos = new Vector3(x * mazes[mazeIndex + 1].scale,
-                                        mazes[mazeIndex + 1].scale * mazes[mazeIndex + 1].level * 2,
-                                        z * mazes[mazeIndex + 1].scale);
-                            mazes[mazeIndex + 1].piecePlaces[x, z].model = Instantiate(straightManholeLadder, downManholePos, Quaternion.identity);
-                            mazes[mazeIndex + 1].piecePlaces[x, z].piece = Maze.PieceType.Manhole;
-
-
-                        }
-                        else if (mazes[mazeIndex].piecePlaces[x, z].piece == Maze.PieceType.DeadEnd)
-                        {
-                            Destroy(mazes[mazeIndex].piecePlaces[x, z].model);
-                            Destroy(mazes[mazeIndex + 1].piecePlaces[x, z].model);
-                            Vector3 upManholePos = new Vector3(x * mazes[mazeIndex].scale,
-                                                                mazes[mazeIndex].scale * mazes[mazeIndex].level * 2,
-                                                                z * mazes[mazeIndex].scale);
-                            mazes[mazeIndex].piecePlaces[x, z].model = Instantiate(deadEndManholeUp, upManholePos, Quaternion.identity);
-                            mazes[mazeIndex].piecePlaces[x, z].piece = Maze.PieceType.Manhole;
-
-                            Vector3 downManholePos = new Vector3(x * mazes[mazeIndex + 1].scale,
-                                        mazes[mazeIndex + 1].scale * mazes[mazeIndex + 1].level * 2,
-                                        z * mazes[mazeIndex + 1].scale);
-                            mazes[mazeIndex + 1].piecePlaces[x, z].model = Instantiate(deadEndManholeLadder, downManholePos, Quaternion.identity);
-                            mazes[mazeIndex + 1].piecePlaces[x, z].piece = Maze.PieceType.Manhole;
-                        }
-                    }
+                    
                 }
             }
         }
