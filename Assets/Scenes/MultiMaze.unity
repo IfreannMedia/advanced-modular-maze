@@ -726,8 +726,8 @@ MonoBehaviour:
   - {fileID: 1276729223}
   - {fileID: 1392958397}
   - {fileID: 1549849528}
-  width: 7
-  depth: 22
+  width: 30
+  depth: 30
   deadEndManholeLadder: {fileID: 9194964959679135931, guid: 861f2809feea7fe4d921b119f3bc8d42,
     type: 3}
   deadEndManholeUp: {fileID: 2235964639096528593, guid: 26137de42b326fc4495211fadef3ff0e,

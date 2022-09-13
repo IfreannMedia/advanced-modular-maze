@@ -113,7 +113,8 @@ public class Maze : MonoBehaviour
         DeadToLeft,
         Wall,
         Crossroad,
-        Room
+        Room,
+        Manhole
     }
 
     public struct Pieces
