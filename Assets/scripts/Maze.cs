@@ -140,6 +140,11 @@ public class Maze : MonoBehaviour
         InitialiseMap();
         Generate();
         AddRooms(5, 4, 10);
+
+        FindPathAStar astar = GetComponent<FindPathAStar>();
+        if (astar != null)
+            astar.Build();
+
         DrawMap();
         PlaceFPC();
     }
@@ -149,7 +154,7 @@ public class Maze : MonoBehaviour
 
     }
 
-    void InitialiseMap()
+    public void InitialiseMap()
     {
         map = new byte[width,depth];
         piecePlaces = new Pieces[width, depth];
@@ -184,7 +189,7 @@ public class Maze : MonoBehaviour
             }
     }
 
-    void DrawMap()
+    public void DrawMap()
     {
         int height = (int)(level * scale * levelDistance);
         for (int z = 0; z < depth; z++)
