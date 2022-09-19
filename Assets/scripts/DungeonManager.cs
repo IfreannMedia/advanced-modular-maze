@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,13 +10,7 @@ public class DungeonManager : MonoBehaviour
     public float levelDistance = 1.5f;
 
     public GameObject stairwell;
-    List<MapLocation> levelOneDeadEnds = new List<MapLocation>();
-    List<MapLocation> levelTwoDeadEndsUpsideDown = new List<MapLocation>();
 
-    List<MapLocation> levelOneDeadEndsRight = new List<MapLocation>();
-    List<MapLocation> levelTwoDeadEndsLeft = new List<MapLocation>();
-
-    // Start is called before the first frame update
     void Start()
     {
         int level = 0;
@@ -31,52 +24,10 @@ public class DungeonManager : MonoBehaviour
         }
         for (int mazeIndex = 0; mazeIndex < mazes.Length - 1; mazeIndex++)
         {
-            levelOneDeadEnds.Clear();
-            levelOneDeadEndsRight.Clear();
-            levelTwoDeadEndsLeft.Clear();
-            levelTwoDeadEndsUpsideDown.Clear();
-            for (int x = 0; x < width; x++)
-            {
-                for (int z = 0; z < depth; z++)
-                {
-                    if (mazes[mazeIndex].piecePlaces[x, z].piece == Maze.PieceType.DeadEnd)
-                    {
-                        levelOneDeadEnds.Add(new MapLocation(x, z));
-                    }
-                    if (mazes[mazeIndex + 1].piecePlaces[x, z].piece == Maze.PieceType.DeadUpsideDown)
-                    {
-                        levelTwoDeadEndsUpsideDown.Add(new MapLocation(x, z));
-                    }
-                    if (mazes[mazeIndex].piecePlaces[x, z].piece == Maze.PieceType.DeadToRight)
-                    {
-                        levelOneDeadEndsRight.Add(new MapLocation(x, z));
-                    }
-                    if (mazes[mazeIndex + 1].piecePlaces[x, z].piece == Maze.PieceType.DeadToLeft)
-                    {
-                        levelTwoDeadEndsLeft.Add(new MapLocation(x, z));
-                    }
-
-                }
-            }
-
-            if (levelOneDeadEnds.Count == 0 || levelTwoDeadEndsUpsideDown.Count == 0) break;
-
-            MapLocation bottomOfStairs = levelOneDeadEnds[UnityEngine.Random.Range(0, levelOneDeadEnds.Count)];
-            MapLocation topOfStairs = levelTwoDeadEndsUpsideDown[UnityEngine.Random.Range(0, levelTwoDeadEndsUpsideDown.Count)];
-
-            mazes[mazeIndex + 1].xOffset = bottomOfStairs.x - topOfStairs.x + mazes[mazeIndex].xOffset;
-            mazes[mazeIndex + 1].zOffset = bottomOfStairs.z - topOfStairs.z + mazes[mazeIndex].zOffset;
-
-
-            Vector3 stairBottomPos = new Vector3(bottomOfStairs.x * mazes[mazeIndex].scale,
-                                                 mazes[mazeIndex].scale * mazes[mazeIndex].level * mazes[mazeIndex].levelDistance,
-                                                 bottomOfStairs.z * mazes[mazeIndex].scale);
-            Vector3 stairTopPos = new Vector3(topOfStairs.x * mazes[mazeIndex + 1].scale,
-                                                 mazes[mazeIndex + 1].scale * mazes[mazeIndex + 1].level * mazes[mazeIndex + 1].levelDistance,
-                                                 topOfStairs.z * mazes[mazeIndex + 1].scale);
-
-            GenerateStairWell(mazeIndex, bottomOfStairs, topOfStairs, stairBottomPos, Quaternion.Euler(0,90,0));
-
+            if (PlaceStairs(mazeIndex, 90f, Maze.PieceType.DeadEnd, Maze.PieceType.DeadUpsideDown, stairwell)) continue;
+            if (PlaceStairs(mazeIndex, 0f, Maze.PieceType.DeadToLeft, Maze.PieceType.DeadToRight, stairwell)) continue;
+            if (PlaceStairs(mazeIndex, 180f, Maze.PieceType.DeadToRight, Maze.PieceType.DeadToLeft, stairwell)) continue;
+            PlaceStairs(mazeIndex, -90f, Maze.PieceType.DeadUpsideDown, Maze.PieceType.DeadEnd, stairwell);
         }
         for (int mazeIndex = 0; mazeIndex < mazes.Length - 1; mazeIndex++)
         {
@@ -86,19 +37,50 @@ public class DungeonManager : MonoBehaviour
         }
     }
 
-    private void GenerateStairWell(int mazeIndex, MapLocation bottom, MapLocation top, Vector3 stairPos, Quaternion rot)
+    bool PlaceStairs(int mazeIndex, float rotAngle, Maze.PieceType bottomType, Maze.PieceType upperType, GameObject stairPrefab)
     {
-        Destroy(mazes[mazeIndex].piecePlaces[bottom.x, bottom.z].model);
-        Destroy(mazes[mazeIndex + 1].piecePlaces[top.x, top.z].model);
-        //Vector3 stairPos = new Vector3(x * mazes[mazeIndex].scale,
-        //                                    mazes[mazeIndex].scale * mazes[mazeIndex].level * levelDistance,
-        //                                    z * mazes[mazeIndex].scale);
-        mazes[mazeIndex].piecePlaces[bottom.x, bottom.z].model = Instantiate(stairwell, stairPos, rot);
-        mazes[mazeIndex].piecePlaces[bottom.x, bottom.z].piece = Maze.PieceType.Manhole;
-        mazes[mazeIndex + 1].piecePlaces[top.x, top.z].model = null;
-        mazes[mazeIndex + 1].piecePlaces[top.x, top.z].piece = Maze.PieceType.Manhole;
-        mazes[mazeIndex].piecePlaces[bottom.x, bottom.z].model.transform.SetParent(mazes[mazeIndex].transform);
+        List<MapLocation> startingLocations = new List<MapLocation>();
+        List<MapLocation> endingLocations = new List<MapLocation>();
 
+        for (int z = 0; z < depth; z++)
+            for (int x = 0; x < width; x++)
+            {
+                if (mazes[mazeIndex].piecePlaces[x, z].piece == bottomType)
+                    startingLocations.Add(new MapLocation(x, z));
 
+                if (mazes[mazeIndex + 1].piecePlaces[x, z].piece == upperType)
+                    endingLocations.Add(new MapLocation(x, z));
+            }
+
+        if (startingLocations.Count == 0 || endingLocations.Count == 0) return false;
+
+        MapLocation bottomOfStairs = startingLocations[UnityEngine.Random.Range(0, startingLocations.Count)];
+        MapLocation topOfStairs = endingLocations[UnityEngine.Random.Range(0, endingLocations.Count)];
+
+        mazes[mazeIndex + 1].xOffset = bottomOfStairs.x - topOfStairs.x + mazes[mazeIndex].xOffset;
+        mazes[mazeIndex + 1].zOffset = bottomOfStairs.z - topOfStairs.z + mazes[mazeIndex].zOffset;
+
+        Vector3 stairPosBottom = new Vector3(bottomOfStairs.x * mazes[mazeIndex].scale,
+                                                    mazes[mazeIndex].scale * mazes[mazeIndex].level
+                                                            * mazes[mazeIndex].levelDistance,
+                                                    bottomOfStairs.z * mazes[mazeIndex].scale);
+        //Vector3 stairPosTop = new Vector3(topOfStairs.x * mazes[mazeIndex + 1].scale,
+        //                                            mazes[mazeIndex + 1].scale * mazes[mazeIndex + 1].level
+        //                                                    * mazes[mazeIndex + 1].levelDistance,
+        //                                            topOfStairs.z * mazes[mazeIndex + 1].scale);
+
+        Destroy(mazes[mazeIndex].piecePlaces[bottomOfStairs.x, bottomOfStairs.z].model);
+        Destroy(mazes[mazeIndex + 1].piecePlaces[topOfStairs.x, topOfStairs.z].model);
+
+        GameObject stairs = Instantiate(stairPrefab, stairPosBottom, Quaternion.identity);
+        stairs.transform.Rotate(0, rotAngle, 0);
+        mazes[mazeIndex].piecePlaces[bottomOfStairs.x, bottomOfStairs.z].model = stairs;
+        mazes[mazeIndex].piecePlaces[bottomOfStairs.x, bottomOfStairs.z].piece = Maze.PieceType.Manhole;
+
+        mazes[mazeIndex + 1].piecePlaces[topOfStairs.x, topOfStairs.z].model = null;
+        mazes[mazeIndex + 1].piecePlaces[topOfStairs.x, topOfStairs.z].piece = Maze.PieceType.Manhole;
+
+        stairs.transform.SetParent(mazes[mazeIndex].gameObject.transform);
+        return true;
     }
 }
