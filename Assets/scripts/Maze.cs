@@ -255,9 +255,12 @@ public class Maze : MonoBehaviour
         }
 
         DrawMap();
-        PlaceObject objectPlacer = GetComponent<PlaceObject>();
-        if (objectPlacer)
-            objectPlacer.PlaceItems();
+        PlaceObject[] objectPlacers = GetComponents<PlaceObject>();
+        if (objectPlacers != null && objectPlacers.Length >= 1)
+            foreach (PlaceObject placer in objectPlacers)
+            {
+                placer.PlaceItems();
+            }
         PlaceFPC();
     }
 
@@ -285,7 +288,6 @@ public class Maze : MonoBehaviour
             {
                 if (map[x, z] == 0)
                 {
-                    Debug.Log("Placing FPC now at: " + new Vector3(x * scale, level, z * scale));
                     FPC.transform.position = new Vector3(x * scale, level, z * scale);
                     return;
                 }
