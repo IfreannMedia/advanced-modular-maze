@@ -84,11 +84,16 @@ public class DungeonManager : MonoBehaviour
         stairs.transform.Rotate(0, rotAngle, 0);
         mazes[mazeIndex].piecePlaces[bottomOfStairs.x, bottomOfStairs.z].model = stairs;
         mazes[mazeIndex].piecePlaces[bottomOfStairs.x, bottomOfStairs.z].piece = Maze.PieceType.Manhole;
+        mazes[mazeIndex].piecePlaces[bottomOfStairs.x, bottomOfStairs.z].model.GetComponent<MapLoc>().x = bottomOfStairs.x;
+        mazes[mazeIndex].piecePlaces[bottomOfStairs.x, bottomOfStairs.z].model.GetComponent<MapLoc>().z = bottomOfStairs.z;
 
         mazes[mazeIndex + 1].piecePlaces[topOfStairs.x, topOfStairs.z].model = null;
         mazes[mazeIndex + 1].piecePlaces[topOfStairs.x, topOfStairs.z].piece = Maze.PieceType.Manhole;
 
         stairs.transform.SetParent(mazes[mazeIndex].gameObject.transform);
+
+        mazes[mazeIndex].exitPoint = new MapLocation(bottomOfStairs.x, bottomOfStairs.z);
+        mazes[mazeIndex+1].entryPoint = new MapLocation(topOfStairs.x, topOfStairs.z);
         return true;
     }
 }

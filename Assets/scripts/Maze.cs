@@ -60,6 +60,9 @@ public class Maze : MonoBehaviour
     public float xOffset = 0.0f;
     public float zOffset = 0.0f;
 
+    public MapLocation entryPoint;
+    public MapLocation exitPoint;
+
     [System.Serializable]
     public struct Module
     {
@@ -267,6 +270,12 @@ public class Maze : MonoBehaviour
         {
             for (int z = 1; z < depth-1; z++)
             {
+                GameObject go = piecePlaces[x, z].model;
+                if(go != null)
+                {
+                    go.GetComponent<MapLoc>().x = x;
+                    go.GetComponent<MapLoc>().z = z;
+                }
                 if (map[x, z] != 1)
                     locations.Add(new MapLocation(x, z));
             }

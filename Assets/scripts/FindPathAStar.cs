@@ -80,6 +80,22 @@ public class FindPathAStar : MonoBehaviour
         lastPos = startNode;
     }
 
+    void BeginSearch(PathMarker start, PathMarker end)
+    {
+        done = false;
+
+        maze.locations.Shuffle();
+
+        startNode = start;
+        goalNode = end;
+
+        open.Clear();
+        closed.Clear();
+        open.Add(startNode);
+        lastPos = startNode;
+    }
+
+
     void Search(PathMarker thisNode)
     {
         if (thisNode.Equals(goalNode)) { done = true; return; } //goal has been found
@@ -140,6 +156,15 @@ public class FindPathAStar : MonoBehaviour
             Search(lastPos);
         maze.InitialiseMap();
         MarkPath();
+    }
+
+    public PathMarker Build(Maze m, MapLocation start, MapLocation end)
+    {
+        maze = m;
+        BeginSearch(new PathMarker(start, 0,0,0,null), new PathMarker(end, 0, 0, 0, null));
+        while (!done)
+            Search(lastPos);
+        return lastPos;
     }
 
     void MarkPath()
