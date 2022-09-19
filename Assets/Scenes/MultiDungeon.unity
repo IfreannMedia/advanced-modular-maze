@@ -309,6 +309,7 @@ GameObject:
   m_Component:
   - component: {fileID: 147919088}
   - component: {fileID: 147919089}
+  - component: {fileID: 147919090}
   m_Layer: 0
   m_Name: DungeonManager
   m_TagString: Untagged
@@ -355,6 +356,22 @@ MonoBehaviour:
   levelDistance: 1.5
   stairwell: {fileID: 5467397029984825422, guid: ebfb7bf8656c84447964cdafd0e1e26c,
     type: 3}
+--- !u!114 &147919090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 147919087}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 605a0b73b99554df09ba1d171c11a5b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teleportPrefab: {fileID: 8578169865332986168, guid: ed9d5c163d29144f79ee89e5e8b0dd89,
+    type: 3}
+  startMaze: 0
+  endMaze: 0
 --- !u!1 &208522800
 GameObject:
   m_ObjectHideFlags: 0
@@ -1180,6 +1197,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: FPC
+      objectReference: {fileID: 0}
+    - target: {fileID: 4607536592162570171, guid: 7f3c3dceeffb94f85bc6150d13ac6a09,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 4607536592162570177, guid: 7f3c3dceeffb94f85bc6150d13ac6a09,
         type: 3}

@@ -49,6 +49,7 @@ public class Maze : MonoBehaviour
                                             new MapLocation(0,-1) };
 
     public List<MapLocation> pillarLocations = new List<MapLocation>();
+    public List<MapLocation> locations = new List<MapLocation>();
 
     public int width = 30; //x length
     public int depth = 30; //z length
@@ -261,6 +262,15 @@ public class Maze : MonoBehaviour
             {
                 placer.PlaceItems();
             }
+
+        for (int x = 1; x < width-1; x++)
+        {
+            for (int z = 1; z < depth-1; z++)
+            {
+                if (map[x, z] != 1)
+                    locations.Add(new MapLocation(x, z));
+            }
+        }
         PlaceFPC();
     }
 

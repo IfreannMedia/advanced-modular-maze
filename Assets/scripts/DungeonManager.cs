@@ -40,6 +40,13 @@ public class DungeonManager : MonoBehaviour
                 0,
                 mazes[mazeIndex + 1].zOffset * mazes[mazeIndex + 1].scale);
         }
+
+        Teleporter[] teleporters = GetComponents<Teleporter>();
+        if (teleporters.Length > 0)
+            foreach (Teleporter teleporter in teleporters)
+            {
+                teleporter.Add(mazes[teleporter.startMaze], mazes[teleporter.endMaze]);
+            }
     }
 
     bool PlaceStairs(int mazeIndex, float rotAngle, Maze.PieceType bottomType, Maze.PieceType upperType, GameObject stairPrefab)
