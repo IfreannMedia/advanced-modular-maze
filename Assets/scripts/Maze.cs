@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class MapLocation
@@ -94,6 +93,7 @@ public class Maze : MonoBehaviour
     public Module DoorBottom;
     public Module DoorRight;
     public Module DoorLeft;
+    public Module Light;
 
 
     public GameObject FPC;
@@ -117,7 +117,8 @@ public class Maze : MonoBehaviour
         Wall,
         Crossroad,
         Room,
-        Manhole
+        Manhole,
+        Light
     }
 
     public struct Pieces
@@ -259,11 +260,6 @@ public class Maze : MonoBehaviour
 
     }
 
-    public virtual void AddEdgeCorridors(int count, int minSize, int maxSize)
-    {
-
-    }
-
     public void InitialiseMap()
     {
         map = new byte[width,depth];
@@ -370,7 +366,6 @@ public class Maze : MonoBehaviour
                     go.transform.SetParent(transform);
                     piecePlaces[x, z].piece = PieceType.Horizontal_Straight;
                     piecePlaces[x, z].model = go;
-
                 }
                 else if (Search2D(x, z, new int[] { 1, 0, 1, 0, 0, 0, 1, 0, 1 })) //crossroad
                 {
