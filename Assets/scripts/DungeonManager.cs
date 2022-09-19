@@ -22,6 +22,11 @@ public class DungeonManager : MonoBehaviour
             mazes[i].levelDistance = levelDistance;
             mazes[i].Build();
         }
+
+        // update width hand depth according to maze
+        width += mazes[0].scale;
+        depth += mazes[0].scale;
+
         for (int mazeIndex = 0; mazeIndex < mazes.Length - 1; mazeIndex++)
         {
             if (PlaceStairs(mazeIndex, 90f, Maze.PieceType.DeadEnd, Maze.PieceType.DeadUpsideDown, stairwell)) continue;
@@ -64,10 +69,6 @@ public class DungeonManager : MonoBehaviour
                                                     mazes[mazeIndex].scale * mazes[mazeIndex].level
                                                             * mazes[mazeIndex].levelDistance,
                                                     bottomOfStairs.z * mazes[mazeIndex].scale);
-        //Vector3 stairPosTop = new Vector3(topOfStairs.x * mazes[mazeIndex + 1].scale,
-        //                                            mazes[mazeIndex + 1].scale * mazes[mazeIndex + 1].level
-        //                                                    * mazes[mazeIndex + 1].levelDistance,
-        //                                            topOfStairs.z * mazes[mazeIndex + 1].scale);
 
         Destroy(mazes[mazeIndex].piecePlaces[bottomOfStairs.x, bottomOfStairs.z].model);
         Destroy(mazes[mazeIndex + 1].piecePlaces[topOfStairs.x, topOfStairs.z].model);

@@ -47,8 +47,8 @@ public class FindPathAStar : MonoBehaviour
     List<PathMarker> open = new List<PathMarker>();
     List<PathMarker> closed = new List<PathMarker>();
 
-    PathMarker goalNode;
-    PathMarker startNode;
+    public PathMarker goalNode;
+    public PathMarker startNode;
 
     PathMarker lastPos;
     bool done = false;

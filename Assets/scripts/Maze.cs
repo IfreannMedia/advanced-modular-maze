@@ -141,15 +141,125 @@ public class Maze : MonoBehaviour
         Generate();
         AddRooms(5, 4, 10);
 
+        // add edge corridors to maze
+        byte[,] oldMap = map;
+        int oldDepth = depth;
+        int oldWidth = width;
+
+        width += scale;
+        depth += scale;
+
+        map = new byte[width, depth];
+        InitialiseMap();
+
+        // copy old map data in to the new larger map
+        for (int x = 0; x < oldWidth; x++)
+        {
+            for (int z = 0; z < oldDepth; z++)
+            {
+                map[x + 3, z + 3] = oldMap[x, z];
+            }
+        }
+
+        int xpos, zpos;
+
+
         FindPathAStar astar = GetComponent<FindPathAStar>();
         if (astar != null)
+        {
             astar.Build();
+            if(astar.startNode.location.x < astar.goalNode.location.x)
+            {
+                xpos = astar.startNode.location.x;
+                zpos = astar.startNode.location.z;
+
+                while(xpos > 1)
+                {
+                    map[xpos, zpos] = 0;
+                    xpos--;
+                }
+
+                xpos = astar.goalNode.location.x;
+                zpos = astar.goalNode.location.z;
+
+                while (xpos < width -2)
+                {
+                    map[xpos, zpos] = 0;
+                    xpos++;
+                }
+            } else
+            {
+                xpos = astar.startNode.location.x;
+                zpos = astar.startNode.location.z;
+
+                while (xpos < width - 2)
+                {
+                    map[xpos, zpos] = 0;
+                    xpos++;
+                }
+
+                xpos = astar.goalNode.location.x;
+                zpos = astar.goalNode.location.z;
+
+                while (xpos > 1)
+                {
+                    map[xpos, zpos] = 0;
+                    xpos--;
+                }
+            }
+        } else
+        {
+            // upper vertical coridor
+            xpos = Random.Range(5, width-5);
+            zpos = depth - 2;
+
+            while (map[xpos, zpos] != 0 && zpos > 1)
+            {
+                map[xpos, zpos] = 0;
+                zpos--;
+            }
+
+            // lower vertical coridor
+            xpos = Random.Range(5, width - 5);
+            zpos = 1;
+
+            while (map[xpos, zpos] != 0 && zpos < depth -2)
+            {
+                map[xpos, zpos] = 0;
+                zpos++;
+            }
+
+            // right horizontal coridor
+            xpos = width - 2;
+            zpos = Random.Range(5, depth - 5);
+
+            while (map[xpos, zpos] != 0 && xpos > 1)
+            {
+                map[xpos, zpos] = 0;
+                xpos--;
+            }
+
+            // left horizontal coridor
+            xpos = 1;
+            zpos = Random.Range(5, depth - 5);
+
+            while (map[xpos, zpos] != 0 && xpos < width - 2)
+            {
+                map[xpos, zpos] = 0;
+                xpos++;
+            }
+        }
 
         DrawMap();
         PlaceFPC();
     }
 
     public virtual void AddRooms(int count, int minSize, int maxSize)
+    {
+
+    }
+
+    public virtual void AddEdgeCorridors(int count, int minSize, int maxSize)
     {
 
     }
