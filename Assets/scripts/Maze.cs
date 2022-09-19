@@ -255,9 +255,9 @@ public class Maze : MonoBehaviour
         }
 
         DrawMap();
-        PlaceObject script = GetComponent<PlaceObject>();
-        if (script)
-            script.PlaceItems(this);
+        PlaceObject objectPlacer = GetComponent<PlaceObject>();
+        if (objectPlacer)
+            objectPlacer.PlaceItems();
         PlaceFPC();
     }
 
@@ -285,6 +285,7 @@ public class Maze : MonoBehaviour
             {
                 if (map[x, z] == 0)
                 {
+                    Debug.Log("Placing FPC now at: " + new Vector3(x * scale, level, z * scale));
                     FPC.transform.position = new Vector3(x * scale, level, z * scale);
                     return;
                 }

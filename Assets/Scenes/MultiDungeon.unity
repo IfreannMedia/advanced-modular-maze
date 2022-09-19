@@ -283,7 +283,7 @@ MonoBehaviour:
     prefab: {fileID: 6460080452713321639, guid: 061ac7cf05cd3481cb6e82b83682635e,
       type: 3}
     rotation: {x: 0, y: 90, z: 0}
-  FPC: {fileID: 443153702}
+  FPC: {fileID: 0}
 --- !u!4 &94464427
 Transform:
   m_ObjectHideFlags: 0
@@ -790,7 +790,7 @@ MonoBehaviour:
     prefab: {fileID: 6460080452713321639, guid: 061ac7cf05cd3481cb6e82b83682635e,
       type: 3}
     rotation: {x: 0, y: 90, z: 0}
-  FPC: {fileID: 443153702}
+  FPC: {fileID: 0}
 --- !u!4 &839698894
 Transform:
   m_ObjectHideFlags: 0
@@ -1105,7 +1105,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 8317183922454917979, guid: 5b4e1ff20ff1d4b9b94006239e3ce67e, type: 3}
-  chanceOfAppearance: 19
+  chanceOfAppearance: 100
   location: 0
 --- !u!850595691 &1160735724
 LightingSettings:
@@ -1560,7 +1560,7 @@ MonoBehaviour:
     prefab: {fileID: 6460080452713321639, guid: 061ac7cf05cd3481cb6e82b83682635e,
       type: 3}
     rotation: {x: 0, y: 90, z: 0}
-  FPC: {fileID: 443153702}
+  FPC: {fileID: 0}
 --- !u!4 &1593373205
 Transform:
   m_ObjectHideFlags: 0
