@@ -177,9 +177,15 @@ MonoBehaviour:
     prefab: {fileID: 6715551033286075417, guid: 91eddfca1f4e245e1929ae4ff4c2e878,
       type: 3}
     rotation: {x: 0, y: 90, z: 0}
+  VerticalStraightLight:
+    prefab: {fileID: 986496073224106322, guid: 2ca43af9aaf7f6c498b82bf2af96c486, type: 3}
+    rotation: {x: 0, y: 90, z: 0}
   HorizontalStraight:
     prefab: {fileID: 6715551033286075417, guid: 91eddfca1f4e245e1929ae4ff4c2e878,
       type: 3}
+    rotation: {x: 0, y: 0, z: 0}
+  HorizontalStraightLight:
+    prefab: {fileID: 986496073224106322, guid: 2ca43af9aaf7f6c498b82bf2af96c486, type: 3}
     rotation: {x: 0, y: 0, z: 0}
   Crossroad:
     prefab: {fileID: 4339788278108003769, guid: 232794c0635234d558005b62cdc4bf0b,
@@ -277,10 +283,6 @@ MonoBehaviour:
     prefab: {fileID: 6460080452713321639, guid: 061ac7cf05cd3481cb6e82b83682635e,
       type: 3}
     rotation: {x: 0, y: 90, z: 0}
-  Light:
-    prefab: {fileID: 1157799790856911647, guid: 3da742cf62755a74ea165b9128c57d0a,
-      type: 3}
-    rotation: {x: 0, y: 0, z: 0}
   FPC: {fileID: 443153702}
 --- !u!4 &94464427
 Transform:
@@ -393,9 +395,15 @@ MonoBehaviour:
     prefab: {fileID: 6715551033286075417, guid: 91eddfca1f4e245e1929ae4ff4c2e878,
       type: 3}
     rotation: {x: 0, y: 90, z: 0}
+  VerticalStraightLight:
+    prefab: {fileID: 986496073224106322, guid: 2ca43af9aaf7f6c498b82bf2af96c486, type: 3}
+    rotation: {x: 0, y: 90, z: 0}
   HorizontalStraight:
     prefab: {fileID: 6715551033286075417, guid: 91eddfca1f4e245e1929ae4ff4c2e878,
       type: 3}
+    rotation: {x: 0, y: 0, z: 0}
+  HorizontalStraightLight:
+    prefab: {fileID: 986496073224106322, guid: 2ca43af9aaf7f6c498b82bf2af96c486, type: 3}
     rotation: {x: 0, y: 0, z: 0}
   Crossroad:
     prefab: {fileID: 4339788278108003769, guid: 232794c0635234d558005b62cdc4bf0b,
@@ -493,10 +501,6 @@ MonoBehaviour:
     prefab: {fileID: 6460080452713321639, guid: 061ac7cf05cd3481cb6e82b83682635e,
       type: 3}
     rotation: {x: 0, y: 90, z: 0}
-  Light:
-    prefab: {fileID: 1157799790856911647, guid: 3da742cf62755a74ea165b9128c57d0a,
-      type: 3}
-    rotation: {x: 0, y: 0, z: 0}
   FPC: {fileID: 0}
 --- !u!4 &208522802
 Transform:
@@ -524,81 +528,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4607536592162570171, guid: 7f3c3dceeffb94f85bc6150d13ac6a09,
     type: 3}
   m_PrefabInstance: {fileID: 1423909375}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &632491312
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 6231221261368196771, guid: 91eddfca1f4e245e1929ae4ff4c2e878,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6231221261368196771, guid: 91eddfca1f4e245e1929ae4ff4c2e878,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6231221261368196771, guid: 91eddfca1f4e245e1929ae4ff4c2e878,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6231221261368196771, guid: 91eddfca1f4e245e1929ae4ff4c2e878,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6231221261368196771, guid: 91eddfca1f4e245e1929ae4ff4c2e878,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6231221261368196771, guid: 91eddfca1f4e245e1929ae4ff4c2e878,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6231221261368196771, guid: 91eddfca1f4e245e1929ae4ff4c2e878,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6231221261368196771, guid: 91eddfca1f4e245e1929ae4ff4c2e878,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6231221261368196771, guid: 91eddfca1f4e245e1929ae4ff4c2e878,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6231221261368196771, guid: 91eddfca1f4e245e1929ae4ff4c2e878,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6231221261368196771, guid: 91eddfca1f4e245e1929ae4ff4c2e878,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6715551033286075417, guid: 91eddfca1f4e245e1929ae4ff4c2e878,
-        type: 3}
-      propertyPath: m_Name
-      value: Straight_Light
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 91eddfca1f4e245e1929ae4ff4c2e878, type: 3}
---- !u!4 &632491313 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6231221261368196771, guid: 91eddfca1f4e245e1929ae4ff4c2e878,
-    type: 3}
-  m_PrefabInstance: {fileID: 632491312}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &705507993
 GameObject:
@@ -755,9 +684,15 @@ MonoBehaviour:
     prefab: {fileID: 6715551033286075417, guid: 91eddfca1f4e245e1929ae4ff4c2e878,
       type: 3}
     rotation: {x: 0, y: 90, z: 0}
+  VerticalStraightLight:
+    prefab: {fileID: 986496073224106322, guid: 2ca43af9aaf7f6c498b82bf2af96c486, type: 3}
+    rotation: {x: 0, y: 90, z: 0}
   HorizontalStraight:
     prefab: {fileID: 6715551033286075417, guid: 91eddfca1f4e245e1929ae4ff4c2e878,
       type: 3}
+    rotation: {x: 0, y: 0, z: 0}
+  HorizontalStraightLight:
+    prefab: {fileID: 986496073224106322, guid: 2ca43af9aaf7f6c498b82bf2af96c486, type: 3}
     rotation: {x: 0, y: 0, z: 0}
   Crossroad:
     prefab: {fileID: 4339788278108003769, guid: 232794c0635234d558005b62cdc4bf0b,
@@ -855,10 +790,6 @@ MonoBehaviour:
     prefab: {fileID: 6460080452713321639, guid: 061ac7cf05cd3481cb6e82b83682635e,
       type: 3}
     rotation: {x: 0, y: 90, z: 0}
-  Light:
-    prefab: {fileID: 1157799790856911647, guid: 3da742cf62755a74ea165b9128c57d0a,
-      type: 3}
-    rotation: {x: 0, y: 0, z: 0}
   FPC: {fileID: 443153702}
 --- !u!4 &839698894
 Transform:
@@ -1008,6 +939,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1005088011}
   - component: {fileID: 1005088010}
+  - component: {fileID: 1005088012}
   m_Layer: 0
   m_Name: Maze
   m_TagString: Untagged
@@ -1038,9 +970,15 @@ MonoBehaviour:
     prefab: {fileID: 6715551033286075417, guid: 91eddfca1f4e245e1929ae4ff4c2e878,
       type: 3}
     rotation: {x: 0, y: 90, z: 0}
+  VerticalStraightLight:
+    prefab: {fileID: 986496073224106322, guid: 2ca43af9aaf7f6c498b82bf2af96c486, type: 3}
+    rotation: {x: 0, y: 90, z: 0}
   HorizontalStraight:
     prefab: {fileID: 6715551033286075417, guid: 91eddfca1f4e245e1929ae4ff4c2e878,
       type: 3}
+    rotation: {x: 0, y: 0, z: 0}
+  HorizontalStraightLight:
+    prefab: {fileID: 986496073224106322, guid: 2ca43af9aaf7f6c498b82bf2af96c486, type: 3}
     rotation: {x: 0, y: 0, z: 0}
   Crossroad:
     prefab: {fileID: 4339788278108003769, guid: 232794c0635234d558005b62cdc4bf0b,
@@ -1138,10 +1076,6 @@ MonoBehaviour:
     prefab: {fileID: 6460080452713321639, guid: 061ac7cf05cd3481cb6e82b83682635e,
       type: 3}
     rotation: {x: 0, y: 90, z: 0}
-  Light:
-    prefab: {fileID: 1157799790856911647, guid: 3da742cf62755a74ea165b9128c57d0a,
-      type: 3}
-    rotation: {x: 0, y: 0, z: 0}
   FPC: {fileID: 443153702}
 --- !u!4 &1005088011
 Transform:
@@ -1158,75 +1092,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1089463043
-PrefabInstance:
+--- !u!114 &1005088012
+MonoBehaviour:
   m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 632491313}
-    m_Modifications:
-    - target: {fileID: 292432718695117439, guid: 3da742cf62755a74ea165b9128c57d0a,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 292432718695117439, guid: 3da742cf62755a74ea165b9128c57d0a,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 292432718695117439, guid: 3da742cf62755a74ea165b9128c57d0a,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 292432718695117439, guid: 3da742cf62755a74ea165b9128c57d0a,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.22
-      objectReference: {fileID: 0}
-    - target: {fileID: 292432718695117439, guid: 3da742cf62755a74ea165b9128c57d0a,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 292432718695117439, guid: 3da742cf62755a74ea165b9128c57d0a,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 292432718695117439, guid: 3da742cf62755a74ea165b9128c57d0a,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 292432718695117439, guid: 3da742cf62755a74ea165b9128c57d0a,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 292432718695117439, guid: 3da742cf62755a74ea165b9128c57d0a,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 292432718695117439, guid: 3da742cf62755a74ea165b9128c57d0a,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 292432718695117439, guid: 3da742cf62755a74ea165b9128c57d0a,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1100354603225344197, guid: 3da742cf62755a74ea165b9128c57d0a,
-        type: 3}
-      propertyPath: m_Name
-      value: Wall_Light
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 3da742cf62755a74ea165b9128c57d0a, type: 3}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1005088009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8f0b56473db7c540b91c745e38bd0e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item: {fileID: 8317183922454917979, guid: 5b4e1ff20ff1d4b9b94006239e3ce67e, type: 3}
+  chanceOfAppearance: 19
+  location: 0
 --- !u!850595691 &1160735724
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -1399,9 +1279,15 @@ MonoBehaviour:
     prefab: {fileID: 6715551033286075417, guid: 91eddfca1f4e245e1929ae4ff4c2e878,
       type: 3}
     rotation: {x: 0, y: 90, z: 0}
+  VerticalStraightLight:
+    prefab: {fileID: 986496073224106322, guid: 2ca43af9aaf7f6c498b82bf2af96c486, type: 3}
+    rotation: {x: 0, y: 90, z: 0}
   HorizontalStraight:
     prefab: {fileID: 6715551033286075417, guid: 91eddfca1f4e245e1929ae4ff4c2e878,
       type: 3}
+    rotation: {x: 0, y: 0, z: 0}
+  HorizontalStraightLight:
+    prefab: {fileID: 986496073224106322, guid: 2ca43af9aaf7f6c498b82bf2af96c486, type: 3}
     rotation: {x: 0, y: 0, z: 0}
   Crossroad:
     prefab: {fileID: 4339788278108003769, guid: 232794c0635234d558005b62cdc4bf0b,
@@ -1499,10 +1385,6 @@ MonoBehaviour:
     prefab: {fileID: 6460080452713321639, guid: 061ac7cf05cd3481cb6e82b83682635e,
       type: 3}
     rotation: {x: 0, y: 90, z: 0}
-  Light:
-    prefab: {fileID: 1157799790856911647, guid: 3da742cf62755a74ea165b9128c57d0a,
-      type: 3}
-    rotation: {x: 0, y: 0, z: 0}
   FPC: {fileID: 0}
 --- !u!4 &1540361191
 Transform:
@@ -1572,9 +1454,15 @@ MonoBehaviour:
     prefab: {fileID: 6715551033286075417, guid: 91eddfca1f4e245e1929ae4ff4c2e878,
       type: 3}
     rotation: {x: 0, y: 90, z: 0}
+  VerticalStraightLight:
+    prefab: {fileID: 986496073224106322, guid: 2ca43af9aaf7f6c498b82bf2af96c486, type: 3}
+    rotation: {x: 0, y: 90, z: 0}
   HorizontalStraight:
     prefab: {fileID: 6715551033286075417, guid: 91eddfca1f4e245e1929ae4ff4c2e878,
       type: 3}
+    rotation: {x: 0, y: 0, z: 0}
+  HorizontalStraightLight:
+    prefab: {fileID: 986496073224106322, guid: 2ca43af9aaf7f6c498b82bf2af96c486, type: 3}
     rotation: {x: 0, y: 0, z: 0}
   Crossroad:
     prefab: {fileID: 4339788278108003769, guid: 232794c0635234d558005b62cdc4bf0b,
@@ -1672,10 +1560,6 @@ MonoBehaviour:
     prefab: {fileID: 6460080452713321639, guid: 061ac7cf05cd3481cb6e82b83682635e,
       type: 3}
     rotation: {x: 0, y: 90, z: 0}
-  Light:
-    prefab: {fileID: 1157799790856911647, guid: 3da742cf62755a74ea165b9128c57d0a,
-      type: 3}
-    rotation: {x: 0, y: 0, z: 0}
   FPC: {fileID: 443153702}
 --- !u!4 &1593373205
 Transform:

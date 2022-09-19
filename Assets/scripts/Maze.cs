@@ -67,7 +67,9 @@ public class Maze : MonoBehaviour
     }
 
     public Module VerticalStraight;
+    public Module VerticalStraightLight;
     public Module HorizontalStraight;
+    public Module HorizontalStraightLight;
     public Module Crossroad;
     public Module RightUpCorner;
     public Module RightDownCorner;
@@ -93,7 +95,6 @@ public class Maze : MonoBehaviour
     public Module DoorBottom;
     public Module DoorRight;
     public Module DoorLeft;
-    public Module Light;
 
 
     public GameObject FPC;
@@ -169,12 +170,12 @@ public class Maze : MonoBehaviour
         if (astar != null)
         {
             astar.Build();
-            if(astar.startNode.location.x < astar.goalNode.location.x)
+            if (astar.startNode.location.x < astar.goalNode.location.x)
             {
                 xpos = astar.startNode.location.x;
                 zpos = astar.startNode.location.z;
 
-                while(xpos > 1)
+                while (xpos > 1)
                 {
                     map[xpos, zpos] = 0;
                     xpos--;
@@ -183,12 +184,13 @@ public class Maze : MonoBehaviour
                 xpos = astar.goalNode.location.x;
                 zpos = astar.goalNode.location.z;
 
-                while (xpos < width -2)
+                while (xpos < width - 2)
                 {
                     map[xpos, zpos] = 0;
                     xpos++;
                 }
-            } else
+            }
+            else
             {
                 xpos = astar.startNode.location.x;
                 zpos = astar.startNode.location.z;
@@ -208,10 +210,11 @@ public class Maze : MonoBehaviour
                     xpos--;
                 }
             }
-        } else
+        }
+        else
         {
             // upper vertical coridor
-            xpos = Random.Range(5, width-5);
+            xpos = Random.Range(5, width - 5);
             zpos = depth - 2;
 
             while (map[xpos, zpos] != 0 && zpos > 1)
@@ -224,7 +227,7 @@ public class Maze : MonoBehaviour
             xpos = Random.Range(5, width - 5);
             zpos = 1;
 
-            while (map[xpos, zpos] != 0 && zpos < depth -2)
+            while (map[xpos, zpos] != 0 && zpos < depth - 2)
             {
                 map[xpos, zpos] = 0;
                 zpos++;
@@ -252,6 +255,9 @@ public class Maze : MonoBehaviour
         }
 
         DrawMap();
+        PlaceObject script = GetComponent<PlaceObject>();
+        if (script)
+            script.PlaceItems(this);
         PlaceFPC();
     }
 
@@ -262,12 +268,12 @@ public class Maze : MonoBehaviour
 
     public void InitialiseMap()
     {
-        map = new byte[width,depth];
+        map = new byte[width, depth];
         piecePlaces = new Pieces[width, depth];
         for (int z = 0; z < depth; z++)
             for (int x = 0; x < width; x++)
             {
-                    map[x, z] = 1;     //1 = wall  0 = corridor
+                map[x, z] = 1;     //1 = wall  0 = corridor
             }
     }
 
@@ -290,14 +296,15 @@ public class Maze : MonoBehaviour
         for (int z = 0; z < depth; z++)
             for (int x = 0; x < width; x++)
             {
-               if(Random.Range(0,100) < 50)
-                 map[x, z] = 0;     //1 = wall  0 = corridor
+                if (Random.Range(0, 100) < 50)
+                    map[x, z] = 0;     //1 = wall  0 = corridor
             }
     }
 
     public void DrawMap()
     {
         int height = (int)(level * scale * levelDistance);
+        bool placeLight = true;
         for (int z = 0; z < depth; z++)
             for (int x = 0; x < width; x++)
             {
@@ -352,7 +359,12 @@ public class Maze : MonoBehaviour
                 else if (Search2D(x, z, new int[] { 5, 0, 5, 1, 0, 1, 5, 0, 5 })) //vertical straight
                 {
                     Vector3 pos = new Vector3(x * scale, height, z * scale);
-                    GameObject go = Instantiate(VerticalStraight.prefab, pos, Quaternion.identity);
+                    GameObject go;
+                    if (placeLight && VerticalStraightLight.prefab != null)
+                        go = Instantiate(VerticalStraightLight.prefab, pos, Quaternion.identity);
+                    else
+                        go = Instantiate(VerticalStraight.prefab, pos, Quaternion.identity);
+                    placeLight = !placeLight;
                     go.transform.Rotate(VerticalStraight.rotation);
                     go.transform.SetParent(transform);
                     piecePlaces[x, z].piece = PieceType.Vertical_Straight;
@@ -361,7 +373,12 @@ public class Maze : MonoBehaviour
                 else if (Search2D(x, z, new int[] { 5, 1, 5, 0, 0, 0, 5, 1, 5 })) //horizontal straight
                 {
                     Vector3 pos = new Vector3(x * scale, height, z * scale);
-                    GameObject go = Instantiate(HorizontalStraight.prefab, pos, Quaternion.identity);
+                    GameObject go;
+                    if (placeLight && HorizontalStraightLight.prefab != null)
+                        go = Instantiate(HorizontalStraightLight.prefab, pos, Quaternion.identity);
+                    else
+                        go = Instantiate(HorizontalStraight.prefab, pos, Quaternion.identity);
+                    placeLight = !placeLight;
                     go.transform.Rotate(HorizontalStraight.rotation);
                     go.transform.SetParent(transform);
                     piecePlaces[x, z].piece = PieceType.Horizontal_Straight;
@@ -472,7 +489,7 @@ public class Maze : MonoBehaviour
                         wall1.name = "Top Wall";
                         wall1.transform.SetParent(transform);
 
-                        if (map[x + 1, z] == 0 && map[x + 1, z + 1] == 0 && !pillarLocations.Contains(new MapLocation(x,z)))
+                        if (map[x + 1, z] == 0 && map[x + 1, z + 1] == 0 && !pillarLocations.Contains(new MapLocation(x, z)))
                         {
                             pillarCorner = Instantiate(Pillar.prefab);
                             pillarCorner.transform.position = new Vector3(x * scale, height, z * scale);
@@ -485,7 +502,7 @@ public class Maze : MonoBehaviour
                         if (map[x - 1, z] == 0 && map[x - 1, z + 1] == 0 && !pillarLocations.Contains(new MapLocation(x - 1, z)))
                         {
                             pillarCorner = Instantiate(Pillar.prefab);
-                            pillarCorner.transform.position = new Vector3((x-1) * scale, height, z * scale);
+                            pillarCorner.transform.position = new Vector3((x - 1) * scale, height, z * scale);
                             pillarCorner.name = "Top Left";
                             pillarLocations.Add(new MapLocation(x - 1, z));
                             pillarCorner.transform.localScale = new Vector3(1.01f, 1, 1.01f);
@@ -504,7 +521,7 @@ public class Maze : MonoBehaviour
                         if (map[x + 1, z] == 0 && map[x + 1, z - 1] == 0 && !pillarLocations.Contains(new MapLocation(x, z - 1)))
                         {
                             pillarCorner = Instantiate(Pillar.prefab);
-                            pillarCorner.transform.position = new Vector3(x * scale, height, ( z - 1) * scale);
+                            pillarCorner.transform.position = new Vector3(x * scale, height, (z - 1) * scale);
                             pillarCorner.name = "Bottom Right";
                             pillarLocations.Add(new MapLocation(x, z - 1));
                             pillarCorner.transform.localScale = new Vector3(1.01f, 1, 1.01f);
@@ -707,6 +724,6 @@ public class Maze : MonoBehaviour
 
     public int CountAllNeighbours(int x, int z)
     {
-        return CountSquareNeighbours(x,z) + CountDiagonalNeighbours(x,z);
+        return CountSquareNeighbours(x, z) + CountDiagonalNeighbours(x, z);
     }
 }
